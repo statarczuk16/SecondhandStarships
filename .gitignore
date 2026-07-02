@@ -1,0 +1,52 @@
+# This .gitignore file should be placed at the root of your Unity project directory
+
+UserSettings/EditorUserSettings.asset
+
+# Ignore the Library directory
+Library/
+
+# Ignore temporary files
+Temp/
+Obj/
+Build/
+Builds/
+Assets/Samples*
+.vs/*
+Debug/
+UserSettings/
+# Ignore the following asset store tools
+# Ensure to put your own Asset Store path, you can check it in Unity preferences
+
+
+# Ignore logs and memory captures
+Logs/
+MemoryCaptures/
+
+# Ignore crash reports
+CrashReports/
+
+# Visual Studio / MonoDevelop generated files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+*.vsconfig
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
