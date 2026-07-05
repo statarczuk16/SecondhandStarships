@@ -11,6 +11,8 @@ Obj/
 Build/
 Builds/
 Assets/Samples*
+Assets/ithappy
+Assets/ithappy.meta
 .vs/*
 Debug/
 UserSettings/

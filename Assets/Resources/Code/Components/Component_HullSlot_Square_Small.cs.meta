@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: b97dbf2996c52df49b7ab2438e0795e4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultHullPartPrefab: {fileID: 4780375078359567482, guid: 0b4d7005826ba9d4f8106b0c68a2b6fd, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
