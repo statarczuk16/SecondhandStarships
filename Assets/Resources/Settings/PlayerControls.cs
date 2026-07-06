@@ -136,6 +136,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""f7e3cf2a-3e0f-49e9-a091-e781776828fa"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -235,6 +244,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e005e0c4-67d4-416e-b8a0-b88b85a28f90"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -358,6 +378,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_WalkingMode_Jump = m_WalkingMode.FindAction("Jump", throwIfNotFound: true);
         m_WalkingMode_Sprint = m_WalkingMode.FindAction("Sprint", throwIfNotFound: true);
         m_WalkingMode_Interact = m_WalkingMode.FindAction("Interact", throwIfNotFound: true);
+        m_WalkingMode_Scroll = m_WalkingMode.FindAction("Scroll", throwIfNotFound: true);
         // WorkingMode
         m_WorkingMode = asset.FindActionMap("WorkingMode", throwIfNotFound: true);
         m_WorkingMode_SecondaryButton = m_WorkingMode.FindAction("SecondaryButton", throwIfNotFound: true);
@@ -451,6 +472,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_WalkingMode_Jump;
     private readonly InputAction m_WalkingMode_Sprint;
     private readonly InputAction m_WalkingMode_Interact;
+    private readonly InputAction m_WalkingMode_Scroll;
     /// <summary>
     /// Provides access to input actions defined in input action map "WalkingMode".
     /// </summary>
@@ -482,6 +504,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "WalkingMode/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_WalkingMode_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "WalkingMode/Scroll".
+        /// </summary>
+        public InputAction @Scroll => m_Wrapper.m_WalkingMode_Scroll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -523,6 +549,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
         }
 
         /// <summary>
@@ -549,6 +578,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
         }
 
         /// <summary>
@@ -764,6 +796,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Scroll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScroll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "WorkingMode" which allows adding and removing callbacks.

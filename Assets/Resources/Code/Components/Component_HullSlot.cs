@@ -30,11 +30,15 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
         }
     }
 
-    public void OnHoverExit()
+
+    public void OnHoverExit(Controller_Equipment controller)
     {
-
         SetHighlight(InteractionHighlightState.NONE);
+    }
 
+    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    {
+        
     }
 
     public void OnInteract(Controller_Equipment controller)
@@ -49,18 +53,18 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
         }
     }
 
-    public void SetHighlight(InteractionHighlightState state)
+
+    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
-        if(state == InteractionHighlightState.VALID)
+        if (state == InteractionHighlightState.VALID)
         {
             MeshRenderer graphics = this.GetComponent<MeshRenderer>();
             graphics.enabled = true;
         }
         else
-        {       
+        {
             MeshRenderer graphics = this.GetComponent<MeshRenderer>();
-            graphics.enabled = false;         
+            graphics.enabled = false;
         }
-       
     }
 }

@@ -14,6 +14,4 @@ public class ShipInstance : MonoBehaviour
 {
     List<Component_ShipPart> parts;
     void Awake() => parts = GetComponentsInChildren<Component_ShipPart>().ToList();
-
-    public bool IsFullyStripped => parts.All(p => p.IsDetached);
 }

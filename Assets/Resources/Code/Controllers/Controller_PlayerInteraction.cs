@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,11 +14,11 @@ public class Controller_PlayerInteraction : MonoBehaviour
     [SerializeField] Camera playerCamera;
     [SerializeField] float interactRange = 3f;
     [SerializeField] LayerMask interactableMask = ~0;
-    
 
-    GameObject ghostRoot;
-    Controller_Equipment equipmentController;
-    Controller_PlayerInput player_input_controller;
+
+    private GameObject ghostRoot;
+    private Controller_Equipment equipmentController;
+    private Controller_PlayerInput player_input_controller;
     IInteractable currentTarget;
 
     void Awake()
@@ -30,6 +31,25 @@ public class Controller_PlayerInteraction : MonoBehaviour
     {   
         //When this component is enabled, we add an event listener, so OnInteractPerformed is called whenever the player controls press/perform the interact button
         player_input_controller.Controls.WalkingMode.Interact.performed += OnInteractPerformed;
+        player_input_controller.Controls.WalkingMode.Scroll.performed += OnScrollPerformed;
+    }
+
+    private void OnScrollPerformed(InputAction.CallbackContext context)
+    {
+        Vector2 scroll = context.ReadValue<Vector2>();
+
+        float scrollUpDown = scroll.y;
+
+        if (scrollUpDown > 0)
+        {
+            equipmentController.ScrollDownEquippedTool();
+        }
+        else if (scrollUpDown < 0)
+        {
+            equipmentController.ScrollUpEquippedTool();
+        }
+
+        currentTarget?.OnHoverUpdate(equipmentController);
     }
 
     void OnDisable()
@@ -64,7 +84,7 @@ public class Controller_PlayerInteraction : MonoBehaviour
 
         if (hit == currentTarget) return;
 
-        currentTarget?.OnHoverExit();
+        currentTarget?.OnHoverExit(equipmentController);
         currentTarget = hit;
         currentTarget?.OnHoverEnter(equipmentController);
     }

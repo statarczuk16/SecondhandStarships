@@ -18,7 +18,8 @@ public enum LogTopic
 {
     Player,
     Interaction,
-    General
+    General,
+    Equipment_Controller
 }
 
 public static class TopicLogger

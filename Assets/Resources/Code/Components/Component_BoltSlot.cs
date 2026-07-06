@@ -115,7 +115,7 @@ public class BoltSlotComponent : MonoBehaviour, IAttachmentSlot
         }
     }
 
-    public void OnHoverExit()
+    public void OnHoverExit(Controller_Equipment controller)
     {
         SetHighlight(InteractionHighlightState.NONE);
     }
@@ -144,7 +144,7 @@ public class BoltSlotComponent : MonoBehaviour, IAttachmentSlot
             Quaternion spawnRotation;
 
             // 1. Query our vector math blueprint
-            MountPointUtility.CalculateAlignmentTransform(
+            ShipPartUtilities.CalculateAlignmentTransform(
                 parentMount,
                 childMount,
                 out spawnPosition,
@@ -169,11 +169,16 @@ public class BoltSlotComponent : MonoBehaviour, IAttachmentSlot
 
     // --- IHighlightable Implementation ---
 
-    public void SetHighlight(InteractionHighlightState state)
+    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
         if (highlightRenderer != null)
         {
             highlightRenderer.SetHighlight(state);
         }
+    }
+
+    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    {
+        throw new System.NotImplementedException();
     }
 }

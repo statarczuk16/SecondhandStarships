@@ -105,11 +105,6 @@ public class BoltComponent : MonoBehaviour, IAttachmentFastener, IInteractable, 
         }
     }
 
-    public void OnHoverExit()
-    {
-        SetHighlight(InteractionHighlightState.NONE);
-    }
-
     public void OnInteract(Controller_Equipment equipment_controller)
     {
         if(GetInstallState() == FastenerState.NOT_INSTALLED)
@@ -130,7 +125,12 @@ public class BoltComponent : MonoBehaviour, IAttachmentFastener, IInteractable, 
     }
 
 
-    public void SetHighlight(InteractionHighlightState state)
+    public FastenerState GetInstallState()
+    {
+        return m_installation_state;
+    }
+
+    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
         if (highlightRenderer != null)
         {
@@ -138,8 +138,13 @@ public class BoltComponent : MonoBehaviour, IAttachmentFastener, IInteractable, 
         }
     }
 
-    public FastenerState GetInstallState()
+    public void OnHoverExit(Controller_Equipment controller)
     {
-        return m_installation_state;
+        SetHighlight(InteractionHighlightState.NONE);
+    }
+
+    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    {
+        throw new System.NotImplementedException();
     }
 }
