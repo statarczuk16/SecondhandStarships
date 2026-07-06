@@ -13,7 +13,9 @@ public class Controller_PlayerInteraction : MonoBehaviour
     [SerializeField] Camera playerCamera;
     [SerializeField] float interactRange = 3f;
     [SerializeField] LayerMask interactableMask = ~0;
+    
 
+    GameObject ghostRoot;
     Controller_Equipment equipmentController;
     Controller_PlayerInput player_input_controller;
     IInteractable currentTarget;
@@ -75,4 +77,6 @@ public class Controller_PlayerInteraction : MonoBehaviour
 
         currentTarget.OnInteract(equipmentController);
     }
+
+    
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8381052680279111059}
   m_Layer: 0
-  m_Name: Lattice_Small
+  m_Name: Lattice_Tiny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,8 +61,8 @@ Transform:
   m_GameObject: {fileID: 1820666614459059525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00000011920929, y: 0, z: -1.0000001}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8381052680279111059}
@@ -170,7 +170,7 @@ Transform:
   m_GameObject: {fileID: 1822751016959452720}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

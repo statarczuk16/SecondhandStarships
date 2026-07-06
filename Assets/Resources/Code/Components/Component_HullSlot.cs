@@ -1,12 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
-public class Component_HullSlot_Square_Small : MonoBehaviour, IInteractable, IHighlightable
+public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private GameObject defaultHullPartPrefab;
     bool installed = false;
 
     public Transform InteractionPoint => transform;
+
+    public void Awake()
+    {
+        //So we can see the green preview in the scene editor but it goes away during the game
+        MeshRenderer graphics = this.GetComponent<MeshRenderer>();
+        graphics.enabled = false;
+    }
 
     public bool CanInteract(Controller_Equipment controller)
     {
@@ -37,6 +44,7 @@ public class Component_HullSlot_Square_Small : MonoBehaviour, IInteractable, IHi
             MeshRenderer graphics = this.GetComponent<MeshRenderer>();
             graphics.enabled = false;
             GameObject spawnedPart = GameObject.Instantiate(defaultHullPartPrefab, this.transform.parent, false);
+            spawnedPart.transform.localPosition = Vector3.zero;
             installed = true;
         }
     }
