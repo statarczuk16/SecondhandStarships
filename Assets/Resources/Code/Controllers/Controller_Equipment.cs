@@ -8,6 +8,10 @@ public enum EquipmentType
     Wrench,
     PlasmaCutter,
     PryBar,
+    Screw_Driver,
+    Hull_Installer,
+    Flame_Thrower
+
 }
 
 [RequireComponent(typeof(Mediator_PlayerMiniGames))]
@@ -15,18 +19,20 @@ public enum EquipmentType
 public class Controller_Equipment : MonoBehaviour
 {
     [Header("Tools")]
-    [SerializeField] List<EquipmentType> m_available_tools;
+    [SerializeField] List<EquipmentType> m_available_tools = new List<EquipmentType>();
     [SerializeField] private EquipmentType m_equipped_tool;
+    private int m_selected_tool_index;
 
     [Header("Ship Parts")]
     [SerializeField] List<GameObject> m_starting_part_prefabs;
 
     [SerializeField] private Mediator_PlayerMiniGames m_minigame_mediator;
 
-    private List<Data_ShipPart> m_parts_in_inventory;
-    private List<Data_ShipPart> m_list_of_displaying_parts;
+    private List<Data_ShipPart> m_parts_in_inventory = new List<Data_ShipPart>();
+    private List<Data_ShipPart> m_list_of_displaying_parts = new List<Data_ShipPart>();
 
     private int m_selected_part_index;
+
 
 
     private void Awake()
@@ -48,6 +54,30 @@ public class Controller_Equipment : MonoBehaviour
             m_parts_in_inventory.Add(sourcePart.GetData().Clone());
         }
         m_starting_part_prefabs.Clear();
+    }
+
+    public void ScrollDown()
+    {
+        if(this.m_list_of_displaying_parts.Count > 0)
+        {
+            this.ScrollEquippedPartDown();
+        }
+        else
+        {
+            this.ScrollToolSelectionDown();
+        }
+    }
+
+    public void ScrollUp()
+    {
+        if (this.m_list_of_displaying_parts.Count > 0)
+        {
+            this.ScrollEquippedPartUp();
+        }
+        else
+        {
+            this.ScrollToolSelectionUp();
+        }
     }
 
     public void EquipTool(EquipmentType type)
@@ -114,6 +144,34 @@ public class Controller_Equipment : MonoBehaviour
         return m_equipped_tool;
     }
 
+    public List<EquipmentType> GetAvailableTools()
+    {
+        return m_available_tools;
+    }
+
+    public int GetSelectedToolIndex()
+    {
+        return m_selected_tool_index;
+    }
+
+    // Wrap-around scroll through m_available_tools. The centered tool becomes equipped.
+    public void ScrollToolSelectionUp()
+    {
+        if (m_available_tools.Count == 0) return;
+
+        m_selected_tool_index = (m_selected_tool_index + 1) % m_available_tools.Count;
+        EquipTool(m_available_tools[m_selected_tool_index]);
+    }
+
+    public void ScrollToolSelectionDown()
+    {
+        if (m_available_tools.Count == 0) return;
+
+        m_selected_tool_index = (m_selected_tool_index - 1 + m_available_tools.Count) % m_available_tools.Count;
+        EquipTool(m_available_tools[m_selected_tool_index]);
+    }
+
+
     public List<Data_ShipPart> GetShipPartInventory()
     {
         return m_parts_in_inventory;
@@ -135,19 +193,20 @@ public class Controller_Equipment : MonoBehaviour
         return null;
     }
 
-    public void ScrollUpEquippedTool()
+    public void ScrollEquippedPartUp()
     {
         if (m_list_of_displaying_parts.Count == 0) return;
 
         m_selected_part_index = (m_selected_part_index + 1) % m_list_of_displaying_parts.Count;
     }
 
-    public void ScrollDownEquippedTool()
+    public void ScrollEquippedPartDown()
     {
         if (m_list_of_displaying_parts.Count == 0) return;
 
         m_selected_part_index = (m_selected_part_index - 1 + m_list_of_displaying_parts.Count) % m_list_of_displaying_parts.Count;
     }
+
 
     public void Unequip()
     {

@@ -59,6 +59,8 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
     public void OnHoverExit(Controller_Equipment controller)
     {
         SetHighlight(InteractionHighlightState.NONE, controller);
+        List<Data_ShipPart> compatible_parts = new List<Data_ShipPart>();
+        controller.SetRelevantShipParts(compatible_parts);
     }
 
     public void OnHoverUpdate(Controller_Equipment controller)
@@ -83,6 +85,7 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
 
             Component_ShipPart part = spawnedPart.GetComponent<Component_ShipPart>();
             part.SetData(data);
+            part.SetInstalled(this);
 
             m_installed_part = part;
             m_data.filled = true;

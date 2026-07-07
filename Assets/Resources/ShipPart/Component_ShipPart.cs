@@ -35,5 +35,8 @@ public class Component_ShipPart : MonoBehaviour
         
     }
 
-   
+    internal void SetInstalled(Component_ShipPartSlot component_ShipPartSlot)
+    {
+        m_data.is_installed = true;
+    }
 }

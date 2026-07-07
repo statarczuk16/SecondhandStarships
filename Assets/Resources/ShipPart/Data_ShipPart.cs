@@ -4,6 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Data_ShipPart
 {
+    public string part_name = "part_name_uninit";
     public GameObject prefab;
     public ShipSlotSize slot_size;
     public bool is_installed;

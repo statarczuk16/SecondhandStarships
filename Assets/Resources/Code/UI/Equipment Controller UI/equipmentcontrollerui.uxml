@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../BaseStyles.uss" />
+    <ui:VisualElement name="ToolInventoryWrap" class="tool-inventory-wrap">
+        <ui:VisualElement name="ToolInventoryViewport" class="tool-inventory-viewport">
+            <!-- Tool boxes are instantiated and positioned at runtime by Component_ToolInventoryUI -->
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

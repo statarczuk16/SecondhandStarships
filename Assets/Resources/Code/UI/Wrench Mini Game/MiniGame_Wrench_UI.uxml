@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../BaseStyles.uss" />
+    <ui:VisualElement name="ScreenOverlayWrap" class="screen-overlay-wrap">
+        <ui:VisualElement name="VisorOverlayColumn" class="visor-overlay-column">
+            <ui:VisualElement class="status-message-container">
+                <ui:Label name="StatusMessageLabel" text="// BOLT_TIGHTNESS - 0" class="status-message-label"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="MainDeckRow" class="main-deck-row">
+                <ui:VisualElement name="CalibrationTrack" class="calibration-track">
+                    <ui:VisualElement name="SweetZoneElementLoose" class="sweet-zone-element"/>
+                    <ui:VisualElement name="SweetZoneElementTight" class="sweet-zone-element"/>
+                    <ui:VisualElement name="FrequencyIndicator" class="frequency-indicator"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="DirectionLabels" class="direction-labels">
+                    <ui:Label text="▲ LOOSEN&#10;" class="direction-label"/>
+                    <ui:Label text="— " class="direction-label direction-label-center"/>
+                    <ui:Label text="▼ TIGHTEN" class="direction-label"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

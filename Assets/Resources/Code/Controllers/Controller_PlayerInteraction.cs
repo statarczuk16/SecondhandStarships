@@ -42,11 +42,11 @@ public class Controller_PlayerInteraction : MonoBehaviour
 
         if (scrollUpDown > 0)
         {
-            equipmentController.ScrollDownEquippedTool();
+            equipmentController.ScrollDown();
         }
         else if (scrollUpDown < 0)
         {
-            equipmentController.ScrollUpEquippedTool();
+            equipmentController.ScrollUp();
         }
 
         currentTarget?.OnHoverUpdate(equipmentController);
