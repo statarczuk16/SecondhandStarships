@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_ShipPart
   m_data:
+    part_name: Medium Generator
     prefab: {fileID: 2369911243249985210}
     slot_size: 2
     is_installed: 0

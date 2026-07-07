@@ -84,8 +84,15 @@
 .direction-label-center {
     color: rgba(255, 255, 255, 0.9);
 }
-
 /* ---------- Tool Inventory Carousel ---------- */
+.inventory-screen-root {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
 
 .tool-inventory-wrap {
     width: 300px;

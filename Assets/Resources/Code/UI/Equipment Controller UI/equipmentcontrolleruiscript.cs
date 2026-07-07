@@ -3,26 +3,37 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 /// <summary>
-/// Vertical scrolling tool carousel. Keeps the currently selected tool
-/// vertically centered, shows up to 5 boxes at once, and fades boxes
-/// toward the periphery. Wraps around in both directions.
-/// Scrolling drives Controller_Equipment's tool selection directly,
-/// so the centered box is always the equipped tool.
+/// Drives two mirrored vertical carousels:
+///   - Left: available tools (Controller_Equipment.GetAvailableTools())
+///   - Right: currently compatible ship parts (Controller_Equipment.GetDisplayingParts())
+/// Both keep their selection vertically centered, show up to 5 boxes at once,
+/// fade toward the periphery, and wrap around in both directions.
+///
+/// Scroll input is a single up/down pair — Controller_Equipment.ScrollUp/ScrollDown
+/// already decide internally whether that means "scroll parts" (when a slot's
+/// compatible parts are being displayed) or "scroll tools" (otherwise), so this
+/// script doesn't need to make that choice itself; it just reflects whichever
+/// index changed.
 /// </summary>
 public class Component_ToolInventoryUI : MonoBehaviour
 {
-    private const float BOX_HEIGHT = 64f;
-    private const float BOX_SPACING = 76f; // box height + margin, must match .tool-box in USS
+    private const float BOX_HEIGHT = 84f;
+    private const float BOX_SPACING = 96f; // box height + margin, must match .tool-box in USS
     private const int MAX_VISIBLE_DISTANCE = 2; // 2 above + center + 2 below = 5 boxes
 
     [SerializeField] private Controller_Equipment m_equipment_controller;
 
-    private VisualElement rootContainer;
-    private VisualElement ToolInventoryViewport;
+    // One of these per carousel column so positioning/refresh logic isn't duplicated.
+    private class Carousel
+    {
+        public VisualElement Viewport;
+        public readonly List<VisualElement> Boxes = new List<VisualElement>();
+        public readonly List<string> BoundLabels = new List<string>();
+        public string EmptyMessage;
+    }
 
-    private readonly List<VisualElement> m_boxes = new List<VisualElement>();
-    private readonly List<EquipmentType> m_bound_tools = new List<EquipmentType>();
-    private Label m_empty_label;
+    private readonly Carousel m_tool_carousel = new Carousel { EmptyMessage = "// NO TOOLS AVAILABLE" };
+    private readonly Carousel m_part_carousel = new Carousel { EmptyMessage = "// NO COMPATIBLE PARTS" };
 
     private void OnEnable()
     {
@@ -44,55 +55,78 @@ public class Component_ToolInventoryUI : MonoBehaviour
 
     private void OnUIReload(PanelRenderer pr, VisualElement root)
     {
-        rootContainer = root;
+        m_tool_carousel.Viewport = root.QOrFail<VisualElement>("ToolInventoryViewport");
+        m_part_carousel.Viewport = root.QOrFail<VisualElement>("PartInventoryViewport");
 
-        ToolInventoryViewport = rootContainer.QOrFail<VisualElement>("ToolInventoryViewport");
-
-        Refresh();
+        RefreshCarousel(m_tool_carousel, GetToolLabels());
+        RefreshCarousel(m_part_carousel, GetPartLabels());
     }
 
     private void Update()
     {
-       
+        if (m_tool_carousel.Viewport == null || m_part_carousel.Viewport == null) return;
 
-        // Available tools can change at runtime (pickups, unlocks) — cheap
-        // enough to compare against last frame and only rebuild on change.
-        var current = m_equipment_controller.GetAvailableTools();
-        if (!ListsMatch(current, m_bound_tools))
-        {
-            Refresh();
-        }
+        var toolLabels = GetToolLabels();
+        if (!ListsMatch(toolLabels, m_tool_carousel.BoundLabels))
+            RefreshCarousel(m_tool_carousel, toolLabels);
         else
-        {
-            UpdateBoxPositions();
-        }
+            UpdateCarouselPositions(m_tool_carousel, m_equipment_controller.GetSelectedToolIndex());
+
+        var partLabels = GetPartLabels();
+        if (!ListsMatch(partLabels, m_part_carousel.BoundLabels))
+            RefreshCarousel(m_part_carousel, partLabels);
+        else
+            UpdateCarouselPositions(m_part_carousel, m_equipment_controller.GetSelectedPartIndex());
     }
 
-  
+    // Single scroll entry point — mirrors Controller_Equipment's own ScrollUp/ScrollDown,
+    // which already route to tool-vs-part selection internally.
+    public void ScrollUp() => m_equipment_controller.ScrollUp();
+    public void ScrollDown() => m_equipment_controller.ScrollDown();
 
-    private void Refresh()
+    private List<string> GetToolLabels()
     {
-        
+        var tools = m_equipment_controller.GetAvailableTools();
+        var labels = new List<string>(tools.Count);
+        foreach (var tool in tools)
+            labels.Add(tool.ToString().ToUpperInvariant());
+        return labels;
+    }
 
-        ToolInventoryViewport.Clear();
-        m_boxes.Clear();
-        m_bound_tools.Clear();
-        m_bound_tools.AddRange(m_equipment_controller.GetAvailableTools());
+    private List<string> GetPartLabels()
+    {
+        var parts = m_equipment_controller.GetDisplayingParts();
+        var labels = new List<string>(parts?.Count ?? 0);
+        if (parts == null) return labels;
 
-        if (m_bound_tools.Count == 0)
+        foreach (var data in parts)
+            labels.Add(string.IsNullOrEmpty(data.part_name) ? "UNNAMED PART" : data.part_name.ToUpperInvariant());
+        return labels;
+    }
+
+    private void RefreshCarousel(Carousel carousel, List<string> labels)
+    {
+        if (carousel.Viewport == null) return;
+
+        carousel.Viewport.Clear();
+        carousel.Boxes.Clear();
+        carousel.BoundLabels.Clear();
+        carousel.BoundLabels.AddRange(labels);
+
+        if (carousel.BoundLabels.Count == 0)
         {
-            m_empty_label = new Label("// NO TOOLS AVAILABLE");
-            m_empty_label.AddToClassList("tool-inventory-empty-label");
-            ToolInventoryViewport.Add(m_empty_label);
+            var emptyLabel = new Label(carousel.EmptyMessage);
+            emptyLabel.AddToClassList("tool-inventory-empty-label");
+            carousel.Viewport.Add(emptyLabel);
             return;
         }
 
-        foreach (var tool in m_bound_tools)
+        foreach (var text in carousel.BoundLabels)
         {
             var box = new VisualElement();
             box.AddToClassList("tool-box");
 
-            var label = new Label(tool.ToString().ToUpperInvariant());
+            var label = new Label(text);
             label.AddToClassList("tool-box-label");
             box.Add(label);
 
@@ -100,24 +134,21 @@ public class Component_ToolInventoryUI : MonoBehaviour
             box.style.top = new Length(50, LengthUnit.Percent);
             box.style.marginTop = -BOX_HEIGHT / 2f;
 
-            ToolInventoryViewport.Add(box);
-            m_boxes.Add(box);
+            carousel.Viewport.Add(box);
+            carousel.Boxes.Add(box);
         }
-
-        UpdateBoxPositions();
     }
 
-    private void UpdateBoxPositions()
+    private void UpdateCarouselPositions(Carousel carousel, int selected)
     {
-        if (m_boxes.Count == 0) return;
+        int count = carousel.Boxes.Count;
+        if (count == 0) return;
 
-        int count = m_boxes.Count;
-        int selected = m_equipment_controller.GetSelectedToolIndex();
         if (selected < 0 || selected >= count) selected = 0;
 
         for (int i = 0; i < count; i++)
         {
-            var box = m_boxes[i];
+            var box = carousel.Boxes[i];
             int diff = CircularDiff(i, selected, count);
             int absDiff = Mathf.Abs(diff);
 
@@ -148,7 +179,7 @@ public class Component_ToolInventoryUI : MonoBehaviour
         return raw;
     }
 
-    private static bool ListsMatch(List<EquipmentType> a, List<EquipmentType> b)
+    private static bool ListsMatch(List<string> a, List<string> b)
     {
         if (a.Count != b.Count) return false;
         for (int i = 0; i < a.Count; i++)

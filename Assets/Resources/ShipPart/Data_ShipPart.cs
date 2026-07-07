@@ -15,6 +15,7 @@ public class Data_ShipPart
     {
         return new Data_ShipPart
         {
+            part_name = part_name,
             prefab = prefab,
             slot_size = slot_size,
             is_installed = is_installed,

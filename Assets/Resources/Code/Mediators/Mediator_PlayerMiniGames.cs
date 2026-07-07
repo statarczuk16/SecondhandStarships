@@ -30,11 +30,11 @@ public class Mediator_PlayerMiniGames : MonoBehaviour
         IMinigameView mini_game_ui = null;
         switch (minigame.GetEquipmentUsed())
         {
-            case EquipmentType.None:
+            case EquipmentType.NONE:
                 {
                     break;
                 }
-            case EquipmentType.Wrench:
+            case EquipmentType.SOCKET_WRENCH:
                 {
                     mini_game_ui = wrench_minigame_ui;
                     break;

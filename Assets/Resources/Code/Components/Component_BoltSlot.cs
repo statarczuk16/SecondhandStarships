@@ -100,7 +100,7 @@ public class BoltSlotComponent : MonoBehaviour, IAttachmentSlot
         }
 
         // Example condition: check if player is holding a bolt to insert
-        return controller.GetEquippedTool() == EquipmentType.Wrench;
+        return controller.GetEquippedTool() == EquipmentType.SOCKET_WRENCH;
     }
 
     public void OnHoverEnter(Controller_Equipment controller)

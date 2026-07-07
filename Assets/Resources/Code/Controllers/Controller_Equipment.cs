@@ -4,14 +4,13 @@ using UnityEngine;
 
 public enum EquipmentType
 {
-    None,
-    Wrench,
-    PlasmaCutter,
-    PryBar,
-    Screw_Driver,
-    Hull_Installer,
-    Flame_Thrower
-
+    NONE,
+    SOCKET_WRENCH,
+    BUTANE_TORCH,
+    PRY_BAR,
+    SCREW_DRIVER,
+    PLASMA_TORCH,
+    SOCKET_DRILL
 }
 
 [RequireComponent(typeof(Mediator_PlayerMiniGames))]
@@ -58,7 +57,7 @@ public class Controller_Equipment : MonoBehaviour
 
     public void ScrollDown()
     {
-        if(this.m_list_of_displaying_parts.Count > 0)
+        if (this.m_list_of_displaying_parts.Count > 0)
         {
             this.ScrollEquippedPartDown();
         }
@@ -183,6 +182,19 @@ public class Controller_Equipment : MonoBehaviour
         m_selected_part_index = 0;
     }
 
+    // The subset of inventory parts currently compatible with whatever slot
+    // is being hovered (set via SetRelevantShipParts). This is what the
+    // right-hand part carousel should render — not the full inventory.
+    public List<Data_ShipPart> GetDisplayingParts()
+    {
+        return m_list_of_displaying_parts;
+    }
+
+    public int GetSelectedPartIndex()
+    {
+        return m_selected_part_index;
+    }
+
     public Data_ShipPart GetEquippedPart()
     {
         bool exists = m_selected_part_index >= 0 && m_selected_part_index < m_list_of_displaying_parts.Count;
@@ -210,7 +222,7 @@ public class Controller_Equipment : MonoBehaviour
 
     public void Unequip()
     {
-        m_equipped_tool = EquipmentType.None;
+        m_equipped_tool = EquipmentType.NONE;
     }
 
     public void startMiniGame(IToolMinigame game)

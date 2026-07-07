@@ -8,7 +8,7 @@ public class BoltComponent : MonoBehaviour, IAttachmentFastener, IInteractable, 
     [SerializeField] private int m_installation_progress = 0; // 0 = loose, 100 = fully tight
     [SerializeField] private FastenerState m_installation_state = FastenerState.NOT_INSTALLED;
     [SerializeField] public float screw_length = 0f;
-    public EquipmentType m_required_tool = EquipmentType.Wrench;
+    public EquipmentType m_required_tool = EquipmentType.SOCKET_WRENCH;
     public IAttachmentSlot m_fastener_slot;
     public float depth_into_slot = 0f;
 
@@ -115,7 +115,7 @@ public class BoltComponent : MonoBehaviour, IAttachmentFastener, IInteractable, 
         else
         {
             //Start the mini game for bolts using the slot this bolt is in
-            equipment_controller.startMiniGame(new MiniGame_Wrench(this, EquipmentType.Wrench));
+            equipment_controller.startMiniGame(new MiniGame_Wrench(this, EquipmentType.SOCKET_WRENCH));
         }
     }
 

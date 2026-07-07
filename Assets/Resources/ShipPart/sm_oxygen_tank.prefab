@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_ShipPart
   m_data:
+    part_name: Small Oxygen Tank
     prefab: {fileID: 2369911243249985210}
     slot_size: 1
     is_installed: 0
