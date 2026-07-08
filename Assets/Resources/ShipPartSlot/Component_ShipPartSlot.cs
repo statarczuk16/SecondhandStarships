@@ -85,7 +85,7 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
 
             Component_ShipPart part = spawnedPart.GetComponent<Component_ShipPart>();
             part.SetData(data);
-            part.SetInstalled(this);
+            part.StartInstall(this);
 
             m_installed_part = part;
             m_data.filled = true;

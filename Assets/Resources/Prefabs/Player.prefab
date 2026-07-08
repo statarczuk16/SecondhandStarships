@@ -295,7 +295,6 @@ GameObject:
   - component: {fileID: 4170108019585807591}
   - component: {fileID: 618610977075636179}
   - component: {fileID: 3946978663183936093}
-  - component: {fileID: 456015706423379576}
   - component: {fileID: 8430566367277494961}
   - component: {fileID: 1018423285544113071}
   - component: {fileID: 3736229147870429815}
@@ -381,19 +380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6cb7ff13f8a6b40a4fd303d3b5f1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputHub
---- !u!114 &456015706423379576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7993504780458417129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d95650a78c65cac439027c1c465dce56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorkingModeController
-  wrench_minigame_ui: {fileID: 0}
 --- !u!114 &8430566367277494961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,9 +409,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db7cb1baa1de5642a21c69e58d73e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentController
-  availableTools: 01000000
+  m_available_tools: 
   m_equipped_tool: 1
-  miniGameMediator: {fileID: 3736229147870429815}
+  m_starting_part_prefabs: []
+  m_minigame_mediator: {fileID: 0}
 --- !u!114 &3736229147870429815
 MonoBehaviour:
   m_ObjectHideFlags: 0

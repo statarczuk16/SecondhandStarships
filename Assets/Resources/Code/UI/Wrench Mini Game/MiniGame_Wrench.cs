@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class MiniGame_Wrench : IToolMinigame
 {
-    readonly BoltComponent bolt;
+    readonly Component_BoltSlot bolt;
     Controller_PlayerInput inputHub;
     MiniGame_Wrench_UI_Script ui_script;
     int progress_per_action = 10;
@@ -15,11 +15,11 @@ public class MiniGame_Wrench : IToolMinigame
     float tightenSweetSpotCenter;
     bool isDragging;
     float sweetSpotHeight = 0.12f; //as vertical percentage of the bar
-    FastenerState goal; 
+    InstallationState goal; 
     Action<MinigameResult> onComplete;
     EquipmentType tool;
 
-    public MiniGame_Wrench(BoltComponent bolt, EquipmentType tool)
+    public MiniGame_Wrench(Component_BoltSlot bolt, EquipmentType tool)
     {
         this.bolt = bolt;
         this.tool = tool;
@@ -108,17 +108,17 @@ public class MiniGame_Wrench : IToolMinigame
             if (wrenchPosition < 0.5f)
             {
                 // Dragged down -> Tighten (adds to bolt progress)
-                bolt.InstallationUpdate(bolt.m_fastener_slot, progress_per_action);
+                bolt.InstallationUpdate( progress_per_action);
             }
             else
             {
                 // Dragged up -> Loosen (subtracts progress by turning input negative)
-                bolt.InstallationUpdate(bolt.m_fastener_slot, -progress_per_action);
+                bolt.InstallationUpdate( -progress_per_action);
             }
 
 
             //We are done when a bolt that started uninstalled becomes secure, or when a bolt that started secure becomes uninstalled.
-            if(bolt.GetInstallState() == FastenerState.NOT_INSTALLED || bolt.GetInstallState() == FastenerState.SECURE)
+            if(bolt.GetInstallState() == InstallationState.UNINSTALLED || bolt.GetInstallState() == InstallationState.INSTALLED)
             {
                 Finish(true);
             }

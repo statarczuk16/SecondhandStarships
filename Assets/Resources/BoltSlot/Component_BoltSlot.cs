@@ -1,0 +1,159 @@
+using UnityEngine;
+
+/// <summary>
+/// Self-contained bolt connector. Lives on the PART prefab (part owns attachment type).
+/// Owns both "slot" placement (this transform is the mount point) and the bolt's own
+/// installation state/visuals. Spawns its bolt visual at runtime, destroys it when
+/// fully backed out, and notifies its owning part on state changes.
+/// </summary>
+public class Component_BoltSlot : MonoBehaviour, IPartConnector
+{
+    [Header("Setup")]
+    [SerializeField] private HighlightableRenderer highlightRenderer;
+    [SerializeField] private Component_ShipPart partOwner;
+    [SerializeField] private GameObject boltVisualPrefab; // visual-only, must contain Component_BoltThread
+    [SerializeField] private EquipmentType requiredTool = EquipmentType.SOCKET_WRENCH;
+
+    [Header("Runtime State")]
+    [SerializeField] private int m_installation_progress = 0; // 0 = loose, 100 = fully tight
+    [SerializeField] private InstallationState m_installation_state = InstallationState.UNINSTALLED;
+
+    private GameObject m_spawnedBoltVisual;
+    private float m_screwLength = 0f;
+
+    public Transform InteractionPoint => transform;
+    public InstallationState GetInstallState() => m_installation_state;
+    public float GetInstallationProgress() => m_installation_progress;
+
+    private void OnValidate()
+    {
+        if (boltVisualPrefab != null)
+        {
+            Component_BoltThread threadCheck = boltVisualPrefab.GetComponentInChildren<Component_BoltThread>();
+            if (threadCheck == null)
+            {
+                Debug.LogError($"{gameObject.name} needs a boltVisualPrefab with a Component_BoltThread");
+                boltVisualPrefab = null;
+            }
+        }
+    }
+
+    public bool SetOwner(Component_ShipPart owner)
+    {
+        partOwner = owner;
+        return true;
+    }
+
+    /// <summary>
+    /// Called by the owning part when it's placed into its hull slot. Resets this
+    /// connector to loose and spawns its bolt visual at installation_progress = 0.
+    /// </summary>
+    public void InitializeConnector()
+    {
+        m_installation_progress = 0;
+        m_installation_state = InstallationState.UNINSTALLED;
+        SpawnBoltVisual();
+    }
+
+    private void SpawnBoltVisual()
+    {
+        if (boltVisualPrefab == null || m_spawnedBoltVisual != null)
+        {
+            return;
+        }
+
+        m_spawnedBoltVisual = GameObject.Instantiate(boltVisualPrefab, transform);
+        m_spawnedBoltVisual.transform.localPosition = Vector3.zero;
+        m_spawnedBoltVisual.transform.localRotation = Quaternion.identity;
+
+        Component_BoltThread thread = m_spawnedBoltVisual.GetComponentInChildren<Component_BoltThread>();
+        m_screwLength = thread != null ? thread.GetBoltLength() : 0f;
+
+        PositionBoltVisual();
+    }
+
+    private void PositionBoltVisual()
+    {
+        if (m_spawnedBoltVisual == null) return;
+
+        float current_percent = m_installation_progress / 100f;
+        float absolute_depth = current_percent * m_screwLength;
+        m_spawnedBoltVisual.transform.localPosition = Vector3.forward * absolute_depth;
+    }
+
+    /// <summary>
+    /// Advances or reverses installation progress. Called by the wrench minigame.
+    /// </summary>
+    public void InstallationUpdate(int amount)
+    {
+        m_installation_progress = Mathf.Clamp(m_installation_progress + amount, 0, 100);
+
+        if (m_installation_progress <= 0)
+        {
+            m_installation_state = InstallationState.UNINSTALLED;
+            DespawnBoltVisual();
+            partOwner?.NotifyConnectorUninstalled(this);
+        }
+        else if (m_installation_progress >= 100)
+        {
+            m_installation_state = InstallationState.INSTALLED;
+            PositionBoltVisual();
+            partOwner?.NotifyConnectorInstalled(this);
+        }
+        else
+        {
+            m_installation_state = InstallationState.INSTALLING;
+            PositionBoltVisual();
+        }
+    }
+
+    private void DespawnBoltVisual()
+    {
+        if (m_spawnedBoltVisual != null)
+        {
+            GameObject.Destroy(m_spawnedBoltVisual);
+            m_spawnedBoltVisual = null;
+        }
+    }
+
+    // --- IInteractable ---
+
+    public bool CanInteract(Controller_Equipment controller)
+    {
+        return requiredTool == controller.GetEquippedTool();
+    }
+
+    public void OnHoverEnter(Controller_Equipment controller)
+    {
+        SetHighlight(CanInteract(controller) ? InteractionHighlightState.VALID : InteractionHighlightState.INVALID);
+    }
+
+    public void OnHoverExit(Controller_Equipment controller)
+    {
+        SetHighlight(InteractionHighlightState.NONE);
+    }
+
+    public void OnHoverUpdate(Controller_Equipment equipmentController) { }
+
+    public void OnInteract(Controller_Equipment equipmentController)
+    {
+        if (!CanInteract(equipmentController))
+        {
+            return;
+        }
+
+        equipmentController.startMiniGame(new MiniGame_Wrench(this, requiredTool));
+    }
+
+    // --- IHighlightable ---
+
+    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
+    {
+        highlightRenderer?.SetHighlight(state);
+    }
+
+    public EquipmentType RequiredTool()
+    {
+        return requiredTool;
+    }
+}
