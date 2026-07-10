@@ -8,7 +8,7 @@ public class MiniGame_Wrench : IToolMinigame
     readonly Component_BoltSlot bolt;
     Controller_PlayerInput inputHub;
     MiniGame_Wrench_UI_Script ui_script;
-    int progress_per_action = 10;
+    int progress_per_action = 16;
 
     float wrenchPosition; // Managed entirely by player's physical dragging movement
     float loosenSweetSpotCenter;

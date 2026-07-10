@@ -2224,6 +2224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5131539172156003845}
+  - component: {fileID: -1468979283456397939}
   m_Layer: 0
   m_Name: Ship_Demo_All_Hull
   m_TagString: Untagged
@@ -2292,6 +2293,18 @@ Transform:
   - {fileID: 1888593046918364943}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1468979283456397939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729524590529733305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37db4b983d39d924eafe8ac0fc32d471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PrefabBoundary
 --- !u!1 &1755589290002247840
 GameObject:
   m_ObjectHideFlags: 0

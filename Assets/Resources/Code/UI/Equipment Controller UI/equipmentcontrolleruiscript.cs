@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,6 +35,8 @@ public class Component_ToolInventoryUI : MonoBehaviour
 
     private readonly Carousel m_tool_carousel = new Carousel { EmptyMessage = "// NO TOOLS AVAILABLE" };
     private readonly Carousel m_part_carousel = new Carousel { EmptyMessage = "// NO COMPATIBLE PARTS" };
+    private VisualElement m_hover_preview;
+    private Label m_hover_preview_label;
 
     private void OnEnable()
     {
@@ -57,13 +60,46 @@ public class Component_ToolInventoryUI : MonoBehaviour
     {
         m_tool_carousel.Viewport = root.QOrFail<VisualElement>("ToolInventoryViewport");
         m_part_carousel.Viewport = root.QOrFail<VisualElement>("PartInventoryViewport");
-
+        m_hover_preview = root.QOrFail<VisualElement>("CurrentHover");
+        m_hover_preview_label = root.QOrFail<Label>("CurrentHoverLabel");
         RefreshCarousel(m_tool_carousel, GetToolLabels());
         RefreshCarousel(m_part_carousel, GetPartLabels());
+        RefreshHoverPreview();
+    }
+
+    private void RefreshHoverPreview()
+    {
+        try
+        {
+            IInteractable foo = m_equipment_controller.GetCurrentHover();
+            if (foo == null)
+            {
+                m_hover_preview.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                MonoBehaviour mb = foo as MonoBehaviour;
+                if (mb != null)
+                {
+                    m_hover_preview.style.display = DisplayStyle.Flex;
+                    m_hover_preview_label.text = mb.gameObject.name;
+                }
+                else
+                {
+                    m_hover_preview.style.display = DisplayStyle.None;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log($"{e.Message} {e.StackTrace}");
+        }
+        
     }
 
     private void Update()
     {
+        RefreshHoverPreview();
         if (m_tool_carousel.Viewport == null || m_part_carousel.Viewport == null) return;
 
         var toolLabels = GetToolLabels();

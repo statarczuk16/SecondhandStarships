@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7114747856862167511}
+  - component: {fileID: 575671952665417648}
   m_Layer: 0
   m_Name: Ship_Demo_Class
   m_TagString: Untagged
@@ -78,6 +79,18 @@ Transform:
   - {fileID: 3457922941456035864}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &575671952665417648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847953413041166460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37db4b983d39d924eafe8ac0fc32d471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PrefabBoundary
 --- !u!1001 &8602311505510881
 PrefabInstance:
   m_ObjectHideFlags: 0

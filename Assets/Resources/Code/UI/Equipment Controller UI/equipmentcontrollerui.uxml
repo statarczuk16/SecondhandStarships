@@ -13,4 +13,17 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+
+    <ui:VisualElement name="ReticleContainer" class="reticle-container" picking-mode="Ignore">
+        <ui:VisualElement name="Reticle" class="reticle">
+            <ui:VisualElement name="ReticleDot" class="reticle-dot" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="CurrentHover" class="label-box screen-vertical-top-fourth">
+            <ui:Label name="CurrentHoverLabel" text="Temp" class="tool-inventory-empty-label" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+
 </ui:UXML>

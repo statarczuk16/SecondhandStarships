@@ -50,4 +50,46 @@ public static class ShipPartUtilities
         if (prefab == null) return null;
         return prefab.GetComponent<Component_ShipPart>();
     }
+
+    // Walk up from the hit transform (inclusive) to find the nearest ancestor carrying
+    // a Component_PrefabBoundary. This identifies which prefab instance was actually hit,
+    // even when that prefab is nested inside other prefabs.
+    public static Transform FindOwningPrefabBoundary(Transform start)
+    {
+        Transform t = start;
+        while (t != null)
+        {
+            if (t.GetComponent<Component_PrefabBoundary>() != null)
+            {
+                return t;
+            }
+            t = t.parent;
+        }
+        return null;
+    }
+
+    // Search this prefab's own hierarchy for an IInteractable, refusing to descend into
+    // any nested child prefab (its own Component_PrefabBoundary marks a different instance).
+    public static IInteractable FindInteractableWithinBoundary(Transform boundaryRoot)
+    {
+        IInteractable direct = boundaryRoot.GetComponent<IInteractable>();
+        if (direct != null) return direct;
+
+        for (int i = 0; i < boundaryRoot.childCount; i++)
+        {
+            Transform child = boundaryRoot.GetChild(i);
+
+            // Don't cross into a nested prefab's own boundary — that's a distant
+            // child belonging to a different prefab instance.
+            if (child.GetComponent<Component_PrefabBoundary>() != null)
+            {
+                continue;
+            }
+
+            IInteractable found = FindInteractableWithinBoundary(child);
+            if (found != null) return found;
+        }
+
+        return null;
+    }
 }
