@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -43,7 +44,7 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
 
     public void OnInteract(Controller_Equipment controller)
     {
-        if(CanInteract(null))
+        if(CanInteract(controller))
         {
             MeshRenderer graphics = this.GetComponent<MeshRenderer>();
             graphics.enabled = false;

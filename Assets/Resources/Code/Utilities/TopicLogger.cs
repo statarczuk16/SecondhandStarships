@@ -19,7 +19,8 @@ public enum LogTopic
     Player,
     Interaction,
     General,
-    Equipment_Controller
+    Equipment_Controller,
+    Installation
 }
 
 public static class TopicLogger

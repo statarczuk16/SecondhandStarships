@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,12 +9,16 @@ public class MiniGame_Wrench : IToolMinigame
     MiniGame_Wrench_UI_Script ui_script;
     int progress_per_action = 16;
 
-    float wrenchPosition; // Managed entirely by player's physical dragging movement
+    float wrenchPosition; // Managed by held-button cursor movement
     float loosenSweetSpotCenter;
     float tightenSweetSpotCenter;
-    bool isDragging;
     float sweetSpotHeight = 0.12f; //as vertical percentage of the bar
-    InstallationState goal; 
+    float cursorSpeed = 0.6f; // units of [0,1] bar per second
+
+    bool isPrimaryHeld;
+    bool isSecondaryHeld;
+
+    InstallationState goal;
     Action<MinigameResult> onComplete;
     EquipmentType tool;
 
@@ -30,26 +33,26 @@ public class MiniGame_Wrench : IToolMinigame
         return this.tool;
     }
 
-
-
     public void Begin(Action<MinigameResult> onComplete, Controller_PlayerInput inputHub, IMinigameView ui)
     {
         this.onComplete = onComplete;
         wrenchPosition = 0.5f; // Start centered
-        isDragging = false;
+        isPrimaryHeld = false;
+        isSecondaryHeld = false;
         this.inputHub = inputHub;
         PickNewSweetSpot();
         this.ui_script = (MiniGame_Wrench_UI_Script)ui;
 
-        // 1. Bind 'Pull' (Hold interaction) to detect starting and ending a drag action
-        inputHub.Controls.WorkingMode.PrimaryButtonHoldAndDrag.started += OnDragStarted;
-        inputHub.Controls.WorkingMode.PrimaryButtonHoldAndDrag.canceled += OnDragReleased;
+        // Track held state for both buttons independently
+        inputHub.Controls.WorkingMode.PrimaryButton.started += OnPrimaryPressed;
+        inputHub.Controls.WorkingMode.PrimaryButton.canceled += OnPrimaryReleased;
+        inputHub.Controls.WorkingMode.SecondaryButton.started += OnSecondaryPressed;
+        inputHub.Controls.WorkingMode.SecondaryButton.canceled += OnSecondaryReleased;
         inputHub.Controls.WorkingMode.Cancel.performed += OnPlayerCanceledGame;
 
         ui_script.Show();
         ui_script.SetWrenchPosition(wrenchPosition);
         ui_script.UpdateTaskProgress(0f);
-
     }
 
     private void OnPlayerCanceledGame(InputAction.CallbackContext context)
@@ -59,80 +62,91 @@ public class MiniGame_Wrench : IToolMinigame
 
     public void Tick(float deltaTime)
     {
-        if (isDragging)
+        // Move cursor only when exactly one button is held; both-or-neither = no movement
+        if (isPrimaryHeld && !isSecondaryHeld)
         {
-            // 2. Read the delta change of the mouse/pointer or stick movement
-            Vector2 dragDelta = inputHub.Controls.WorkingMode.DragDelta.ReadValue<Vector2>();
-
-            // Adjust this modifier to control sensitivity (how far they must physically drag)
-            float dragSensitivity = 0.003f;
-            float verticalMovement = dragDelta.y * dragSensitivity;
-
-            // Apply movement and clamp inside the bar bounds [0, 1]
-            wrenchPosition = Mathf.Clamp01(wrenchPosition + verticalMovement);
-            Debug.Log(wrenchPosition);
-
-            
+            wrenchPosition = Mathf.Clamp01(wrenchPosition + cursorSpeed * deltaTime);
         }
-        
+        else if (isSecondaryHeld && !isPrimaryHeld)
+        {
+            wrenchPosition = Mathf.Clamp01(wrenchPosition - cursorSpeed * deltaTime);
+        }
+
         ui_script.SetTightenSweetSpot(tightenSweetSpotCenter, sweetSpotHeight);
         ui_script.SetLoosenSweetSpot(loosenSweetSpotCenter, sweetSpotHeight);
         ui_script.UpdateTaskProgress(this.bolt.GetInstallationProgress());
         ui_script.SetWrenchPosition(wrenchPosition);
-        
     }
 
-    private void OnDragStarted(InputAction.CallbackContext ctx)
+    private void OnPrimaryPressed(InputAction.CallbackContext ctx)
     {
-        isDragging = true;
+        isPrimaryHeld = true;
     }
 
-    private void OnDragReleased(InputAction.CallbackContext ctx)
+    private void OnPrimaryReleased(InputAction.CallbackContext ctx)
     {
-        if (!isDragging)
+        isPrimaryHeld = false;
+        TryEvaluateRelease();
+    }
+
+    private void OnSecondaryPressed(InputAction.CallbackContext ctx)
+    {
+        isSecondaryHeld = true;
+    }
+
+    private void OnSecondaryReleased(InputAction.CallbackContext ctx)
+    {
+        isSecondaryHeld = false;
+        TryEvaluateRelease();
+    }
+
+    // Only evaluate once both buttons are fully released (handles the case
+    // where a player lets go of one button while still holding the other)
+    private void TryEvaluateRelease()
+    {
+        if (isPrimaryHeld || isSecondaryHeld)
         {
             return;
         }
 
-        isDragging = false;
-
-       //if dist between the wrench and the CENTER of sweet spot is less than half the HEIGHT of the sweet spot, then we hit inside of the sweet spot
+        // Distance from cursor to CENTER of sweet spot vs half the sweet spot HEIGHT
         bool hit_loosen_sweet_spot = Mathf.Abs(wrenchPosition - loosenSweetSpotCenter) <= sweetSpotHeight * 0.5f;
         bool hit_tighten_sweet_spot = Mathf.Abs(wrenchPosition - tightenSweetSpotCenter) <= sweetSpotHeight * 0.5f;
         bool hit_a_sweet_spot = hit_tighten_sweet_spot || hit_loosen_sweet_spot;
+
         if (hit_a_sweet_spot)
         {
+            
             ui_script.FlashHit();
-
-            // Check if we dragged DOWN (Tighten) or UP (Loosen) relative to the middle
+            AudioEvents.Fire(SoundID.Bolt_Hit, this.bolt.transform.position);
             if (wrenchPosition < 0.5f)
             {
-                // Dragged down -> Tighten (adds to bolt progress)
-                bolt.InstallationUpdate( progress_per_action);
+                // Bottom half -> Tighten (adds to bolt progress)
+                bolt.InstallationUpdate(progress_per_action);
             }
             else
             {
-                // Dragged up -> Loosen (subtracts progress by turning input negative)
-                bolt.InstallationUpdate( -progress_per_action);
+                // Top half -> Loosen (subtracts progress)
+                bolt.InstallationUpdate(-progress_per_action);
             }
-
 
             //We are done when a bolt that started uninstalled becomes secure, or when a bolt that started secure becomes uninstalled.
-            if(bolt.GetInstallState() == InstallationState.UNINSTALLED || bolt.GetInstallState() == InstallationState.INSTALLED)
+            if (bolt.GetInstallState() == InstallationState.UNINSTALLED || bolt.GetInstallState() == InstallationState.INSTALLED)
             {
                 Finish(true);
+                return;
             }
 
-
-            // Reset positioning and find a new target area for the next pull
+            // Reset positioning and find a new target area for the next attempt
             wrenchPosition = 0.5f;
             PickNewSweetSpot();
         }
         else
         {
-            
-            ui_script.FlashMiss();         
+            AudioEvents.Fire(SoundID.Bolt_Miss, this.bolt.transform.position);
+            ui_script.FlashMiss();
         }
+
         wrenchPosition = 0.5f;
     }
 
@@ -147,8 +161,10 @@ public class MiniGame_Wrench : IToolMinigame
     void Finish(bool success)
     {
         // Clean up action listeners completely
-        inputHub.Controls.WorkingMode.PrimaryButtonHoldAndDrag.started -= OnDragStarted;
-        inputHub.Controls.WorkingMode.PrimaryButtonHoldAndDrag.canceled -= OnDragReleased;
+        inputHub.Controls.WorkingMode.PrimaryButton.started -= OnPrimaryPressed;
+        inputHub.Controls.WorkingMode.PrimaryButton.canceled -= OnPrimaryReleased;
+        inputHub.Controls.WorkingMode.SecondaryButton.started -= OnSecondaryPressed;
+        inputHub.Controls.WorkingMode.SecondaryButton.canceled -= OnSecondaryReleased;
         inputHub.Controls.WorkingMode.Cancel.performed -= OnPlayerCanceledGame;
 
         ui_script.Hide();

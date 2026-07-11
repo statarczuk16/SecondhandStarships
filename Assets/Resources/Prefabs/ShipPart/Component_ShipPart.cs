@@ -29,52 +29,99 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
     public void SetData(Data_ShipPart data) => m_data = data;
     public ShipSlotSize GetPartSize() => m_data.slot_size;
     public InstallationState GetPartState() => m_data.install_state;
-    public void SetInstallState(InstallationState state) => m_data.install_state = state;
+
 
     internal void StartInstall(Component_ShipPartSlot slot)
     {
-        SetInstallState(InstallationState.INSTALLING);
+        m_data.install_state = InstallationState.INSTALLING;
+        m_parent_slot = slot;
 
+        
         foreach (IPartConnector connector in m_connectors)
         {
             connector.InitializeConnector();
         }
-        m_parent_slot = slot;
-    }
-
-    public void NotifyConnectorUninstalled(IPartConnector connector)
-    {
-        if (m_data.install_state == InstallationState.INSTALLED)
+        
+        if(PartUsesConnectors() == false)
         {
-            SetInstallState(InstallationState.INSTALLING);
+            OnInstalled();
         }
+        AudioEvents.Fire(SoundID.Part_Placed, this.transform.position);
 
-        if (m_connectors.TrueForAll(c => c.GetInstallState() == InstallationState.UNINSTALLED))
+
+    }
+
+    public void OnConnectorStatusChanged()
+    {
+        int num_connectors = m_connectors.Count;
+        int num_connectors_installed = 0;
+        int num_connectors_installing = 0;
+        int num_connectors_uninstalled = 0;
+        foreach (IPartConnector connector in m_connectors)
         {
-            Detach();
+            if(connector.GetInstallState() == InstallationState.INSTALLED)
+            {
+                num_connectors_installed += 1;
+            }
+            else if(connector.GetInstallState() == InstallationState.INSTALLING)
+            {
+                num_connectors_installing += 1;
+            }
+            else
+            {
+                num_connectors_uninstalled += 1;
+            }
         }
-    }
-
-    public void NotifyConnectorInstalled(IPartConnector connector)
-    {
-        if (m_connectors.TrueForAll(c => c.GetInstallState() == InstallationState.INSTALLED))
+        if(num_connectors_installed == num_connectors)
         {
-            SetInstallState(InstallationState.INSTALLED);
+            OnInstalled();
+        }
+        else if(num_connectors_uninstalled == num_connectors)
+        {
+            OnUninstalled();
+        }
+        else
+        {
+            OnInstalling();
         }
     }
 
-    public void Detach()
+    private bool PartUsesConnectors()
     {
-        SetInstallState(InstallationState.UNINSTALLED);
-        m_parent_slot.NotifyOfPartDisconnect();
-        m_parent_slot = null;
-        //TODO do physics stuff
+        return m_connectors.Count > 0;
     }
 
-    internal void NotifyConnectorInstalling(IPartConnector connector)
+    private void OnInstalling()
     {
-        SetInstallState(InstallationState.INSTALLING);
+        if (this.m_data.install_state == InstallationState.INSTALLING)
+        {
+            return; //no op we are already 
+        }
+        this.m_data.install_state = InstallationState.INSTALLING;
+        this.m_parent_slot.OnPartUninstalled(this);
     }
+
+    private void OnInstalled()
+    {
+        if(this.m_data.install_state == InstallationState.INSTALLED)
+        {
+            return; //no op we are already 
+        }
+        AudioEvents.Fire(SoundID.Part_Installed, this.transform.position);
+        this.m_data.install_state = InstallationState.INSTALLED;
+        this.m_parent_slot.OnPartInstalled(this);
+    }
+
+    private void OnUninstalled()
+    {
+        if (this.m_data.install_state == InstallationState.UNINSTALLED)
+        {
+            return; //no op we are already
+        }
+        this.m_data.install_state = InstallationState.UNINSTALLED;
+        this.m_parent_slot.OnPartUninstalled(this);
+    }
+
 
     public bool CanInteract(Controller_Equipment controller)
     {
@@ -94,8 +141,10 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 
     public void OnInteract(Controller_Equipment controller)
     {
-        if(this.m_data.install_state == InstallationState.UNINSTALLED)
+        if(this.m_data.install_state == InstallationState.UNINSTALLED || PartUsesConnectors() == false)
         {
+            OnUninstalled();
+            this.m_parent_slot = null;
             controller.AddPartToInventory(this);
             GameObject.Destroy(this);
         }

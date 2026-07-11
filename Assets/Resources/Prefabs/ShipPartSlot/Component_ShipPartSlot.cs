@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -15,6 +16,7 @@ public enum ShipSlotSize
 public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private Data_ShipPartSlot m_data;
+    [SerializeField] private Component_Ship m_parent_ship;
 
     private Component_ShipPart m_installed_part;
     private GameObject currentGhost;
@@ -23,6 +25,15 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
     public string SlotId => m_data.guid.ToString();
     public bool IsOccupied => m_installed_part != null;
     public Component_ShipPart InstalledPart => m_installed_part;
+
+    public void Awake()
+    {
+        m_parent_ship = this.transform.GetComponentInParent<Component_Ship>();
+        if(m_parent_ship == null)
+        {
+            throw new Exception("Needs to have parent" + this.name);
+        }
+    }
 
     public bool CanInteract(Controller_Equipment controller)
     {
@@ -72,10 +83,23 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
         }
     }
 
-    public void NotifyOfPartDisconnect()
+    public void OnPartUninstalled(Component_ShipPart part)
     {
+        this.m_parent_ship.OnPartUninstalled(part);
         m_installed_part = null;
-        this.m_data.filled = false; 
+        this.m_data.filled = false;  
+    }
+
+    public void StartPartInstallation(Component_ShipPart part)
+    {
+        part.StartInstall(this);  
+        m_data.filled = true;
+    }
+
+    public void OnPartInstalled(Component_ShipPart part)
+    {
+        m_installed_part = part;
+        this.m_parent_ship.InstallPart(part);
     }
 
     public void OnInteract(Controller_Equipment controller)
@@ -83,20 +107,16 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
         if (CanInteract(controller))
         {
             ClearGhost();
-            Data_ShipPart data = controller.GetEquippedPart();
+            Data_ShipPart part_data = controller.GetEquippedPart();
             Component_MountPoint mount = this.GetComponentInChildren<Component_MountPoint>();
 
-            GameObject spawnedPart = Instantiate(data.prefab, mount.transform, false);
+            GameObject spawnedPart = Instantiate(part_data.prefab, mount.transform, false);
             spawnedPart.transform.localPosition = Vector3.zero;
+            Component_ShipPart part_component = spawnedPart.GetComponent<Component_ShipPart>();
+            part_component.SetData(part_data);
+            StartPartInstallation(part_component);
 
-            Component_ShipPart part = spawnedPart.GetComponent<Component_ShipPart>();
-            part.SetData(data);
-            part.StartInstall(this);
-
-            m_installed_part = part;
-            m_data.filled = true;
-
-            controller.RemovePartFromInventory(data);
+            controller.RemovePartFromInventory(part_data);
         }
     }
 

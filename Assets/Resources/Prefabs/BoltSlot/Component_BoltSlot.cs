@@ -90,24 +90,26 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
     public void InstallationUpdate(int amount)
     {
         m_installation_progress = Mathf.Clamp(m_installation_progress + amount, 0, 100);
-
+        InstallationState prev_state = m_installation_state;
         if (m_installation_progress <= 0)
         {
             m_installation_state = InstallationState.UNINSTALLED;
             DespawnBoltVisual();
-            partOwner?.NotifyConnectorUninstalled(this);
         }
         else if (m_installation_progress >= 100)
         {
             m_installation_state = InstallationState.INSTALLED;
             PositionBoltVisual();
-            partOwner?.NotifyConnectorInstalled(this);
         }
         else
         {
             m_installation_state = InstallationState.INSTALLING;
-            partOwner?.NotifyConnectorInstalling(this);
             PositionBoltVisual();
+        }
+
+        if(prev_state != m_installation_state)
+        {
+            partOwner?.OnConnectorStatusChanged();
         }
     }
 
