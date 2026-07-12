@@ -12,8 +12,7 @@ public class Data_ShipPart
     public ShipSlotSize slot_size;
     public InstallationState install_state;
 
-    // Deep-copies the list so multiple inventory entries built from the
-    // same prefab asset don't end up sharing one fastenerInstalledStates list.
+   
     public Data_ShipPart Clone()
     {
         return new Data_ShipPart

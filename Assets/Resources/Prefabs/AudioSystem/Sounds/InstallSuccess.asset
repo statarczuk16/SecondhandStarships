@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d6cacefecbce945a2919b7d5770108, type: 3}
   m_Name: InstallSuccess
   m_EditorClassIdentifier: Assembly-CSharp::AudioEventSO
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: da3b31ab4cc41491abc3e03193c2b001, type: 3}
   volume: 1
   volumeVariance: 0
   pitch: 1
-  pitchVariance: 0
+  pitchVariance: 0.1
   mixerGroup: {fileID: 0}
   loop: 0
   spatialBlend: 1

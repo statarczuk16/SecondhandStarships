@@ -11,10 +11,7 @@ Obj/
 Build/
 Builds/
 Assets/Samples*
-Assets/ithappy
-Assets/ithappy.meta
-Assets/Cyberpunk_Game_16bit
-Assets/Cyberpunk_Game_16bit.meta
+AssetPacks/*
 .vs/*
 Debug/
 UserSettings/

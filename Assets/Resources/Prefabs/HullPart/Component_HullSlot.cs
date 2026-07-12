@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
+[RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private GameObject defaultHullPartPrefab;

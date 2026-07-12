@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WrenchFail
   m_EditorClassIdentifier: Assembly-CSharp::AudioEventSO
   clips:
-  - {fileID: 8300000, guid: ddf00d05da1534ac283539c1f194bffb, type: 3}
-  - {fileID: 8300000, guid: ddf00d05da1534ac283539c1f194bffb, type: 3}
-  - {fileID: 8300000, guid: 1966d2dac531e48fdb64ad8e18779105, type: 3}
+  - {fileID: 8300000, guid: 70e62e364b37a464d9c82a5c753bca63, type: 3}
+  - {fileID: 8300000, guid: 0936d8c5f54fd406d98c61e4a104071e, type: 3}
+  - {fileID: 8300000, guid: 4f5cf341076fc41c8a8c3f1219c67421, type: 3}
   volume: 1
   volumeVariance: 0
   pitch: 1

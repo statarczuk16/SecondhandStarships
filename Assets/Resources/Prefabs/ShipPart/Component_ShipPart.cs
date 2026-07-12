@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(HighlightableRenderer))]
-
+[RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private Data_ShipPart m_data;

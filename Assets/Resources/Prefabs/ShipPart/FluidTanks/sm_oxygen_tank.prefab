@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1085374876257030388}
   - component: {fileID: 4108083692427035604}
   - component: {fileID: 2468312585852263289}
+  - component: {fileID: 6314593436054836994}
+  - component: {fileID: 1122580181076578249}
   m_Layer: 0
   m_Name: sm_oxygen_tank
   m_TagString: Untagged
@@ -51,8 +53,7 @@ MonoBehaviour:
     part_name: Small Oxygen Tank
     prefab: {fileID: 2369911243249985210}
     slot_size: 1
-    install_data: 0
-  m_part_state: 0
+    install_state: 0
 --- !u!114 &2468312585852263289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +66,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37db4b983d39d924eafe8ac0fc32d471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_PrefabBoundary
+--- !u!114 &6314593436054836994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369911243249985210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72037412a0e3fc44dbaa402ddb823ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightableRenderer
+  targetObject: {fileID: 0}
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  neutralColor: {r: 0, g: 0, b: 0, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &1122580181076578249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369911243249985210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ae4911da4b36243a9492b6ca5fc2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_FluidPort
 --- !u!1 &8586540206816916987
 GameObject:
   m_ObjectHideFlags: 0

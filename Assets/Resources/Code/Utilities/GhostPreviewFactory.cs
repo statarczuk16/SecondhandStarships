@@ -30,7 +30,7 @@ public static class GhostPreviewFactory
     {
         foreach (Component c in root.GetComponentsInChildren<Component>(true))
         {
-            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer)
+            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is Component_PrefabBoundary)
                 continue;
 
             Object.Destroy(c);
