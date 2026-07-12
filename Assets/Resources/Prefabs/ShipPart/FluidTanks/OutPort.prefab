@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_FluidSender
   m_data:
-    m_active: 1
+    m_active: 0
     send_rate_L_s: 1
     launchSpeed: 3
     sampleCount: 30

@@ -17,6 +17,7 @@ public class Component_FluidTank : MonoBehaviour
     [SerializeField] private Data_FluidTank m_data;
     [SerializeField] private List<Component_FluidSender> m_output_ports;
     [SerializeField] private List<Component_FluidReceiver> m_input_ports;
+    [SerializeField] private Component_FluidFillShader m_fluid_shader;
 
     private void Awake()
     {
@@ -29,6 +30,15 @@ public class Component_FluidTank : MonoBehaviour
         foreach (Component_FluidReceiver port in m_input_ports)
         {
             port.SetSource(this);
+        }
+        m_fluid_shader = GetComponentInChildren<Component_FluidFillShader>();
+    }
+
+    private void Update()
+    {
+        if (m_fluid_shader)
+        {
+            m_fluid_shader.SetFillPercent(this.m_data.m_current_L / this.m_data.m_max_L);
         }
     }
 
@@ -46,7 +56,7 @@ public class Component_FluidTank : MonoBehaviour
         {
             OnCapacityReached();
         }
-
+        
         return amountToAdd;
     }
 
@@ -62,7 +72,7 @@ public class Component_FluidTank : MonoBehaviour
         {
             OnEmpty();
         }
-
+        
         return amountToTake;
     }
 
