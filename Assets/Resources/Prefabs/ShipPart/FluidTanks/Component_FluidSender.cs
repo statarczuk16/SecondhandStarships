@@ -29,7 +29,7 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
     public Component_FluidReceiver m_piped_receiver; //pipe connection. stops leaks
     public Component_FluidReceiver m_drain_pour_receiver;//if we leak, may land in a bucket etc. 
     public Component_FluidReceiver m_active_receiver;
-    private const float UPDATE_TIC_s = 1f;
+    private const float UPDATE_TIC_s = .25f;
     private float update_tic_counter_s = 0f;
     private float fluid_sent_last_update = 0f;
 
@@ -73,20 +73,35 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
 
         //If we dont have a pipe fitted and sent water last update, show 
         //graphics for water pouring out of the spout
+        //even if the bucket is full (sent fluid will be 0)
+        //we still need to show the leaking water graphics
         bool piped = m_piped_receiver != null;
 
-        if (!piped && fluid_sent_last_update > 0f)
+        if (!piped && fluid_sent_last_update > 0f || m_drain_pour_receiver)
         {
             EnsureStreamVisual();
             UpdateStreamSimulation();
         }
         else
-        {
+        { 
             StopStreamSimulation();
             if (piped)
             {
                 m_drain_pour_receiver = null;
             }
+        }
+        //send water to a pipe if we have one. else send to a bucket we are draining into.
+        if (m_piped_receiver)
+        {
+            m_active_receiver = m_piped_receiver;
+        }
+        else if(m_drain_pour_receiver)
+        {
+            m_active_receiver = m_drain_pour_receiver;
+        }
+        else
+        {
+            m_active_receiver = null;
         }
 
 
@@ -96,8 +111,8 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
             return;
         }
         fluid_sent_last_update = 0f;
-        update_tic_counter_s = 0f;
-        float amount_I_can_send = Mathf.Min(m_source.GetCurrentFluidAmount(), m_data.send_rate_L_s);
+        
+        float amount_I_can_send = Mathf.Min(m_source.GetCurrentFluidAmount(), m_data.send_rate_L_s * update_tic_counter_s);
 
         float amount_they_can_receive = 0f;
         if (m_active_receiver == null)
@@ -106,11 +121,12 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
         }
         else
         {
-            amount_they_can_receive = m_active_receiver.GetRemainingCapacityLitersThisSecond();
+            amount_they_can_receive = m_active_receiver.GetRemainingCapacityLitersThisDT(update_tic_counter_s);
         }
         float final_transfer_amount = Mathf.Min(amount_I_can_send, amount_they_can_receive);
         this.fluid_sent_last_update = final_transfer_amount;
         SendFluid(final_transfer_amount);
+        update_tic_counter_s = 0f;
     }
 
     private void SendFluid(float amount_to_send_L)

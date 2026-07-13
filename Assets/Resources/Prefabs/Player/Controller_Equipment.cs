@@ -177,6 +177,8 @@ public class Controller_Equipment : MonoBehaviour
 
     public void SetRelevantShipParts(List<Data_ShipPart> parts)
     {
+        m_list_of_displaying_parts = parts;
+        /**
         HashSet<Data_ShipPart> new_parts = new HashSet<Data_ShipPart>(parts);
         HashSet<Data_ShipPart> old_parts = new HashSet<Data_ShipPart>(m_list_of_displaying_parts);
         if(new_parts.SetEquals(old_parts) == false)
@@ -185,7 +187,7 @@ public class Controller_Equipment : MonoBehaviour
             m_list_of_displaying_parts = parts;
             m_selected_part_index = 0;
         }
-        
+        **/
         
         
     }

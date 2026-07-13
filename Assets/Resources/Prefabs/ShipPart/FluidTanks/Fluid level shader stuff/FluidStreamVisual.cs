@@ -44,8 +44,7 @@ public static class FluidStreamSimulator
                 result.Hit = hit;
                 result.HitSomething = true;
 
-                result.Receiver =
-                    hit.collider.GetComponentInParent<Component_FluidReceiver>();
+                result.Receiver = ShipPartUtilities.FindComponentWithinPrefab<Component_FluidReceiver>(hit.collider.transform);
 
                 break;
             }

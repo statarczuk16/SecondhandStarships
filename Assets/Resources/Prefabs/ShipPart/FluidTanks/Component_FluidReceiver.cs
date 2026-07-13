@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class Data_FluidReceiver
 {
-    public bool m_active;
+    public bool m_active = true;
     public GameObject m_prefab;
     public float receive_rate_L_s; //liters per second
 }
@@ -19,7 +19,7 @@ public class Component_FluidReceiver : MonoBehaviour
         m_parentTank = component_FluidTank;
     }
 
-    internal float GetRemainingCapacityLitersThisSecond()
+    internal float GetRemainingCapacityLitersThisDT(float seconds)
     {
         if (m_parentTank == null || !m_data.m_active)
         {
@@ -28,7 +28,7 @@ public class Component_FluidReceiver : MonoBehaviour
 
         float parent_tank_capacity = m_parentTank.GetRemainingCapacity();
         // Returns either the space left or the maximum the port can handle, whichever is smaller
-        return Mathf.Min(parent_tank_capacity, m_data.receive_rate_L_s);
+        return Mathf.Min(parent_tank_capacity, m_data.receive_rate_L_s * seconds);
 
     }
 

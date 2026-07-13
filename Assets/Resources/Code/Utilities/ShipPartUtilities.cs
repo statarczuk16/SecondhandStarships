@@ -92,4 +92,29 @@ public static class ShipPartUtilities
 
         return null;
     }
+
+    public static T FindComponentWithinPrefab<T>(Transform boundaryRoot) where T : class
+    {
+        // 1. Check if the component exists right on the current object
+        T direct = boundaryRoot.GetComponent<T>();
+        if (direct != null) return direct;
+
+        // 2. Otherwise, look through the children
+        for (int i = 0; i < boundaryRoot.childCount; i++)
+        {
+            Transform child = boundaryRoot.GetChild(i);
+
+            // Don't cross into a nested prefab's own boundary
+            if (child.GetComponent<Component_PrefabBoundary>() != null)
+            {
+                continue;
+            }
+
+            // Recursively search this child branch
+            T found = FindComponentWithinPrefab<T>(child);
+            if (found != null) return found;
+        }
+
+        return null;
+    }
 }
