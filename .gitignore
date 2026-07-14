@@ -12,6 +12,7 @@ Build/
 Builds/
 Assets/Samples*
 AssetPacks/*
+Assets/ithappy*
 .vs/*
 Debug/
 UserSettings/

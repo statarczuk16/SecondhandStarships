@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -21,49 +22,60 @@ public class Data_FluidSender
 }
 [System.Serializable]
 [RequireComponent(typeof(Component_PrefabBoundary))]
-public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightable
+public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlightable, IFluidSender
 {
 
     [SerializeField] private Data_FluidSender m_data = new Data_FluidSender();
     public Component_FluidTank m_source;
-    public Component_FluidReceiver m_piped_receiver; //pipe connection. stops leaks
-    public Component_FluidReceiver m_drain_pour_receiver;//if we leak, may land in a bucket etc. 
-    public Component_FluidReceiver m_active_receiver;
+    [SerializeField]  public IFluidReceiver m_piped_receiver; //pipe connection. stops leaks
+    public IFluidReceiver m_drain_pour_receiver;//if we leak, may land in a bucket etc. 
+    public IFluidReceiver m_active_receiver;
     private const float UPDATE_TIC_s = .25f;
     private float update_tic_counter_s = 0f;
     private float fluid_sent_last_update = 0f;
 
     [SerializeField] private FluidStreamVisual m_streamVisual;
     [SerializeField] private FluidStreamVisual m_streamVisualPrefab;
-    private HighlightableRenderer m_highlight_renderer;
-   
 
-    public Transform InteractionPoint => throw new NotImplementedException();
+    [SerializeField] public Component m_debug_boostrap_receiver;//just exists so we can assign in editor
+    private HighlightableRenderer m_highlight_renderer;
+
+
+    public Transform InteractionPoint => this.transform;
 
     private void Awake()
     {
         m_highlight_renderer = this.GetComponent<HighlightableRenderer>();
+        if(m_debug_boostrap_receiver)
+        {
+            m_piped_receiver = m_debug_boostrap_receiver.GetComponent<Component_FluidRelay>() as IFluidReceiver;
+        }
     }
 
-    internal void SetSource(Component_FluidTank component_FluidTank)
+    public void SetSource(Component_FluidTank component_FluidTank)
     {
         m_source = component_FluidTank;
     }
 
-    internal void SetPipedReceiver(Component_FluidReceiver component_FluidTank)
+    public void SetDownstreamLeakTarget(IFluidReceiver target)
     {
-        m_piped_receiver = component_FluidTank;
+        m_drain_pour_receiver = target;
     }
 
-    internal void SetDrainPourReceiver(Component_FluidReceiver component_FluidTank)
+    public void AddDownstream(IFluidReceiver target)
     {
-        m_drain_pour_receiver = component_FluidTank;
+        m_piped_receiver = target;
+    }
+
+    private static bool IsFluidReceiverAlive(IFluidReceiver receiver)
+    {
+        return (receiver as UnityEngine.Object) != null;
     }
 
     private void Update()
     {
 
-        
+
 
         if (m_source == null || m_data.m_active == false)
         {
@@ -71,31 +83,33 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
             return;
         }
 
-        //If we dont have a pipe fitted and sent water last update, show 
-        //graphics for water pouring out of the spout
-        //even if the bucket is full (sent fluid will be 0)
-        //we still need to show the leaking water graphics
-        bool piped = m_piped_receiver != null;
+        // If we dont have a pipe fitted and sent water last update, show 
+        // graphics for water pouring out of the spout
+        // even if the bucket is full (sent fluid will be 0)
+        // we still need to show the leaking water graphics
+        bool piped = IsFluidReceiverAlive(m_piped_receiver);
+        bool drainPouring = IsFluidReceiverAlive(m_drain_pour_receiver);
 
-        if (!piped && fluid_sent_last_update > 0f || m_drain_pour_receiver)
+        if (!piped && fluid_sent_last_update > 0f || drainPouring)
         {
             EnsureStreamVisual();
             UpdateStreamSimulation();
         }
         else
-        { 
+        {
             StopStreamSimulation();
             if (piped)
             {
                 m_drain_pour_receiver = null;
             }
         }
-        //send water to a pipe if we have one. else send to a bucket we are draining into.
-        if (m_piped_receiver)
+
+        // send water to a pipe if we have one. else send to a bucket we are draining into.
+        if (piped)
         {
             m_active_receiver = m_piped_receiver;
         }
-        else if(m_drain_pour_receiver)
+        else if (drainPouring)
         {
             m_active_receiver = m_drain_pour_receiver;
         }
@@ -106,12 +120,12 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
 
 
         update_tic_counter_s += Time.deltaTime;
-        if(update_tic_counter_s < UPDATE_TIC_s)
+        if (update_tic_counter_s < UPDATE_TIC_s)
         {
             return;
         }
         fluid_sent_last_update = 0f;
-        
+
         float amount_I_can_send = Mathf.Min(m_source.GetCurrentFluidAmount(), m_data.send_rate_L_s * update_tic_counter_s);
 
         float amount_they_can_receive = 0f;
@@ -125,17 +139,17 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
         }
         float final_transfer_amount = Mathf.Min(amount_I_can_send, amount_they_can_receive);
         this.fluid_sent_last_update = final_transfer_amount;
-        SendFluid(final_transfer_amount);
+        SendFluid(final_transfer_amount, update_tic_counter_s);
         update_tic_counter_s = 0f;
     }
 
-    private void SendFluid(float amount_to_send_L)
+    private void SendFluid(float amount_to_send_L, float dt)
     {
         float amount_from_my_tank_L = this.m_source.TakeFluid(amount_to_send_L);
 
         if (m_active_receiver != null)
         {
-            float amount_sent = m_active_receiver.ReceiveFluid(amount_from_my_tank_L);
+            float amount_sent = m_active_receiver.ReceiveFluid(amount_from_my_tank_L, dt);
             if (amount_to_send_L != amount_sent)
             {
                 TopicLogger.Log(LogTopic.FluidSystem, LogLevel.WARN, $"Thought we could send {amount_to_send_L} but could only send {amount_sent}?");
@@ -181,12 +195,12 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
         }
 
         // Only ever touches the pour-target, never the formal pipe connection.
-        SetDrainPourReceiver(result.Receiver);
+        SetDownstreamLeakTarget(result.Receiver);
     }
 
     private void StopStreamSimulation()
     {
-        SetDrainPourReceiver(null);
+        SetDownstreamLeakTarget(null);
         if (m_streamVisual)
         {
             m_streamVisual.Hide();
@@ -221,5 +235,15 @@ public class Component_FluidSender : MonoBehaviour, IInteractable, IHighlightabl
     public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
         m_highlight_renderer.SetHighlight(state);
+    }
+
+    void IFluidSender.SendFluid(float amount_to_send_L, float dt)
+    {
+        SendFluid(amount_to_send_L, dt);
+    }
+
+    public void RemoveDownstreamLeakTarget(IFluidReceiver target)
+    {
+        SetDownstreamLeakTarget(null);
     }
 }

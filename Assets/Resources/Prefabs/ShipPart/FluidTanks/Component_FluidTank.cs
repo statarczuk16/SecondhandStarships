@@ -12,24 +12,24 @@ public enum FluidType
     OXYGEN,
 }
 [RequireComponent(typeof(Component_PrefabBoundary))]
-public class Component_FluidTank : MonoBehaviour
+public class Component_FluidTank : MonoBehaviour, IFluidReceiver
 {
     [SerializeField] private Data_FluidTank m_data;
-    [SerializeField] private List<Component_FluidSender> m_output_ports;
-    [SerializeField] private List<Component_FluidReceiver> m_input_ports;
+    [SerializeField] private List<Component_TankOutputPort> m_output_ports;//they send FOR me
+    [SerializeField] private List<Component_FluidRelay> m_input_ports;//they receive FOR me 
     [SerializeField] private Component_FluidFillShader m_fluid_shader;
 
     private void Awake()
     {
-        m_output_ports = new List<Component_FluidSender>(GetComponentsInChildren<Component_FluidSender>(true));
-        foreach (Component_FluidSender port in m_output_ports)
+        m_output_ports = new List<Component_TankOutputPort>(GetComponentsInChildren<Component_TankOutputPort>(true));
+        foreach (Component_TankOutputPort port in m_output_ports)
         {
             port.SetSource(this);
         }
-        m_input_ports = new List<Component_FluidReceiver>(GetComponentsInChildren<Component_FluidReceiver>(true));
-        foreach (Component_FluidReceiver port in m_input_ports)
+        m_input_ports = new List<Component_FluidRelay>(GetComponentsInChildren<Component_FluidRelay>(true));
+        foreach (Component_FluidRelay port in m_input_ports)
         {
-            port.SetSource(this);
+            port.AddDownstream(this);
         }
         m_fluid_shader = GetComponentInChildren<Component_FluidFillShader>();
     }
@@ -88,15 +88,23 @@ public class Component_FluidTank : MonoBehaviour
         // Add custom logic for when the tank is empty
     }
 
-    internal float GetRemainingCapacity()
-    {
-        return Mathf.Clamp(this.m_data.m_max_L - this.m_data.m_current_L, 0f, this.m_data.m_max_L);
-    }
 
     internal float GetCurrentFluidAmount()
     {
         return this.m_data.m_current_L;
     }
+
+    public float GetRemainingCapacityLitersThisDT(float dt)
+    {
+        return Mathf.Clamp(this.m_data.m_max_L - this.m_data.m_current_L, 0f, this.m_data.m_max_L);
+    }
+
+    public float ReceiveFluid(float amountL, float dt)
+    {
+        return AddFluid(amountL);
+    }
+
+
 }
 
 [System.Serializable]

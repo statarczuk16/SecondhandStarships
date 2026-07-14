@@ -7,7 +7,7 @@ public class FluidStreamResult
 
     public RaycastHit Hit;
 
-    public Component_FluidReceiver Receiver;
+    public IFluidReceiver Receiver;
 
     public bool HitSomething;
 }
@@ -44,7 +44,7 @@ public static class FluidStreamSimulator
                 result.Hit = hit;
                 result.HitSomething = true;
 
-                result.Receiver = ShipPartUtilities.FindComponentWithinPrefab<Component_FluidReceiver>(hit.collider.transform);
+                result.Receiver = ShipPartUtilities.FindComponentWithinPrefab<IFluidReceiver>(hit.collider.transform);
 
                 break;
             }
