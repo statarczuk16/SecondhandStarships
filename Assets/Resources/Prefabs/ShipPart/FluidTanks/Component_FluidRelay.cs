@@ -11,27 +11,36 @@ public enum LeakSeverity
 [RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 {
-    [SerializeField] private List<IFluidReceiver> m_downstreams; // each must implement IFluidReceiver
-    [SerializeField] private IFluidReceiver m_downstream_leak_target; // each must implement IFluidReceiver
+    // Note: Unless using Odin Inspector, Unity does not natively serialize interfaces. 
+    // These will be populated via Awake / AddDownstream at runtime.
+    [SerializeField] private List<IFluidReceiver> m_downstreams; 
+    [SerializeField] private IFluidReceiver m_downstream_leak_target; 
 
     [SerializeField] private LeakSeverity m_leak_severity = LeakSeverity.NONE;
     [SerializeField] private float m_leak_flat_L_s = 0.5f;
     [SerializeField] private float m_broken_flat_L_s = 3f;
 
-    private const float LEAK_CAPACITY_FRACTION = 0.5f;
-    private const float BROKEN_CAPACITY_FRACTION = 1f;
+    private const float LEAK_CAPACITY_FRACTION = 0.5f;//we leak half our capacity 
+    private const float BROKEN_CAPACITY_FRACTION = 1f;//we leak all our capacity
+
+    // Cache list to eliminate garbage collection in Update loops
+    private List<float> m_cached_capacities = new List<float>();
 
     private void Awake()
     {
-        m_downstreams = new List<IFluidReceiver>();
+        // Only initialize if null to preserve any injected dependencies
+        m_downstreams ??= new List<IFluidReceiver>();
     }
 
     internal void AddDownstream(IFluidReceiver source)
     {
-        m_downstreams.Add(source);
+        if (!m_downstreams.Contains(source))
+        {
+            m_downstreams.Add(source);
+        }
     }
 
-    private float GetFlatLeakRate() => m_leak_severity switch
+    private float GetFlatLeakRatePerS() => m_leak_severity switch
     {
         LeakSeverity.LEAK => m_leak_flat_L_s,
         LeakSeverity.BROKEN => m_broken_flat_L_s,
@@ -45,42 +54,74 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
         _ => 0f
     };
 
-    public float GetRemainingCapacityLitersThisDT(float dt)
+    public float GetRemainingCapacityLitersThisDT(float dt, FluidType fluid)
     {
-        float downstream_total = 0f;
-        foreach (var d in m_downstreams)
+        // 1. If the pipe is severed, it acts as a dead-end vent.
+        // It ignores downstream entirely, and its capacity is purely the size of the break.
+        if (m_leak_severity == LeakSeverity.BROKEN)
         {
-            downstream_total += d.GetRemainingCapacityLitersThisDT(dt);
+            return GetFlatLeakRatePerS() * dt;
         }
-        return downstream_total + (GetFlatLeakRate() * dt);
+
+        // 2. If it's a partial leak or perfectly fine, it accepts what fits 
+        // through the hole PLUS what fits into the downstream tanks.
+        float downstream_total = 0f;
+        
+        // Zero-allocation loop
+        for (int i = 0; i < m_downstreams.Count; i++)
+        {
+            downstream_total += m_downstreams[i].GetRemainingCapacityLitersThisDT(dt, fluid);
+        }
+
+        return downstream_total + (GetFlatLeakRatePerS() * dt);
     }
 
-    public float ReceiveFluid(float amountL, float dt)
+    public float ReceiveFluid(float amountL, float dt, FluidType type)
     {
-        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{this.name} got fluid!");
-        float flat_leak = Mathf.Min(GetFlatLeakRate() * dt, amountL);
-        float remaining_after_flat = amountL - flat_leak;
+        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{this.name} got {amountL}L of fluid!");
 
-        float capacity_leak = remaining_after_flat * GetCapacityLeakFraction();
-        float distributable = remaining_after_flat - capacity_leak;
+        float distributable;
+        float total_leak = 0f;
+        //if there's a leak in the pipe, some goes out the leak
+        if (this.m_leak_severity != LeakSeverity.NONE)
+        {
+            float flat_leak = Mathf.Min(GetFlatLeakRatePerS() * dt, amountL);
+            float remaining_after_flat = amountL - flat_leak;
 
-        float total_leak = flat_leak + capacity_leak;
-        if (total_leak > 0f) LeakFluid(total_leak);
+            float capacity_leak = remaining_after_flat * GetCapacityLeakFraction();
+            distributable = remaining_after_flat - capacity_leak;
 
-        float total_passed = DistributeToDownstream(distributable, dt);
+            total_leak = flat_leak + capacity_leak;
+        
+            if (total_leak > 0f) 
+            {
+                LeakFluid(total_leak, dt, type);
+            }
+        }
+        else
+        { //no leak, all of it goes to downstream pipes
+            distributable = amountL;
+        }
+        
+
+        float total_passed = DistributeToDownstream(distributable, dt, type);
+        
+        // We report back what we successfully handled (leaked + passed)
         return total_leak + total_passed;
     }
 
-    private float DistributeToDownstream(float amountL, float dt)
+    private float DistributeToDownstream(float amountL, float dt, FluidType type)
     {
         if (m_downstreams.Count == 0 || amountL <= 0f) return 0f;
 
-        var capacities = new float[m_downstreams.Count];
+        m_cached_capacities.Clear();
         float total_capacity = 0f;
+
         for (int i = 0; i < m_downstreams.Count; i++)
         {
-            capacities[i] = m_downstreams[i].GetRemainingCapacityLitersThisDT(dt);
-            total_capacity += capacities[i];
+            float cap = m_downstreams[i].GetRemainingCapacityLitersThisDT(dt, type);
+            m_cached_capacities.Add(cap);
+            total_capacity += cap;
         }
 
         if (total_capacity <= 0f) return 0f;
@@ -88,21 +129,26 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
         float total_received = 0f;
         for (int i = 0; i < m_downstreams.Count; i++)
         {
-            
-            float share = capacities[i] / total_capacity;
-            total_received += m_downstreams[i].ReceiveFluid(amountL * share, dt);
+            float share = m_cached_capacities[i] / total_capacity;
+            total_received += m_downstreams[i].ReceiveFluid(amountL * share, dt, type);
         }
+        
         return total_received;
     }
 
-    private void LeakFluid(float amountL)
+    private void LeakFluid(float amountL, float dt, FluidType type)
     {
         TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{name} leaked {amountL}L (severity: {m_leak_severity}).");
+
+        if (m_downstream_leak_target != null)
+        {
+            m_downstream_leak_target.ReceiveFluid(amountL, dt, type);
+        }
     }
 
-    public void SendFluid(float amount_to_send_L, float dt)
+    public float SendFluid(float amount_to_send_L, float dt, FluidType type)
     {
-        DistributeToDownstream(amount_to_send_L, dt);
+        return DistributeToDownstream(amount_to_send_L, dt, type);
     }
 
     void IFluidSender.AddDownstream(IFluidReceiver target)
@@ -112,19 +158,16 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 
     public void SetDownstreamLeakTarget(IFluidReceiver target)
     {
-        m_downstreams.Remove(m_downstream_leak_target);
         m_downstream_leak_target = target;
-        m_downstreams.Add(target);
     }
 
     public void RemoveDownstreamLeakTarget(IFluidReceiver target)
     {
-        if(m_downstream_leak_target != target)
+        if (m_downstream_leak_target != target)
         {
-            Debug.Log("Downstream leak target state broken");
+            Debug.LogWarning("Downstream leak target state broken. Trying to remove a target that isn't set.");
             return;
         }
-        m_downstreams.Remove(target);
         m_downstream_leak_target = null;
     }
 }

@@ -77,7 +77,7 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
 
 
 
-        if (m_source == null || m_data.m_active == false)
+        if (!m_source || !m_data.m_active)
         {
             StopStreamSimulation();
             return;
@@ -126,7 +126,7 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
         }
         fluid_sent_last_update = 0f;
 
-        float amount_I_can_send = Mathf.Min(m_source.GetCurrentFluidAmount(), m_data.send_rate_L_s * update_tic_counter_s);
+        float amount_I_can_send = Mathf.Min(m_source.GetCurrentFluidAmount(m_source.GetTypeStored()), m_data.send_rate_L_s * update_tic_counter_s);
 
         float amount_they_can_receive = 0f;
         if (m_active_receiver == null)
@@ -135,32 +135,15 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
         }
         else
         {
-            amount_they_can_receive = m_active_receiver.GetRemainingCapacityLitersThisDT(update_tic_counter_s);
+            amount_they_can_receive = m_active_receiver.GetRemainingCapacityLitersThisDT(update_tic_counter_s, m_source.GetTypeStored());
         }
         float final_transfer_amount = Mathf.Min(amount_I_can_send, amount_they_can_receive);
         this.fluid_sent_last_update = final_transfer_amount;
-        SendFluid(final_transfer_amount, update_tic_counter_s);
+        SendFluid(final_transfer_amount, update_tic_counter_s, this.m_source.GetTypeStored());
         update_tic_counter_s = 0f;
     }
 
-    private void SendFluid(float amount_to_send_L, float dt)
-    {
-        float amount_from_my_tank_L = this.m_source.TakeFluid(amount_to_send_L);
-
-        if (m_active_receiver != null)
-        {
-            float amount_sent = m_active_receiver.ReceiveFluid(amount_from_my_tank_L, dt);
-            if (amount_to_send_L != amount_sent)
-            {
-                TopicLogger.Log(LogTopic.FluidSystem, LogLevel.WARN, $"Thought we could send {amount_to_send_L} but could only send {amount_sent}?");
-            }
-        }
-        else
-        {
-            //If we get here, we have no pipe connection neither is the stream spout hitting a bucket etc.
-            TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"Fluid tank leaked {amount_from_my_tank_L}L with nothing to catch it.");
-        }
-    }
+   
 
 
     private void EnsureStreamVisual()
@@ -237,10 +220,29 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
         m_highlight_renderer.SetHighlight(state);
     }
 
-    void IFluidSender.SendFluid(float amount_to_send_L, float dt)
+    public float SendFluid(float amount_to_send_L, float dt, FluidType type)
     {
-        SendFluid(amount_to_send_L, dt);
+        float amount_from_my_tank_L = this.m_source.TakeFluid(amount_to_send_L, type);
+
+        if (m_active_receiver != null)
+        {
+            float amount_sent = m_active_receiver.ReceiveFluid(amount_from_my_tank_L, dt, type);
+            if (amount_to_send_L != amount_sent)
+            {
+                TopicLogger.Log(LogTopic.FluidSystem, LogLevel.WARN, $"Thought we could send {amount_to_send_L} but could only send {amount_sent}?");
+            }
+
+            return amount_sent;
+        }
+        else
+        {
+            //If we get here, we have no pipe connection neither is the stream spout hitting a bucket etc.
+            TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"Fluid tank leaked {amount_from_my_tank_L}L with nothing to catch it.");
+            return 0f;
+        }
     }
+    
+
 
     public void RemoveDownstreamLeakTarget(IFluidReceiver target)
     {

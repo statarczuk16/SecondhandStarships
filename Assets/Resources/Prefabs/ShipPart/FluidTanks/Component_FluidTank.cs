@@ -60,7 +60,7 @@ public class Component_FluidTank : MonoBehaviour, IFluidReceiver
         return amountToAdd;
     }
 
-    internal float TakeFluid(float amount_L)
+    internal float TakeFluid(float amount_L, FluidType type)
     {
         if (amount_L <= 0) return 0f;
 
@@ -89,19 +89,24 @@ public class Component_FluidTank : MonoBehaviour, IFluidReceiver
     }
 
 
-    internal float GetCurrentFluidAmount()
+    internal float GetCurrentFluidAmount(FluidType type)
     {
         return this.m_data.m_current_L;
     }
 
-    public float GetRemainingCapacityLitersThisDT(float dt)
+    public float GetRemainingCapacityLitersThisDT(float dt, FluidType fluid)
     {
         return Mathf.Clamp(this.m_data.m_max_L - this.m_data.m_current_L, 0f, this.m_data.m_max_L);
     }
 
-    public float ReceiveFluid(float amountL, float dt)
+    public float ReceiveFluid(float amountL, float dt, FluidType type)
     {
         return AddFluid(amountL);
+    }
+
+    public FluidType GetTypeStored()
+    {
+        return m_data.m_fluid_type;
     }
 
 

@@ -19,16 +19,16 @@ public class Component_TankInputPort : MonoBehaviour, IFluidReceiver
         m_parentTank = component_FluidTank;
     }
 
-    public float GetRemainingCapacityLitersThisDT(float dt)
+    public float GetRemainingCapacityLitersThisDT(float dt, FluidType fluid)
     {
         if (m_parentTank == null || !m_data.m_active) return 0f;
-        float parent_tank_capacity = m_parentTank.GetRemainingCapacityLitersThisDT(dt);
+        float parent_tank_capacity = m_parentTank.GetRemainingCapacityLitersThisDT(dt, fluid);
         return Mathf.Min(parent_tank_capacity, m_data.receive_rate_L_s * dt);
     }
 
-    public float ReceiveFluid(float amountL, float dt)
+    public float ReceiveFluid(float amountL, float dt, FluidType type)
     {
         if (m_parentTank == null) return 0f;
-        return m_parentTank.ReceiveFluid(amountL, dt);
+        return m_parentTank.ReceiveFluid(amountL, dt, type);
     }
 }
