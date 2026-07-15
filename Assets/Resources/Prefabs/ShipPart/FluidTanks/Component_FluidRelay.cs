@@ -8,6 +8,17 @@ public enum LeakSeverity
     BROKEN
 }
 
+[System.Serializable]
+public class Data_FluidRelay : MonoBehaviour
+{
+    [SerializeField] public LeakSeverity m_leak_severity = LeakSeverity.NONE;
+    [SerializeField] public float m_leak_flat_L_s = 0.5f;
+    [SerializeField] public float m_broken_flat_L_s = 3f;
+
+    public const float LEAK_CAPACITY_FRACTION = 0.5f;//we leak half our capacity 
+    public const float BROKEN_CAPACITY_FRACTION = 1f;//we leak all our capacity
+}
+
 [RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 {
@@ -15,13 +26,8 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
     // These will be populated via Awake / AddDownstream at runtime.
     [SerializeField] private List<IFluidReceiver> m_downstreams; 
     [SerializeField] private IFluidReceiver m_downstream_leak_target; 
-
-    [SerializeField] private LeakSeverity m_leak_severity = LeakSeverity.NONE;
-    [SerializeField] private float m_leak_flat_L_s = 0.5f;
-    [SerializeField] private float m_broken_flat_L_s = 3f;
-
-    private const float LEAK_CAPACITY_FRACTION = 0.5f;//we leak half our capacity 
-    private const float BROKEN_CAPACITY_FRACTION = 1f;//we leak all our capacity
+    [SerializeField] private Data_FluidRelay m_data; 
+    
 
     // Cache list to eliminate garbage collection in Update loops
     private List<float> m_cached_capacities = new List<float>();
@@ -40,17 +46,17 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
         }
     }
 
-    private float GetFlatLeakRatePerS() => m_leak_severity switch
+    private float GetFlatLeakRatePerS() => m_data.m_leak_severity switch
     {
-        LeakSeverity.LEAK => m_leak_flat_L_s,
-        LeakSeverity.BROKEN => m_broken_flat_L_s,
+        LeakSeverity.LEAK => m_data.m_leak_flat_L_s,
+        LeakSeverity.BROKEN => m_data.m_broken_flat_L_s,
         _ => 0f
     };
 
-    private float GetCapacityLeakFraction() => m_leak_severity switch
+    private float GetCapacityLeakFraction() => m_data.m_leak_severity switch
     {
-        LeakSeverity.LEAK => LEAK_CAPACITY_FRACTION,
-        LeakSeverity.BROKEN => BROKEN_CAPACITY_FRACTION,
+        LeakSeverity.LEAK => Data_FluidRelay.LEAK_CAPACITY_FRACTION,
+        LeakSeverity.BROKEN => Data_FluidRelay.BROKEN_CAPACITY_FRACTION,
         _ => 0f
     };
 
@@ -58,7 +64,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
     {
         // 1. If the pipe is severed, it acts as a dead-end vent.
         // It ignores downstream entirely, and its capacity is purely the size of the break.
-        if (m_leak_severity == LeakSeverity.BROKEN)
+        if (m_data.m_leak_severity == LeakSeverity.BROKEN)
         {
             return GetFlatLeakRatePerS() * dt;
         }
@@ -83,7 +89,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
         float distributable;
         float total_leak = 0f;
         //if there's a leak in the pipe, some goes out the leak
-        if (this.m_leak_severity != LeakSeverity.NONE)
+        if (this.m_data.m_leak_severity != LeakSeverity.NONE)
         {
             float flat_leak = Mathf.Min(GetFlatLeakRatePerS() * dt, amountL);
             float remaining_after_flat = amountL - flat_leak;
@@ -138,7 +144,8 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 
     private void LeakFluid(float amountL, float dt, FluidType type)
     {
-        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{name} leaked {amountL}L (severity: {m_leak_severity}).");
+        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO,
+            $"{name} leaked {amountL}L (severity: {m_data.m_leak_severity}).");
 
         if (m_downstream_leak_target != null)
         {
