@@ -10,6 +10,7 @@ public enum FluidType
     WATER,
     GAS,
     OXYGEN,
+    HYDROGEN,
 }
 [RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_FluidTank : MonoBehaviour, IFluidReceiver

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum LeakSeverity
 {
@@ -8,12 +9,20 @@ public enum LeakSeverity
     BROKEN
 }
 
+public enum PortType
+{
+    NONE,
+    SEND,
+    RECEIVE
+}
+
 [System.Serializable]
 public class Data_FluidRelay : MonoBehaviour
 {
     [SerializeField] public LeakSeverity m_leak_severity = LeakSeverity.NONE;
     [SerializeField] public float m_leak_flat_L_s = 0.5f;
     [SerializeField] public float m_broken_flat_L_s = 3f;
+    [SerializeField] public PortType mPortType = PortType.NONE;
 
     public const float LEAK_CAPACITY_FRACTION = 0.5f;//we leak half our capacity 
     public const float BROKEN_CAPACITY_FRACTION = 1f;//we leak all our capacity
@@ -36,6 +45,10 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
     {
         // Only initialize if null to preserve any injected dependencies
         m_downstreams ??= new List<IFluidReceiver>();
+        if (!m_data)
+        {
+            m_data = new Data_FluidRelay();
+        }
     }
 
     internal void AddDownstream(IFluidReceiver source)
@@ -43,6 +56,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
         if (!m_downstreams.Contains(source))
         {
             m_downstreams.Add(source);
+            
         }
     }
 
@@ -64,6 +78,10 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
     {
         // 1. If the pipe is severed, it acts as a dead-end vent.
         // It ignores downstream entirely, and its capacity is purely the size of the break.
+        if (m_downstreams.Count == 0)
+        {
+            this.m_data.m_leak_severity = LeakSeverity.BROKEN;
+        }
         if (m_data.m_leak_severity == LeakSeverity.BROKEN)
         {
             return GetFlatLeakRatePerS() * dt;
@@ -84,7 +102,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 
     public float ReceiveFluid(float amountL, float dt, FluidType type)
     {
-        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{this.name} got {amountL}L of fluid!");
+        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{this.name} got {amountL}L of {type}!");
 
         float distributable;
         float total_leak = 0f;
@@ -118,8 +136,12 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 
     private float DistributeToDownstream(float amountL, float dt, FluidType type)
     {
-        if (m_downstreams.Count == 0 || amountL <= 0f) return 0f;
+        if( amountL <= 0f) return 0f;
 
+        if (m_downstreams.Count == 0)
+        {
+            this.m_data.m_leak_severity = LeakSeverity.BROKEN;
+        }
         m_cached_capacities.Clear();
         float total_capacity = 0f;
 
