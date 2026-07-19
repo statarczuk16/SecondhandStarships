@@ -14,6 +14,8 @@ Assets/Samples*
 AssetPacks/*
 Assets/ithappy*
 .vs/*
+*.sln
+*.slnx
 Debug/
 UserSettings/
 # Ignore the following asset store tools
