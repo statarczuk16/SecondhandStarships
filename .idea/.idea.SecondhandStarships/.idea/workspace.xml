@@ -11,14 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidTank.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidTank.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullSlot_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullSlot_6x1.5.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullSlot_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullSlot_6x4.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Small Med Wide/HullSlot_Sm_Med_Wide.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Small Med Wide/HullSlot_Sm_Med_Wide.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_4m.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_4m.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_6m.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_6m.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +107,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1784346796025</updated>
-      <workItem from="1784346799158" duration="3055000" />
+      <workItem from="1784346799158" duration="4369000" />
     </task>
     <servers />
   </component>
@@ -146,10 +144,10 @@
           <line>160</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Converter\Component_Converter.cs" containingFunctionPresentation="Method 'ReceiveFluid'">
             <startOffsets>
-              <option value="5672" />
+              <option value="5679" />
             </startOffsets>
             <endOffsets>
-              <option value="5735" />
+              <option value="5742" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="6" />
@@ -211,10 +209,10 @@
           <line>142</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Converter\Component_Converter.cs" containingFunctionPresentation="Method 'GetRemainingCapacityLitersThisDT'">
             <startOffsets>
-              <option value="5160" />
+              <option value="5167" />
             </startOffsets>
             <endOffsets>
-              <option value="5224" />
+              <option value="5231" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="13" />
