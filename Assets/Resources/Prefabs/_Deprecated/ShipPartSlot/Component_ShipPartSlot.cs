@@ -1,3 +1,5 @@
+/**
+
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -174,3 +176,5 @@ public class Component_ShipPartSlot : MonoBehaviour, IInteractable, IHighlightab
         return true;
     }
 }
+
+**/

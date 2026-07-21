@@ -139,7 +139,8 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
         SetHighlight(InteractionHighlightState.NONE);
     }
 
-    public void OnHoverUpdate(Controller_Equipment equipmentController) { }
+    public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo) 
+    { }
 
     public void OnInteract(Controller_Equipment equipmentController)
     {

@@ -68,31 +68,6 @@ public static class ShipPartUtilities
         return null;
     }
 
-    // Search this prefab's own hierarchy for an IInteractable, refusing to descend into
-    // any nested child prefab (its own Component_PrefabBoundary marks a different instance).
-    public static IInteractable FindInteractableWithinBoundary(Transform boundaryRoot)
-    {
-        IInteractable direct = boundaryRoot.GetComponent<IInteractable>();
-        if (direct != null) return direct;
-
-        for (int i = 0; i < boundaryRoot.childCount; i++)
-        {
-            Transform child = boundaryRoot.GetChild(i);
-
-            // Don't cross into a nested prefab's own boundary — that's a distant
-            // child belonging to a different prefab instance.
-            if (child.GetComponent<Component_PrefabBoundary>() != null)
-            {
-                continue;
-            }
-
-            IInteractable found = FindInteractableWithinBoundary(child);
-            if (found != null) return found;
-        }
-
-        return null;
-    }
-
     public static T FindComponentWithinPrefab<T>(Transform boundaryRoot) where T : class
     {
         // 1. Check if the component exists right on the current object

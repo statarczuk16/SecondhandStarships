@@ -38,7 +38,7 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
         SetHighlight(InteractionHighlightState.NONE);
     }
 
-    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
     {
         
     }

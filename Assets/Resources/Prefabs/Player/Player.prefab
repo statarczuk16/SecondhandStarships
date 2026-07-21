@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db7cb1baa1de5642a21c69e58d73e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentController
-  m_available_tools: 
+  m_available_tools: 0100000007000000
   m_equipped_tool: 1
   m_starting_part_prefabs: []
   m_minigame_mediator: {fileID: 0}

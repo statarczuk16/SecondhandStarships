@@ -93,7 +93,7 @@ public class Component_Converter : MonoBehaviour, IFluidReceiver
 
             if (!m_data.storage_liters.TryGetValue(inputType, out float stored) || stored < required)
             {
-                Debug.Log($"NOT Converting: {inputType} has {stored} stored, needs {required}");
+                //Debug.Log($"NOT Converting: {inputType} has {stored} stored, needs {required}");
                 return false;
             }
         }

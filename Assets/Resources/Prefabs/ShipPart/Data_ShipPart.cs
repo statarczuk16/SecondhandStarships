@@ -9,7 +9,6 @@ public class Data_ShipPart
 {
     public string part_name = "part_name_uninit";
     public GameObject prefab;
-    public ShipSlotSize slot_size;
     public InstallationState install_state;
 
    
@@ -19,7 +18,6 @@ public class Data_ShipPart
         {
             part_name = part_name,
             prefab = prefab,
-            slot_size = slot_size,
             install_state = install_state,
         };
     }

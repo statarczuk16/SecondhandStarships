@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 /// Both keep their selection vertically centered, show up to 5 boxes at once,
 /// fade toward the periphery, and wrap around in both directions.
 ///
-/// Scroll input is a single up/down pair — Controller_Equipment.ScrollUp/ScrollDown
+/// Scroll input is a single up/down pair ï¿½ Controller_Equipment.ScrollUp/ScrollDown
 /// already decide internally whether that means "scroll parts" (when a slot's
 /// compatible parts are being displayed) or "scroll tools" (otherwise), so this
 /// script doesn't need to make that choice itself; it just reflects whichever
@@ -115,8 +115,7 @@ public class Component_ToolInventoryUI : MonoBehaviour
             UpdateCarouselPositions(m_part_carousel, m_equipment_controller.GetSelectedPartIndex());
     }
 
-    // Single scroll entry point — mirrors Controller_Equipment's own ScrollUp/ScrollDown,
-    // which already route to tool-vs-part selection internally.
+
     public void ScrollUp() => m_equipment_controller.ScrollUp();
     public void ScrollDown() => m_equipment_controller.ScrollDown();
 

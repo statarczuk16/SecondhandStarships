@@ -9,7 +9,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private Data_ShipPart m_data;
     [SerializeField] private List<IPartConnector> m_connectors;
-    private Component_ShipPartSlot m_parent_slot;
+    [SerializeField] private Component_BuildableSurface m_parent_surface;
     private HighlightableRenderer m_highlight_renderer;
     public Transform InteractionPoint => throw new NotImplementedException();
 
@@ -27,16 +27,13 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 
     public Data_ShipPart GetData() => m_data;
     public void SetData(Data_ShipPart data) => m_data = data;
-    public ShipSlotSize GetPartSize() => m_data.slot_size;
     public InstallationState GetPartState() => m_data.install_state;
 
 
-    internal void StartInstall(Component_ShipPartSlot slot)
+    internal void StartInstall(Component_BuildableSurface surface)
     {
         m_data.install_state = InstallationState.INSTALLING;
-        m_parent_slot = slot;
-
-        
+        m_parent_surface = surface;
         foreach (IPartConnector connector in m_connectors)
         {
             connector.InitializeConnector();
@@ -47,8 +44,6 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             OnInstalled();
         }
         AudioEvents.Fire(SoundID.Part_Placed, this.transform.position);
-
-
     }
 
     public void OnConnectorStatusChanged()
@@ -98,7 +93,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             return; //no op we are already 
         }
         this.m_data.install_state = InstallationState.INSTALLING;
-        this.m_parent_slot.OnPartUninstalled(this);
+        this.m_parent_surface.OnPartUninstalled(this);
     }
 
     private void OnInstalled()
@@ -109,7 +104,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         }
         AudioEvents.Fire(SoundID.Part_Installed, this.transform.position);
         this.m_data.install_state = InstallationState.INSTALLED;
-        this.m_parent_slot.OnPartInstalled(this);
+        this.m_parent_surface.OnPartInstalled(this);
     }
 
     private void OnUninstalled()
@@ -119,7 +114,8 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             return; //no op we are already
         }
         this.m_data.install_state = InstallationState.UNINSTALLED;
-        this.m_parent_slot.OnPartUninstalled(this);
+        this.m_parent_surface.OnPartUninstalled(this);
+        this.m_parent_surface = null;
     }
 
 
@@ -144,7 +140,6 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         if(this.m_data.install_state == InstallationState.UNINSTALLED || PartUsesConnectors() == false)
         {
             OnUninstalled();
-            this.m_parent_slot = null;
             controller.AddPartToInventory(this);
             GameObject.Destroy(this);
         }
@@ -154,7 +149,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         }
     }
 
-    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
     {
         
     }

@@ -120,6 +120,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9766901-488a-4bf9-89e2-ab6442e7cfe5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""ca0e6f50-74c1-4111-9e50-6c88cfa2ef5f"",
@@ -132,6 +141,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""14a3f3f2-d293-4292-985d-5afc05ead5b9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AltInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""289862fd-c9cb-45c1-8fca-ce9f755a2139"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -227,6 +245,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""02503c85-1b1f-460e-a4b8-61710a677eb9"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a784cae0-ed9a-4cc9-abaf-2a991770f79d"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
@@ -244,6 +273,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2591551b-c341-45ad-b6ec-1e1ee4aa083b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AltInteract"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -376,8 +416,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_WalkingMode_Move = m_WalkingMode.FindAction("Move", throwIfNotFound: true);
         m_WalkingMode_Look = m_WalkingMode.FindAction("Look", throwIfNotFound: true);
         m_WalkingMode_Jump = m_WalkingMode.FindAction("Jump", throwIfNotFound: true);
+        m_WalkingMode_Crouch = m_WalkingMode.FindAction("Crouch", throwIfNotFound: true);
         m_WalkingMode_Sprint = m_WalkingMode.FindAction("Sprint", throwIfNotFound: true);
         m_WalkingMode_Interact = m_WalkingMode.FindAction("Interact", throwIfNotFound: true);
+        m_WalkingMode_AltInteract = m_WalkingMode.FindAction("AltInteract", throwIfNotFound: true);
         m_WalkingMode_Scroll = m_WalkingMode.FindAction("Scroll", throwIfNotFound: true);
         // WorkingMode
         m_WorkingMode = asset.FindActionMap("WorkingMode", throwIfNotFound: true);
@@ -470,8 +512,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_WalkingMode_Move;
     private readonly InputAction m_WalkingMode_Look;
     private readonly InputAction m_WalkingMode_Jump;
+    private readonly InputAction m_WalkingMode_Crouch;
     private readonly InputAction m_WalkingMode_Sprint;
     private readonly InputAction m_WalkingMode_Interact;
+    private readonly InputAction m_WalkingMode_AltInteract;
     private readonly InputAction m_WalkingMode_Scroll;
     /// <summary>
     /// Provides access to input actions defined in input action map "WalkingMode".
@@ -497,6 +541,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_WalkingMode_Jump;
         /// <summary>
+        /// Provides access to the underlying input action "WalkingMode/Crouch".
+        /// </summary>
+        public InputAction @Crouch => m_Wrapper.m_WalkingMode_Crouch;
+        /// <summary>
         /// Provides access to the underlying input action "WalkingMode/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_WalkingMode_Sprint;
@@ -504,6 +552,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "WalkingMode/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_WalkingMode_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "WalkingMode/AltInteract".
+        /// </summary>
+        public InputAction @AltInteract => m_Wrapper.m_WalkingMode_AltInteract;
         /// <summary>
         /// Provides access to the underlying input action "WalkingMode/Scroll".
         /// </summary>
@@ -543,12 +595,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @AltInteract.started += instance.OnAltInteract;
+            @AltInteract.performed += instance.OnAltInteract;
+            @AltInteract.canceled += instance.OnAltInteract;
             @Scroll.started += instance.OnScroll;
             @Scroll.performed += instance.OnScroll;
             @Scroll.canceled += instance.OnScroll;
@@ -572,12 +630,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @AltInteract.started -= instance.OnAltInteract;
+            @AltInteract.performed -= instance.OnAltInteract;
+            @AltInteract.canceled -= instance.OnAltInteract;
             @Scroll.started -= instance.OnScroll;
             @Scroll.performed -= instance.OnScroll;
             @Scroll.canceled -= instance.OnScroll;
@@ -783,6 +847,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCrouch(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -796,6 +867,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AltInteract" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAltInteract(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Scroll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

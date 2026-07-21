@@ -210,7 +210,7 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
         this.m_data.m_active = !this.m_data.m_active;
     }
 
-    public void OnHoverUpdate(Controller_Equipment equipmentController)
+    public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
     {
         SetHighlight(CanInteract(equipmentController) ? InteractionHighlightState.VALID : InteractionHighlightState.NONE);
     }
