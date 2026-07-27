@@ -16,7 +16,7 @@ using UnityEngine.UIElements;
 /// script doesn't need to make that choice itself; it just reflects whichever
 /// index changed.
 /// </summary>
-public class Component_ToolInventoryUI : MonoBehaviour
+public class ToolInventoryUI : MonoBehaviour
 {
     private const float BOX_HEIGHT = 84f;
     private const float BOX_SPACING = 96f; // box height + margin, must match .tool-box in USS

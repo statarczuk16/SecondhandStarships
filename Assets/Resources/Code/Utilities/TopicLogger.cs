@@ -21,7 +21,8 @@ public enum LogTopic
     General,
     Equipment_Controller,
     Installation,
-    FluidSystem
+    FluidSystem,
+    Inventory
 }
 
 public static class TopicLogger

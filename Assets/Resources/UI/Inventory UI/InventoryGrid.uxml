@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../BaseStyles.uss" />
+    <Style src="../InventoryGrid.uss" />
+    <ui:VisualElement name="InventoryGridWrap" class="inventory-grid-wrap">
+        <ui:VisualElement name="InventoryGridViewport" class="inventory-grid-viewport">
+            <!-- Slots are instantiated at runtime by Component_InventoryGridUI, one per MaxSlots -->
+        </ui:VisualElement>
+        <ui:VisualElement name="InventoryGridFooter" class="inventory-grid-footer">
+            <ui:Label name="InventoryCapacityLabel" text="0 / 0" class="inventory-grid-capacity-label" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

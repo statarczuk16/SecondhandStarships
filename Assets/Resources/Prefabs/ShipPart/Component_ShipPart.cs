@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Component_PrefabBoundary))]
 public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 {
-    [SerializeField] private Data_ShipPart m_data;
+    [SerializeField] private Data_ShipModule m_data;
     [SerializeField] private List<IPartConnector> m_connectors;
     [SerializeField] private Component_BuildableSurface m_parent_surface;
     private HighlightableRenderer m_highlight_renderer;
@@ -25,8 +25,8 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         m_highlight_renderer = this.GetComponent<HighlightableRenderer>();
     }
 
-    public Data_ShipPart GetData() => m_data;
-    public void SetData(Data_ShipPart data) => m_data = data;
+    public Data_ShipModule GetData() => m_data;
+    public void SetData(Data_ShipModule data) => m_data = data;
     public InstallationState GetPartState() => m_data.install_state;
 
 
@@ -140,8 +140,11 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         if(this.m_data.install_state == InstallationState.UNINSTALLED || PartUsesConnectors() == false)
         {
             OnUninstalled();
-            controller.AddPartToInventory(this);
-            GameObject.Destroy(this);
+            if (controller.TryAddPartToInventory(this))
+            {
+                GameObject.Destroy(this);
+            }
+            
         }
         else if(this.m_data.install_state == InstallationState.INSTALLED)
         {

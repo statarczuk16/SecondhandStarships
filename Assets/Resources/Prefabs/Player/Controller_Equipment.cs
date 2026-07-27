@@ -16,7 +16,7 @@ public enum EquipmentType
 
 [RequireComponent(typeof(Mediator_PlayerMiniGames))]
 
-public class Controller_Equipment : MonoBehaviour
+public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 {
     [Header("Tools")]
     [SerializeField] List<EquipmentType> m_available_tools = new List<EquipmentType>();
@@ -28,19 +28,18 @@ public class Controller_Equipment : MonoBehaviour
 
     [SerializeField] private Mediator_PlayerMiniGames m_minigame_mediator;
 
-    private List<Data_ShipPart> m_parts_in_inventory = new List<Data_ShipPart>();
+    private Inventory m_inventory = new Inventory();
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
     private bool m_build_mode;
     
     private GameObject currentGhost;
-    private Data_ShipPart currentGhostPartData;
+    private Data_ShipModule _currentGhostModuleData;
 
     private void Awake()
     {
         m_minigame_mediator = GetComponent<Mediator_PlayerMiniGames>();
-        m_parts_in_inventory = new List<Data_ShipPart>();
 
         // Seed starting inventory from prefab defaults � clone so multiple
         // starting parts sharing one prefab don't share mutable state.
@@ -53,7 +52,13 @@ public class Controller_Equipment : MonoBehaviour
                     $"{prefabGO.name} is missing Component_ShipPart");
                 continue;
             }
-            m_parts_in_inventory.Add(sourcePart.GetData().Clone());
+
+            Data_ShipModule cloned = sourcePart.GetData().Clone();
+            if (!m_inventory.TryAddModule(cloned, out string error))
+            {
+                TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.ERROR,
+                    $"Failed to seed starting part {prefabGO.name}: {error}");
+            }
         }
         m_starting_part_prefabs.Clear();
     }
@@ -112,49 +117,50 @@ public class Controller_Equipment : MonoBehaviour
 
     // Called when a live part (e.g. detached from the ship) needs to move into the backpack.
     // Syncs its live state into its Data_ShipPart, stores the data, then destroys the view.
-    public void AddPartToInventory(Component_ShipPart part)
+    public bool TryAddPartToInventory(Component_ShipPart part)
     {
         if (part == null)
         {
             TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.ERROR, "Attempted to add null part");
-            return;
+            return false;
         }
 
+        Data_ShipModule data = part.GetData();
 
-        Data_ShipPart data = part.GetData();
-
-        if (m_parts_in_inventory.Contains(data))
+        if (m_inventory.ContainsModule(data))
         {
-            return; // already added
+            return false; // already added
         }
 
-        m_parts_in_inventory.Add(data);
-        Destroy(part.gameObject);
+        if (!m_inventory.TryAddModule(data, out string error))
+        {
+            // Inventory full (or other failure) — leave the physical part in
+            // the world rather than destroying something we couldn't store.
+            TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.WARN,
+                $"Could not add part to inventory: {error}");
+            return false;
+        }
+
+        return true;
     }
 
-    public void RemovePartFromInventory(Data_ShipPart data)
+    public void RemovePartFromInventory(Data_ShipModule data)
     {
         if (data == null) return;
 
-        if (!m_parts_in_inventory.Contains(data))
+        if (!m_inventory.TryRemoveModule(data))
         {
             TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.ERROR,
                 "Attempted to remove part not in inventory");
             return;
         }
 
-        m_parts_in_inventory.Remove(data);
-
-        if (m_parts_in_inventory != null)
-        {
-            m_parts_in_inventory.Remove(data);
-            m_selected_part_index = Mathf.Clamp(m_selected_part_index, 0, Mathf.Max(0, m_parts_in_inventory.Count - 1));
-        }
+        m_selected_part_index = Mathf.Clamp(m_selected_part_index, 0, Mathf.Max(0, m_inventory.GetModulesCompact().Count - 1));
     }
 
     public void ClearInventory()
     {
-        m_parts_in_inventory.Clear();
+        m_inventory.ClearModules();
     }
 
     public EquipmentType GetEquippedTool()
@@ -190,19 +196,24 @@ public class Controller_Equipment : MonoBehaviour
     }
 
 
-    public List<Data_ShipPart> GetShipPartInventory()
+    public Inventory GetInventory()
     {
-        return m_parts_in_inventory;
+        return m_inventory;
     }
 
-    
+    public IReadOnlyList<Data_ShipModule> GetShipPartInventory()
+    {
+        return m_inventory.GetModulesCompact();
+    }
+
+
 
     // The subset of inventory parts currently compatible with whatever slot
     // is being hovered (set via SetRelevantShipParts). This is what the
     // right-hand part carousel should render � not the full inventory.
-    public List<Data_ShipPart> GetDisplayingParts()
+    public IReadOnlyList<Data_ShipModule> GetDisplayingParts()
     {
-        return m_parts_in_inventory;
+        return m_inventory.GetModulesCompact();
     }
 
     public int GetSelectedPartIndex()
@@ -210,28 +221,31 @@ public class Controller_Equipment : MonoBehaviour
         return m_selected_part_index;
     }
 
-    public Data_ShipPart GetEquippedPart()
+    public Data_ShipModule GetEquippedPart()
     {
-        bool exists = m_selected_part_index >= 0 && m_selected_part_index < m_parts_in_inventory.Count;
+        IReadOnlyList<Data_ShipModule> parts = m_inventory.GetModulesCompact();
+        bool exists = m_selected_part_index >= 0 && m_selected_part_index < parts.Count;
         if (exists)
         {
-            return m_parts_in_inventory[m_selected_part_index];
+            return parts[m_selected_part_index];
         }
         return null;
     }
 
     public void ScrollEquippedPartUp()
     {
-        if (m_parts_in_inventory.Count == 0) return;
+        int count = m_inventory.GetModulesCompact().Count;
+        if (count == 0) return;
 
-        m_selected_part_index = (m_selected_part_index + 1) % m_parts_in_inventory.Count;
+        m_selected_part_index = (m_selected_part_index + 1) % count;
     }
 
     public void ScrollEquippedPartDown()
     {
-        if (m_parts_in_inventory.Count == 0) return;
+        int count = m_inventory.GetModulesCompact().Count;
+        if (count == 0) return;
 
-        m_selected_part_index = (m_selected_part_index - 1 + m_parts_in_inventory.Count) % m_parts_in_inventory.Count;
+        m_selected_part_index = (m_selected_part_index - 1 + count) % count;
     }
 
 

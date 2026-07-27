@@ -12,39 +12,15 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInteractable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInteractable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/UI/Equipment Controller UI/equipmentcontrolleruiscript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/UI/Equipment Controller UI/equipmentcontrolleruiscript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/GhostPreviewFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/GhostPreviewFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/BoltSlot/Component_BoltSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/BoltSlot/Component_BoltSlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/TopicLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/TopicLogger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankOutputPort.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankOutputPort.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Component_ShipPartSlot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Component_ShipPartSlot.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Data_ShipPartSlot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Data_ShipPartSlot.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Med_Part_Slot.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Med_Part_Slot.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/ShipPartSlot_1x1.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/ShipPartSlot_1x1.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Sm_Part_Slot.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Sm_Part_Slot.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Sm_TurretSlot.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPartSlot/Sm_TurretSlot.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipModule.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +35,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa13f9e80e3d4ab5bfc2bc34416dfe572b200/30/2b348836/RaycastHit.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullFloor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -141,7 +117,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784346796025</updated>
       <workItem from="1784346799158" duration="4369000" />
-      <workItem from="1784568209073" duration="13311000" />
+      <workItem from="1784568209073" duration="24660000" />
     </task>
     <servers />
   </component>
@@ -268,10 +244,10 @@
           <line>108</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_Equipment.cs" containingFunctionPresentation="Method 'EquipTool'">
             <startOffsets>
-              <option value="2914" />
+              <option value="2925" />
             </startOffsets>
             <endOffsets>
-              <option value="3013" />
+              <option value="3024" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="16" />
@@ -281,10 +257,10 @@
           <line>68</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_Equipment.cs" containingFunctionPresentation="Method 'ActivateTool'">
             <startOffsets>
-              <option value="2058" />
+              <option value="2069" />
             </startOffsets>
             <endOffsets>
-              <option value="2157" />
+              <option value="2168" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="17" />

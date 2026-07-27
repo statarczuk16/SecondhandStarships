@@ -5,7 +5,7 @@ using UnityEngine;
 public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlightable
 {
     private GameObject currentGhost;
-    private Data_ShipPart currentGhostPartData;
+    private Data_ShipModule _currentGhostModuleData;
     private Component_Ship m_parent_ship;
     private bool m_placement_blocked;
     public Transform InteractionPoint => transform;
@@ -69,13 +69,13 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
     {
         if (!CanInteract(controller)) return;
         if (m_placement_blocked) return;
-        Data_ShipPart part_data = controller.GetEquippedPart();
+        Data_ShipModule moduleData = controller.GetEquippedPart();
 
-        GameObject spawnedPart = Instantiate(part_data.prefab, currentGhost.transform.position, currentGhost.transform.rotation);
+        GameObject spawnedPart = Instantiate(moduleData.prefab, currentGhost.transform.position, currentGhost.transform.rotation);
         Component_ShipPart part_component = spawnedPart.GetComponent<Component_ShipPart>();
-        part_component.SetData(part_data);
+        part_component.SetData(moduleData);
         StartPartInstallation(part_component);
-        controller.RemovePartFromInventory(part_data);
+        controller.RemovePartFromInventory(moduleData);
         ClearGhost();
     }
 
@@ -89,19 +89,19 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
         // hit position before we can spawn it usefully.
     }
 
-    private void PlaceGhost(Data_ShipPart dataShipPart, RaycastHit hitInfo)
+    private void PlaceGhost(Data_ShipModule dataShipModule, RaycastHit hitInfo)
     {
-        if (dataShipPart == null)
+        if (dataShipModule == null)
         {
             ClearGhost();
             return;
         }
 
-        if (currentGhost == null || currentGhostPartData != dataShipPart)
+        if (currentGhost == null || _currentGhostModuleData != dataShipModule)
         {
             ClearGhost();
-            currentGhost = GhostPreviewFactory.CreateGhost(dataShipPart.prefab, null, Color.green);
-            currentGhostPartData = dataShipPart;
+            currentGhost = GhostPreviewFactory.CreateGhost(dataShipModule.prefab, null, Color.green);
+            _currentGhostModuleData = dataShipModule;
         }
 
         currentGhost.transform.position = hitInfo.point;
@@ -171,7 +171,7 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
             GhostPreviewFactory.Destroy(currentGhost);
             currentGhost = null;
         }
-        currentGhostPartData = null;
+        _currentGhostModuleData = null;
         GhostPreviewFactory.ClearBlockerTints();
         m_current_blockers.Clear();
     }
