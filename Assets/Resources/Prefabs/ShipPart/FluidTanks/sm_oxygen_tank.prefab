@@ -52,8 +52,8 @@ MonoBehaviour:
   m_data:
     part_name: Small Oxygen Tank
     prefab: {fileID: 2369911243249985210}
-    slot_size: 1
     install_state: 0
+  m_parent_surface: {fileID: 0}
 --- !u!114 &2468312585852263289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +95,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ae4911da4b36243a9492b6ca5fc2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_FluidPort
+  m_data:
+    m_active: 0
+    send_rate_L_s: 1
+    launchSpeed: 6
+    sampleCount: 30
+    sampleStep: 0.05
+  m_source: {fileID: 0}
+  m_streamVisual: {fileID: 0}
+  m_streamVisualPrefab: {fileID: 0}
+  m_debug_boostrap_receiver: {fileID: 0}
 --- !u!1 &8586540206816916987
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +211,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

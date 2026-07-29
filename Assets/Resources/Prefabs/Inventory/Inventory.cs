@@ -1,9 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public struct RecipeIngredient
+{
+    public ItemType item_type;
+    public Tier tier;
+
+    public RecipeIngredient(ItemType item_type, Tier tier)
+    {
+        this.item_type = item_type;
+        this.tier = tier;
+    }
+}
 // ---------------------------------------------------------------------
 // Enums
 // ---------------------------------------------------------------------
+
 
 public enum Tier
 {
@@ -106,6 +120,9 @@ public class Inventory
 
     [Header("Slots")]
     [SerializeField] private List<Data_InventorySlot> slots = new List<Data_InventorySlot>();
+    
+    [Header("Recipe")]
+    [SerializeField] private List<RecipeIngredient> recipe = new List<RecipeIngredient>();
 
     public Inventory()
     {
@@ -153,6 +170,44 @@ public class Inventory
         }
     }
 
+    public bool HasAllRecipeItems()
+    {
+        return HasAllRecipeItems(out _);
+    }
+    
+    
+    public bool HasAllRecipeItems(out List<(ItemType item_type, Tier tier, int missing)> missing)
+    {
+        missing = new List<(ItemType, Tier, int)>();
+
+        if (recipe == null || recipe.Count == 0)
+        {
+            return true;
+        }
+
+        // Tally required counts per (type, tier) — handles duplicate entries.
+        var required = new Dictionary<(ItemType, Tier), int>();
+        foreach (RecipeIngredient ingredient in recipe)
+        {
+            var key = (ingredient.item_type, ingredient.tier);
+            required.TryGetValue(key, out int count);
+            required[key] = count + 1;
+        }
+
+        bool hasAll = true;
+        foreach (var kvp in required)
+        {
+            int have = GetItemCount(kvp.Key.Item1, kvp.Key.Item2);
+            if (have < kvp.Value)
+            {
+                hasAll = false;
+                missing.Add((kvp.Key.Item1, kvp.Key.Item2, kvp.Value - have));
+            }
+        }
+
+        return hasAll;
+    }
+    
     public Data_InventorySlot GetSlot(int index)
     {
         EnsureCapacity();

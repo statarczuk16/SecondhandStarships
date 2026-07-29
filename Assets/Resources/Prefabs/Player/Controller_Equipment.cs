@@ -27,7 +27,8 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     [SerializeField] List<GameObject> m_starting_part_prefabs;
 
     [SerializeField] private Mediator_PlayerMiniGames m_minigame_mediator;
-
+    [SerializeField] private  InventoryGridController m_inventory_controller;
+    
     private Inventory m_inventory = new Inventory();
 
     private int m_selected_part_index;
@@ -36,6 +37,43 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
+    private Dictionary<EquipmentType, string> m_tooltips = new()
+    {
+        { EquipmentType.SOCKET_WRENCH, "LMB Bolt/Unbolt" },
+        { EquipmentType.SHIP_BUILDER , "LMB Install Part\nRMB Toggle Build Mode"}
+    };
+
+    public string GetToolTipForEquipment(EquipmentType type)
+    {
+        if (m_tooltips.ContainsKey(type))
+        {
+            return  m_tooltips[type];
+        }
+
+        return "";
+    }
+
+    public string GetToolTip()
+    {
+        string base_tooltip = GetToolTipForEquipment(this.GetEquippedTool());
+        switch (this.GetEquippedTool())
+        {
+            case EquipmentType.SHIP_BUILDER:
+            {
+                if (this.m_build_mode)
+                {
+                    base_tooltip += "\n//BUILD_MODE";
+                }
+                else
+                {
+                    base_tooltip += "\n//WAITING...";
+                }
+                break;
+            }
+        }
+
+        return base_tooltip;
+    }
 
     private void Awake()
     {
@@ -283,5 +321,21 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         return this.current_hover_interactable;
     }
 
-   
+
+    public void OpenPlayerMenu()
+    {
+        DisplayInventory(this);//opens player inventory
+    }
+
+    public void ClosePlayerMenu()
+    {
+        this.m_inventory_controller.CloseInventory(this);
+        m_minigame_mediator.ChangeInputMode(PlayerState.MovingMode);
+    }
+
+    public void DisplayInventory(IInventoryOwner inventory)
+    {
+        this.m_inventory_controller.OpenInventory(inventory);
+        m_minigame_mediator.ChangeInputMode(PlayerState.MenuMode);
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Renders a persistent inventory grid
@@ -25,17 +26,7 @@ public class InventoryGridController : MonoBehaviour
 
     // Index of the slot currently "picked up" awaiting a destination, or -1 if nothing held.
     private int m_held_slot_index = -1;
-
-    private void Awake()
-    {
-        m_inventory_owner = m_inventory_owner_behaviour as IInventoryOwner;
-        if (m_inventory_owner == null)
-        {
-            TopicLogger.Log(LogTopic.Inventory, LogLevel.ERROR,
-                $"{name}: assigned inventory owner behaviour does not implement IInventoryOwner");
-        }
-    }
-
+    
     // Lets code repoint this UI at a different inventory at runtime (e.g.
     // switching the grid from the player's backpack to a garage storage
     // container when the player opens it).
@@ -69,6 +60,18 @@ public class InventoryGridController : MonoBehaviour
         m_viewport = root.QOrFail<VisualElement>("InventoryGridViewport");
         m_capacity_label = root.QOrFail<Label>("InventoryCapacityLabel");
         RefreshGrid();
+    }
+
+    public void OpenInventory(IInventoryOwner owner)
+    {
+        this.gameObject.SetActive(true);
+        SetInventoryOwner(owner);
+    }
+    
+    public void CloseInventory(IInventoryOwner owner)
+    {
+        this.gameObject.SetActive(false);
+        SetInventoryOwner(null);
     }
 
     private void Update()
@@ -176,9 +179,9 @@ public class InventoryGridController : MonoBehaviour
 
         if (slot.slot_type == InventorySlotType.Item)
         {
-            var tierBadge = new Label($"T{(int)slot.tier + 1}");
-            tierBadge.AddToClassList("inventory-slot-tier-badge");
-            element.Add(tierBadge);
+            //var tierBadge = new Label($"T{(int)slot.tier + 1}");
+            //tierBadge.AddToClassList("inventory-slot-tier-badge");
+            //element.Add(tierBadge);
 
             var label = new Label(FriendlyName(slot.item_type.ToString()));
             label.AddToClassList("inventory-slot-label");
@@ -200,12 +203,12 @@ public class InventoryGridController : MonoBehaviour
             label.AddToClassList("inventory-slot-label");
             element.Add(label);
 
-            if (slot.module != null)
-            {
-                var stateBadge = new Label(slot.module.install_state.ToString());
-                stateBadge.AddToClassList("inventory-slot-module-badge");
-                element.Add(stateBadge);
-            }
+            //if (slot.module != null)
+            //{
+            //    var stateBadge = new Label(slot.module.install_state.ToString());
+            //    stateBadge.AddToClassList("inventory-slot-module-badge");
+            //    element.Add(stateBadge);
+            //}
         }
 
         return element;

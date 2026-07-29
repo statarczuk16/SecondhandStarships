@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Raycasts from the camera each frame to find IInteractable targets,
-/// handles hover enter/exit, and fires OnInteract on click (WalkingMode/Interact).
+/// handles hover enter/exit, and fires OnInteract on click (MovementMode/Interact).
 /// Reads input from the shared PlayerControls instance owned by PlayerInputHub.
 /// </summary>
 [RequireComponent(typeof(Controller_Equipment))]
@@ -36,9 +36,21 @@ public class Controller_PlayerInteraction : MonoBehaviour
     private void Start()
     {   
         //When this component is enabled, we add an event listener, so OnInteractPerformed is called whenever the player controls press/perform the interact button
-        player_input_controller.Controls.WalkingMode.Interact.performed += OnInteractPerformed;
-        player_input_controller.Controls.WalkingMode.AltInteract.performed += OnAltInteractPerformed;
-        player_input_controller.Controls.WalkingMode.Scroll.performed += OnScrollPerformed;
+        player_input_controller.Controls.MovementMode.Interact.performed += OnInteractPerformed;
+        player_input_controller.Controls.MovementMode.AltInteract.performed += OnAltInteractPerformed;
+        player_input_controller.Controls.MovementMode.Scroll.performed += OnScrollPerformed;
+        player_input_controller.Controls.MovementMode.OpenPlayerMenu.performed += OnOpenPlayerMenuPerformed;
+        player_input_controller.Controls.MenuMode.Cancel.performed += OnClosePlayerMenuPerformed;
+    }
+
+    private void OnOpenPlayerMenuPerformed(InputAction.CallbackContext obj)
+    {
+        equipmentController.OpenPlayerMenu();
+    }
+    
+    private void OnClosePlayerMenuPerformed(InputAction.CallbackContext obj)
+    {
+        equipmentController.ClosePlayerMenu();
     }
 
     private void OnScrollPerformed(InputAction.CallbackContext context)
@@ -61,7 +73,7 @@ public class Controller_PlayerInteraction : MonoBehaviour
     void OnDisable()
     {
         //and remove that event listener when the component is disabled
-        //player_input_controller.Controls.WalkingMode.Interact.performed -= OnInteractPerformed;
+        //player_input_controller.Controls.MovementMode.Interact.performed -= OnInteractPerformed;
     }
 
     void OnInteractPerformed(InputAction.CallbackContext ctx)
@@ -77,7 +89,7 @@ public class Controller_PlayerInteraction : MonoBehaviour
     void Update()
     {
         // Don't hover-scan while a minigame owns input.
-        if (!player_input_controller.Controls.WalkingMode.enabled) return;
+        if (!player_input_controller.Controls.MovementMode.enabled) return;
 
         UpdateHoverTarget();
     }
@@ -128,12 +140,12 @@ public class Controller_PlayerInteraction : MonoBehaviour
         current_interactable?.OnHoverEnter(equipmentController);
     }
 
-    void TryInteract()
+    void TryAltInteract()
     {
         equipmentController.ActivateTool();
     }
     
-    void TryAltInteract()
+    void TryInteract()
     {
         //Call the OnInteract function of whatever we are looking at (currentTarget)
         if (current_interactable == null) return;

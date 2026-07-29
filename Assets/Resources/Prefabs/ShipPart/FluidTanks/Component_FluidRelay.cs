@@ -17,7 +17,7 @@ public enum PortType
 }
 
 [System.Serializable]
-public class Data_FluidRelay : MonoBehaviour
+public class Data_FluidRelay
 {
     [SerializeField] public LeakSeverity m_leak_severity = LeakSeverity.NONE;
     [SerializeField] public float m_leak_flat_L_s = 0.5f;
@@ -45,7 +45,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
     {
         // Only initialize if null to preserve any injected dependencies
         m_downstreams ??= new List<IFluidReceiver>();
-        if (!m_data)
+        if (m_data == null)
         {
             m_data = new Data_FluidRelay();
         }

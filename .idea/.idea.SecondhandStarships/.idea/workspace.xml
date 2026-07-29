@@ -12,15 +12,32 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/TopicLogger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/TopicLogger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_FirstPersonMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_FirstPersonMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Mediator_PlayerMiniGames.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Mediator_PlayerMiniGames.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipPart.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Data_ShipModule.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/med_generator.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/med_generator.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/BaseStyles.uss" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/BaseStyles.uss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/ToolInventoryUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/ToolInventoryUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/equipmentcontrollerui.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/equipmentcontrollerui.uxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGridController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGridController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Wrench Mini Game/MiniGame_Wrench.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Wrench Mini Game/MiniGame_Wrench.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +51,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/84/fc660e80/Cursor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa13f9e80e3d4ab5bfc2bc34416dfe572b200/30/2b348836/RaycastHit.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/SpriteUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManagerStateMonitors.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -47,31 +70,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to&quot;: &quot;Unity Editor&quot;,
-    &quot;DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider&quot;: &quot;Unity Editor&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Unity Attach To.Attach to.executor&quot;: &quot;Debug&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.5443645&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to": "Unity Editor",
+    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity Editor",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Unity Attach To.Attach to.executor": "Debug",
+    "XThreadsFramesViewSplitterKey": "0.5443645",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "develop",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "CodeLensConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Unity Attach To.Attach to">
+}]]></component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\Editor\6000.5.2f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath D:\Unity\SecondhandStarships -debugCodeOptimization" />
@@ -92,13 +117,15 @@
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="36752">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="36752" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -117,7 +144,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784346796025</updated>
       <workItem from="1784346799158" duration="4369000" />
-      <workItem from="1784568209073" duration="24660000" />
+      <workItem from="1784568209073" duration="56703000" />
     </task>
     <servers />
   </component>
@@ -179,10 +206,10 @@
           <line>160</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\ShipPart\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'DistributeToDownstream'">
             <startOffsets>
-              <option value="5143" />
+              <option value="5134" />
             </startOffsets>
             <endOffsets>
-              <option value="5218" />
+              <option value="5209" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="8" />
@@ -192,10 +219,10 @@
           <line>144</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\ShipPart\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'DistributeToDownstream'">
             <startOffsets>
-              <option value="4617" />
+              <option value="4608" />
             </startOffsets>
             <endOffsets>
-              <option value="4645" />
+              <option value="4636" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="9" />
@@ -205,10 +232,10 @@
           <line>138</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\ShipPart\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'DistributeToDownstream'">
             <startOffsets>
-              <option value="4457" />
+              <option value="4448" />
             </startOffsets>
             <endOffsets>
-              <option value="4475" />
+              <option value="4466" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />
@@ -218,10 +245,10 @@
           <line>104</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\ShipPart\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'ReceiveFluid'">
             <startOffsets>
-              <option value="3259" />
+              <option value="3250" />
             </startOffsets>
             <endOffsets>
-              <option value="3354" />
+              <option value="3345" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="11" />
@@ -240,30 +267,30 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs</url>
-          <line>108</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_Equipment.cs" containingFunctionPresentation="Method 'EquipTool'">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs</url>
+          <line>52</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_PlayerInteraction.cs" containingFunctionPresentation="Method 'OnClosePlayerMenuPerformed'">
             <startOffsets>
-              <option value="2925" />
+              <option value="2183" />
             </startOffsets>
             <endOffsets>
-              <option value="3024" />
+              <option value="2221" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="16" />
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs</url>
-          <line>68</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_Equipment.cs" containingFunctionPresentation="Method 'ActivateTool'">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs</url>
+          <line>47</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_PlayerInteraction.cs" containingFunctionPresentation="Method 'OnOpenPlayerMenuPerformed'">
             <startOffsets>
-              <option value="2069" />
+              <option value="2043" />
             </startOffsets>
             <endOffsets>
-              <option value="2168" />
+              <option value="2080" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="17" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

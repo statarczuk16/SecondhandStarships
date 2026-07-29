@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1085374876257030388}
   - component: {fileID: 4108083692427035604}
   - component: {fileID: -1960480472296849119}
+  - component: {fileID: 6314593436054836994}
   m_Layer: 0
   m_Name: med_generator
   m_TagString: Untagged
@@ -51,9 +52,58 @@ MonoBehaviour:
   m_data:
     part_name: Medium Generator
     prefab: {fileID: 2369911243249985210}
-    slot_size: 2
-    install_data: 0
-  m_part_state: 0
+    install_state: 0
+  m_parent_surface: {fileID: 0}
+  m_inventory:
+    max_slots: 5
+    slots:
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    recipe:
+    - item_type: 29
+      tier: 0
+    - item_type: 26
+      tier: 0
+    - item_type: 24
+      tier: 0
 --- !u!114 &-1960480472296849119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +116,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37db4b983d39d924eafe8ac0fc32d471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_PrefabBoundary
+--- !u!114 &6314593436054836994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369911243249985210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72037412a0e3fc44dbaa402ddb823ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightableRenderer
+  targetObject: {fileID: 0}
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  neutralColor: {r: 0, g: 0, b: 0, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &4099048456813451497
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +272,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

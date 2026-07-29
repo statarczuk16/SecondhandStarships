@@ -10,6 +10,8 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
     [SerializeField] private Data_ShipModule m_data;
     [SerializeField] private List<IPartConnector> m_connectors;
     [SerializeField] private Component_BuildableSurface m_parent_surface;
+    [SerializeField] private Inventory m_inventory;
+    
     private HighlightableRenderer m_highlight_renderer;
     public Transform InteractionPoint => throw new NotImplementedException();
 
@@ -32,7 +34,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 
     internal void StartInstall(Component_BuildableSurface surface)
     {
-        m_data.install_state = InstallationState.INSTALLING;
+        m_data.install_state = InstallationState.UNINSTALLED;
         m_parent_surface = surface;
         foreach (IPartConnector connector in m_connectors)
         {
@@ -121,7 +123,32 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 
     public bool CanInteract(Controller_Equipment controller)
     {
-        return this.m_data.install_state == InstallationState.UNINSTALLED || this.m_data.install_state == InstallationState.INSTALLED;
+        if (controller.BuildMode())
+        {
+            return this.m_data.install_state == InstallationState.UNINSTALLED || this.m_data.install_state == InstallationState.INSTALLED;
+        }
+
+        return false;
+    }
+    
+    public void OnInteract(Controller_Equipment controller)
+    {
+        if (controller.BuildMode())
+        {
+            if(this.m_data.install_state == InstallationState.UNINSTALLED || PartUsesConnectors() == false)
+            {
+                if (controller.TryAddPartToInventory(this))
+                {
+                    OnUninstalled();
+                    GameObject.Destroy(this.gameObject);
+                }
+            }
+            else if(this.m_data.install_state == InstallationState.INSTALLED)
+            {
+                Debug.Log("Interacted with installed thing!");
+            }
+        }
+        
     }
 
     public void OnHoverEnter(Controller_Equipment controller)
@@ -135,22 +162,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         SetHighlight(InteractionHighlightState.NONE);
     }
 
-    public void OnInteract(Controller_Equipment controller)
-    {
-        if(this.m_data.install_state == InstallationState.UNINSTALLED || PartUsesConnectors() == false)
-        {
-            OnUninstalled();
-            if (controller.TryAddPartToInventory(this))
-            {
-                GameObject.Destroy(this);
-            }
-            
-        }
-        else if(this.m_data.install_state == InstallationState.INSTALLED)
-        {
-            Debug.Log("Interacted with installed thing!");
-        }
-    }
+   
 
     public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
     {

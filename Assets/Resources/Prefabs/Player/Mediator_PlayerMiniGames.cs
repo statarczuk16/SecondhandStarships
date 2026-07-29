@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum PlayerState { MovingMode, WorkingMode }
+public enum PlayerState { MovingMode, MenuMode }
 
 /// <summary>
 /// Conductor for the player's input state. Owns the transition between free-roam
@@ -55,34 +55,55 @@ public class Mediator_PlayerMiniGames : MonoBehaviour
 
     public void Enter(IToolMinigame minigame, IMinigameView miniGameUI)
     {
-        if (State == PlayerState.WorkingMode)
+        if (State == PlayerState.MenuMode)
         {
             Debug.LogError("Cant start mini game. One is already going");
             return;
         }
+       ChangeInputMode(PlayerState.MenuMode);
+       activeMinigame = minigame;
+       activeMinigame.Begin(OnMinigameComplete, inputHub, miniGameUI);
+    }
 
-        State = PlayerState.WorkingMode;
-        activeMinigame = minigame;
+    public void ChangeInputMode(PlayerState new_state)
+    {
+        State = new_state;
 
-        inputHub.EnterMiniGame();
-        fpsController.OnEnterMiniGame();
-
-        activeMinigame.Begin(OnMinigameComplete, inputHub, miniGameUI);
+        switch (new_state)
+        {
+            case PlayerState.MenuMode:
+            {
+                inputHub.EnterMiniGame();
+                fpsController.OnEnterMiniGame();
+                break;
+            }
+            case PlayerState.MovingMode:
+            {
+                inputHub.ExitMiniGame();
+                fpsController.OnExitMiniGame();
+                break;
+            }
+            default:
+            {
+                TopicLogger.Log(LogTopic.Interaction, LogLevel.CRIT, $"Illegal state {new_state}");
+                break;
+            }
+        }
+        
+        
+       
     }
 
     void OnMinigameComplete(MinigameResult result)
     {
         activeMinigame.End(result);
         activeMinigame = null;
-        State = PlayerState.MovingMode;
-
-        inputHub.ExitMiniGame();
-        fpsController.OnExitMiniGame();
+        ChangeInputMode(PlayerState.MovingMode);
     }
 
     void Update()
     {
-        if (State == PlayerState.WorkingMode)
+        if (State == PlayerState.MenuMode)
         {
             activeMinigame?.Tick(Time.deltaTime);
         }        

@@ -114,7 +114,14 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
     {
         Renderer[] renderers = currentGhost.GetComponentsInChildren<Renderer>();
         Bounds bounds = renderers[0].bounds;
-        for (int i = 1; i < renderers.Length; i++) bounds.Encapsulate(renderers[i].bounds);
+        for (int i = 1; i < renderers.Length; i++)
+        {
+            Collider collider = renderers[i].gameObject.transform.GetComponent<Collider>();
+            if (collider && collider.enabled && !collider.isTrigger)
+            {
+                bounds.Encapsulate(renderers[i].bounds);
+            }
+        }
 
         Collider[] overlaps = Physics.OverlapBox(
             bounds.center, bounds.extents, currentGhost.transform.rotation,
@@ -133,7 +140,7 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
             if (candidateBoundary != null && myBoundary != null && candidateBoundary == myBoundary) continue;
             if (candidateBoundary == null && col.gameObject == this.gameObject) continue;
 
-            if (col.GetComponentInChildren<Renderer>() == null)
+            if (col.GetComponentInChildren<Renderer>() == null || col.GetComponentInChildren<Renderer>().enabled == false)
             {
                 TopicLogger.Log(LogTopic.Interaction, LogLevel.WARN,
                     $"Blocker {col.gameObject.name} has a collider but no visible renderer in children.");

@@ -21,7 +21,9 @@ public class ToolInventoryUI : MonoBehaviour
     private const float BOX_HEIGHT = 84f;
     private const float BOX_SPACING = 96f; // box height + margin, must match .tool-box in USS
     private const int MAX_VISIBLE_DISTANCE = 2; // 2 above + center + 2 below = 5 boxes
-
+    private VisualElement m_tool_tooltip_box;
+    private Label m_tool_tooltip_label;
+    
     [SerializeField] private Controller_Equipment m_equipment_controller;
 
     // One of these per carousel column so positioning/refresh logic isn't duplicated.
@@ -62,9 +64,12 @@ public class ToolInventoryUI : MonoBehaviour
         m_part_carousel.Viewport = root.QOrFail<VisualElement>("PartInventoryViewport");
         m_hover_preview = root.QOrFail<VisualElement>("CurrentHover");
         m_hover_preview_label = root.QOrFail<Label>("CurrentHoverLabel");
+        m_tool_tooltip_box = root.QOrFail<VisualElement>("ToolTooltipBox");
+        m_tool_tooltip_label = root.QOrFail<Label>("ToolTooltipLabel");
         RefreshCarousel(m_tool_carousel, GetToolLabels());
         RefreshCarousel(m_part_carousel, GetPartLabels());
         RefreshHoverPreview();
+        RefreshToolTooltip();
     }
 
     private void RefreshHoverPreview()
@@ -107,14 +112,40 @@ public class ToolInventoryUI : MonoBehaviour
             RefreshCarousel(m_tool_carousel, toolLabels);
         else
             UpdateCarouselPositions(m_tool_carousel, m_equipment_controller.GetSelectedToolIndex());
+        RefreshToolTooltip();
 
         var partLabels = GetPartLabels();
         if (!ListsMatch(partLabels, m_part_carousel.BoundLabels))
             RefreshCarousel(m_part_carousel, partLabels);
         else
             UpdateCarouselPositions(m_part_carousel, m_equipment_controller.GetSelectedPartIndex());
+        
+        
     }
 
+    private void RefreshToolTooltip()
+    {
+        if (m_tool_tooltip_box == null) return;
+
+        var tools = m_equipment_controller.GetAvailableTools();
+        int selected = m_equipment_controller.GetSelectedToolIndex();
+
+        if (tools == null || tools.Count == 0 || selected < 0 || selected >= tools.Count)
+        {
+            m_tool_tooltip_box.style.display = DisplayStyle.None;
+            return;
+        }
+
+        string tooltip = m_equipment_controller.GetToolTip();
+        if (string.IsNullOrEmpty(tooltip))
+        {
+            m_tool_tooltip_box.style.display = DisplayStyle.None;
+            return;
+        }
+
+        m_tool_tooltip_box.style.display = DisplayStyle.Flex;
+        m_tool_tooltip_label.text = tooltip;
+    }
 
     public void ScrollUp() => m_equipment_controller.ScrollUp();
     public void ScrollDown() => m_equipment_controller.ScrollDown();

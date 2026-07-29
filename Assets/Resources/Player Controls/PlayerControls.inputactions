@@ -3,7 +3,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "WalkingMode",
+            "name": "MovementMode",
             "id": "07192e9c-2203-4505-a9ff-3805ec98de24",
             "actions": [
                 {
@@ -77,6 +77,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "OpenPlayerMenu",
+                    "type": "Button",
+                    "id": "ac34238d-ce21-41cb-8185-22cbb559407a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -211,11 +220,22 @@
                     "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c0806e0-443b-4f13-994e-66a18b557acf",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenPlayerMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "WorkingMode",
+            "name": "MenuMode",
             "id": "9d615eb2-72d8-4cab-8d66-b67014514cbf",
             "actions": [
                 {

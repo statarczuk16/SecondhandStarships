@@ -44,11 +44,11 @@ public class MiniGame_Wrench : IToolMinigame
         this.ui_script = (MiniGame_Wrench_UI_Script)ui;
 
         // Track held state for both buttons independently
-        inputHub.Controls.WorkingMode.PrimaryButton.started += OnPrimaryPressed;
-        inputHub.Controls.WorkingMode.PrimaryButton.canceled += OnPrimaryReleased;
-        inputHub.Controls.WorkingMode.SecondaryButton.started += OnSecondaryPressed;
-        inputHub.Controls.WorkingMode.SecondaryButton.canceled += OnSecondaryReleased;
-        inputHub.Controls.WorkingMode.Cancel.performed += OnPlayerCanceledGame;
+        inputHub.Controls.MenuMode.PrimaryButton.started += OnPrimaryPressed;
+        inputHub.Controls.MenuMode.PrimaryButton.canceled += OnPrimaryReleased;
+        inputHub.Controls.MenuMode.SecondaryButton.started += OnSecondaryPressed;
+        inputHub.Controls.MenuMode.SecondaryButton.canceled += OnSecondaryReleased;
+        inputHub.Controls.MenuMode.Cancel.performed += OnPlayerCanceledGame;
 
         ui_script.Show();
         ui_script.SetWrenchPosition(wrenchPosition);
@@ -161,11 +161,11 @@ public class MiniGame_Wrench : IToolMinigame
     void Finish(bool success)
     {
         // Clean up action listeners completely
-        inputHub.Controls.WorkingMode.PrimaryButton.started -= OnPrimaryPressed;
-        inputHub.Controls.WorkingMode.PrimaryButton.canceled -= OnPrimaryReleased;
-        inputHub.Controls.WorkingMode.SecondaryButton.started -= OnSecondaryPressed;
-        inputHub.Controls.WorkingMode.SecondaryButton.canceled -= OnSecondaryReleased;
-        inputHub.Controls.WorkingMode.Cancel.performed -= OnPlayerCanceledGame;
+        inputHub.Controls.MenuMode.PrimaryButton.started -= OnPrimaryPressed;
+        inputHub.Controls.MenuMode.PrimaryButton.canceled -= OnPrimaryReleased;
+        inputHub.Controls.MenuMode.SecondaryButton.started -= OnSecondaryPressed;
+        inputHub.Controls.MenuMode.SecondaryButton.canceled -= OnSecondaryReleased;
+        inputHub.Controls.MenuMode.Cancel.performed -= OnPlayerCanceledGame;
 
         ui_script.Hide();
 
