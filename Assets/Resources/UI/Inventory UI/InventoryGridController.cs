@@ -78,10 +78,10 @@ public class InventoryGridController : MonoBehaviour
     {
         if (m_viewport == null || m_inventory_owner == null) return;
 
-        Inventory inventory = m_inventory_owner.GetInventory();
-        if (inventory == null) return;
+        Data_Inventory dataInventory = m_inventory_owner.GetInventory();
+        if (dataInventory == null) return;
 
-        List<string> signature = BuildSignature(inventory);
+        List<string> signature = BuildSignature(dataInventory);
         if (!SignatureMatches(signature, m_bound_signature))
         {
             RefreshGrid();
@@ -96,13 +96,13 @@ public class InventoryGridController : MonoBehaviour
     {
         OnSlotClicked?.Invoke(index);
 
-        Inventory inventory = m_inventory_owner?.GetInventory();
-        if (inventory == null) return;
+        Data_Inventory dataInventory = m_inventory_owner?.GetInventory();
+        if (dataInventory == null) return;
 
         if (m_held_slot_index < 0)
         {
             // Nothing held yet — picking up requires a non-empty slot.
-            Data_InventorySlot slot = inventory.GetSlot(index);
+            Data_InventorySlot slot = dataInventory.GetSlot(index);
             if (slot != null && !slot.IsEmpty)
             {
                 m_held_slot_index = index;
@@ -119,7 +119,7 @@ public class InventoryGridController : MonoBehaviour
             return;
         }
 
-        if (!inventory.TryMoveSlot(m_held_slot_index, index, out string error))
+        if (!dataInventory.TryMoveSlot(m_held_slot_index, index, out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Could not move slot {m_held_slot_index} -> {index}: {error}");
             // Keep holding — let the player pick a different destination.
@@ -138,17 +138,17 @@ public class InventoryGridController : MonoBehaviour
     {
         if (m_viewport == null || m_inventory_owner == null) return;
 
-        Inventory inventory = m_inventory_owner.GetInventory();
-        if (inventory == null) return;
+        Data_Inventory dataInventory = m_inventory_owner.GetInventory();
+        if (dataInventory == null) return;
 
         m_viewport.Clear();
         m_slot_elements.Clear();
         m_bound_signature.Clear();
-        m_bound_signature.AddRange(BuildSignature(inventory));
+        m_bound_signature.AddRange(BuildSignature(dataInventory));
 
-        for (int i = 0; i < inventory.MaxSlots; i++)
+        for (int i = 0; i < dataInventory.MaxSlots; i++)
         {
-            VisualElement slotElement = BuildSlotElement(inventory.GetSlot(i));
+            VisualElement slotElement = BuildSlotElement(dataInventory.GetSlot(i));
             int capturedIndex = i; // avoid closure-over-loop-variable bug
             slotElement.RegisterCallback<ClickEvent>(_ => HandleSlotClicked(capturedIndex));
 
@@ -160,7 +160,7 @@ public class InventoryGridController : MonoBehaviour
 
         if (m_capacity_label != null)
         {
-            m_capacity_label.text = $"{inventory.UsedSlots} / {inventory.MaxSlots}";
+            m_capacity_label.text = $"{dataInventory.UsedSlots} / {dataInventory.MaxSlots}";
         }
     }
 
@@ -229,12 +229,12 @@ public class InventoryGridController : MonoBehaviour
         }
     }
 
-    private static List<string> BuildSignature(Inventory inventory)
+    private static List<string> BuildSignature(Data_Inventory dataInventory)
     {
-        var signature = new List<string>(inventory.MaxSlots);
-        for (int i = 0; i < inventory.MaxSlots; i++)
+        var signature = new List<string>(dataInventory.MaxSlots);
+        for (int i = 0; i < dataInventory.MaxSlots; i++)
         {
-            Data_InventorySlot slot = inventory.GetSlot(i);
+            Data_InventorySlot slot = dataInventory.GetSlot(i);
             if (slot == null || slot.IsEmpty)
             {
                 signature.Add("EMPTY");

@@ -21,7 +21,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
     [SerializeField] private int m_module_count = 2;
     [SerializeField] private Vector2Int m_item_amount_range = new Vector2Int(1, 5);
 
-    private Inventory m_inventory;
+    private Data_Inventory _mDataInventory;
     private int m_test_module_counter;
 
     private static readonly string[] kSamplePartNames =
@@ -30,9 +30,9 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         "Flight Console", "Small Tank", "Big Tank", "Bulkhead"
     };
 
-    public Inventory GetInventory()
+    public Data_Inventory GetInventory()
     {
-        return m_inventory;
+        return _mDataInventory;
     }
 
     // -------------------------------------------------------------
@@ -46,7 +46,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         Controller_Equipment controller_eq = FindAnyObjectByType<Controller_Equipment>();
        
 
-        m_inventory = new Inventory(m_max_slots);
+        _mDataInventory = new Data_Inventory(m_max_slots);
         SeedTestData();
 
         controller_eq.DisplayInventory(this);
@@ -70,7 +70,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         Tier tier = (Tier)UnityEngine.Random.Range(0, 3);
         int amount = UnityEngine.Random.Range(m_item_amount_range.x, m_item_amount_range.y + 1);
 
-        if (!m_inventory.TryAddItem(type, tier, amount, out string error))
+        if (!_mDataInventory.TryAddItem(type, tier, amount, out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"AddRandomItem failed: {error}");
         }
@@ -91,7 +91,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
             install_state = default
         };
 
-        if (!m_inventory.TryAddModule(data, out string error))
+        if (!_mDataInventory.TryAddModule(data, out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"AddRandomModule failed: {error}");
         }
@@ -103,9 +103,9 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         if (!EnsureAttached()) return;
 
         List<int> filledIndices = new List<int>();
-        for (int i = 0; i < m_inventory.MaxSlots; i++)
+        for (int i = 0; i < _mDataInventory.MaxSlots; i++)
         {
-            Data_InventorySlot slot = m_inventory.GetSlot(i);
+            Data_InventorySlot slot = _mDataInventory.GetSlot(i);
             if (slot != null && !slot.IsEmpty)
             {
                 filledIndices.Add(i);
@@ -127,7 +127,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
     {
         if (!EnsureAttached()) return;
 
-        for (int i = 0; i < m_inventory.MaxSlots; i++)
+        for (int i = 0; i < _mDataInventory.MaxSlots; i++)
         {
             RemoveSlotContents(i);
         }
@@ -139,7 +139,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
     {
         if (!EnsureAttached()) return;
 
-        if (!m_inventory.TrySetMaxSlots(m_inventory.MaxSlots + 5, out string error))
+        if (!_mDataInventory.TrySetMaxSlots(_mDataInventory.MaxSlots + 5, out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"GrowSlots failed: {error}");
         }
@@ -150,7 +150,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
     {
         if (!EnsureAttached()) return;
 
-        if (!m_inventory.TrySetMaxSlots(Mathf.Max(0, m_inventory.MaxSlots - 5), out string error))
+        if (!_mDataInventory.TrySetMaxSlots(Mathf.Max(0, _mDataInventory.MaxSlots - 5), out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"ShrinkSlots failed: {error}");
         }
@@ -170,12 +170,12 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
 
     private void RemoveSlotContents(int index)
     {
-        Data_InventorySlot slot = m_inventory.GetSlot(index);
+        Data_InventorySlot slot = _mDataInventory.GetSlot(index);
         if (slot == null || slot.IsEmpty) return;
 
         if (slot.slot_type == InventorySlotType.Item)
         {
-            m_inventory.TryRemoveItemFromSlot(index, slot.count, out string error);
+            _mDataInventory.TryRemoveItemFromSlot(index, slot.count, out string error);
             if (error != null)
             {
                 TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Failed clearing slot {index}: {error}");
@@ -183,13 +183,13 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         }
         else if (slot.slot_type == InventorySlotType.Module)
         {
-            m_inventory.TryRemoveModule(slot.module);
+            _mDataInventory.TryRemoveModule(slot.module);
         }
     }
 
     private bool EnsureAttached()
     {
-        if (m_inventory != null) return true;
+        if (_mDataInventory != null) return true;
 
         TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN,
             $"{name}: not attached yet — run 'Attach To Inventory UI' first");

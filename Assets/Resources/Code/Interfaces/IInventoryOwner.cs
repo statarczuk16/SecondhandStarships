@@ -4,5 +4,5 @@
 // without being coupled to a specific owner type.
 public interface IInventoryOwner
 {
-    Inventory GetInventory();
+    Data_Inventory GetInventory();
 }

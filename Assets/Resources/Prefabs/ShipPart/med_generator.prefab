@@ -54,8 +54,8 @@ MonoBehaviour:
     prefab: {fileID: 2369911243249985210}
     install_state: 0
   m_parent_surface: {fileID: 0}
-  m_inventory:
-    max_slots: 5
+  mDataInventory:
+    max_slots: 30
     slots:
     - slot_type: 0
       item_type: 0
@@ -97,13 +97,207 @@ MonoBehaviour:
         part_name: part_name_uninit
         prefab: {fileID: 0}
         install_state: 0
-    recipe:
-    - item_type: 29
+    - slot_type: 0
+      item_type: 0
       tier: 0
-    - item_type: 26
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
       tier: 0
-    - item_type: 24
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
       tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    recipe: []
 --- !u!114 &-1960480472296849119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +360,394 @@ Transform:
   - {fileID: 4241283711427022594}
   m_Father: {fileID: 1085374876257030388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6430118701751219227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7968393298043056044}
+  - component: {fileID: 4865318305047980991}
+  - component: {fileID: 5664542321014845834}
+  - component: {fileID: 8072239505362279523}
+  - component: {fileID: 4070710967750516945}
+  - component: {fileID: 3258896145178481170}
+  m_Layer: 0
+  m_Name: InventoryAccess
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7968393298043056044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.55, y: 1.1764705, z: 0.75}
+  m_LocalScale: {x: 0.1, y: 0.7135414, z: 0.3504119}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5609720709779164330}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4865318305047980991
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &5664542321014845834
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 32851baa201013b4fa29176fdccc3201, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8072239505362279523
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4070710967750516945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c2f205ea337b84d9d5a569d9a77fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Inventory
+  m_data_inventory:
+    max_slots: 30
+    slots:
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 0
+      item_type: 0
+      tier: 0
+      count: 0
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    recipe: []
+  m_highlight_renderer: {fileID: 3258896145178481170}
+--- !u!114 &3258896145178481170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430118701751219227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72037412a0e3fc44dbaa402ddb823ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightableRenderer
+  targetObject: {fileID: 0}
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  neutralColor: {r: 0, g: 0, b: 0, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &6784068655765230531
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +980,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8053787371315115841, guid: 62c77e3878618994ea76f55b02c61165, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7968393298043056044}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c77e3878618994ea76f55b02c61165, type: 3}
 --- !u!4 &5609720709779164330 stripped

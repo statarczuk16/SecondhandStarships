@@ -10,7 +10,7 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
     [SerializeField] private Data_ShipModule m_data;
     [SerializeField] private List<IPartConnector> m_connectors;
     [SerializeField] private Component_BuildableSurface m_parent_surface;
-    [SerializeField] private Inventory m_inventory;
+    [SerializeField] private Data_Inventory mDataInventory;
     
     private HighlightableRenderer m_highlight_renderer;
     public Transform InteractionPoint => throw new NotImplementedException();

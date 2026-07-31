@@ -102,13 +102,24 @@ public class Controller_PlayerInteraction : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
                 out RaycastHit hitInfo, interactRange, interactableMask))
         {
-            Transform boundaryRoot = ShipPartUtilities.FindOwningPrefabBoundary(hitInfo.collider.transform);
-
-            if (boundaryRoot)
+            //check for interactable on thing we are looking at
+            if (hitInfo.collider.gameObject.TryGetComponent<IInteractable>(out interactable))
             {
-                interactable = ShipPartUtilities.FindComponentWithinPrefab<IInteractable>(boundaryRoot);
                 mb = interactable as MonoBehaviour;
             }
+            //if nothing there, check if the owning prefab of this object has an interactable
+            else
+            {
+                Transform boundaryRoot = ShipPartUtilities.FindOwningPrefabBoundary(hitInfo.collider.transform);
+                if (boundaryRoot)
+                {
+                    interactable = ShipPartUtilities.FindComponentWithinPrefab<IInteractable>(boundaryRoot);
+                    mb = interactable as MonoBehaviour;
+                }
+            }
+
+            
+            
         }
 
         if (!mb)

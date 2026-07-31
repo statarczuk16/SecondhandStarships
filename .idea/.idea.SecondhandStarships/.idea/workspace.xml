@@ -12,32 +12,61 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_FirstPersonMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_FirstPersonMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Mediator_PlayerMiniGames.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Mediator_PlayerMiniGames.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Bucket.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Bucket.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidFillShader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidFillShader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidRelay.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidTank.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_FluidTank.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankInputPort.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankInputPort.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankOutputPort.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Component_TankOutputPort.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/FluidStreamVisual.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/FluidStreamVisual.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/Material_Bucketlid.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/Material_Bucketlid.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/Shader Graphs_TankFillShader.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/Shader Graphs_TankFillShader.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/TankFillShader.shadergraph" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/TankFillShader.shadergraph.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterParticleMaterial.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterParticleMaterial.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterParticleSystem.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterParticleSystem.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterStream.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/WaterStream.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/water_stream_texture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/Fluid level shader stuff/water_stream_texture.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/IFluidReceiver.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/IFluidReceiver.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/IFluidSender.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/IFluidSender.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/InPort.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/InPort.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/OutPort.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/OutPort.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/med_gas_tank.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/FluidTanks/sm_oxygen_tank.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/med_generator.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/med_generator.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Settings/PlayerControls.inputactions.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/BaseStyles.uss" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/BaseStyles.uss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/ToolInventoryUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/ToolInventoryUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/equipmentcontrollerui.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Equipment Controller UI/equipmentcontrollerui.uxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uss" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGrid.uss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGridController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryGridController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Wrench Mini Game/MiniGame_Wrench.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Wrench Mini Game/MiniGame_Wrench.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryTestDriver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/InventoryTestDriver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/PanelSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/PanelSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +84,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa13f9e80e3d4ab5bfc2bc34416dfe572b200/30/2b348836/RaycastHit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/SpriteUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManagerStateMonitors.cs" root0="SKIP_HIGHLIGHTING" />
@@ -82,7 +113,7 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Unity Attach To.Attach to.executor": "Debug",
-    "XThreadsFramesViewSplitterKey": "0.5443645",
+    "XThreadsFramesViewSplitterKey": "0.27748692",
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "develop",
@@ -144,7 +175,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784346796025</updated>
       <workItem from="1784346799158" duration="4369000" />
-      <workItem from="1784568209073" duration="56703000" />
+      <workItem from="1784568209073" duration="61370000" />
     </task>
     <servers />
   </component>
@@ -291,6 +322,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs</url>
+          <line>19</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Inventory\Component_Inventory.cs" containingFunctionPresentation="Method 'CanInteract'">
+            <startOffsets>
+              <option value="637" />
+            </startOffsets>
+            <endOffsets>
+              <option value="649" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

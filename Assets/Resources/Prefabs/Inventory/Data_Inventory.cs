@@ -113,7 +113,7 @@ public class Data_InventorySlot
 // ---------------------------------------------------------------------
 
 [System.Serializable]
-public class Inventory
+public class Data_Inventory
 {
     [Header("Capacity")]
     [SerializeField] private int max_slots = 30;
@@ -124,12 +124,12 @@ public class Inventory
     [Header("Recipe")]
     [SerializeField] private List<RecipeIngredient> recipe = new List<RecipeIngredient>();
 
-    public Inventory()
+    public Data_Inventory()
     {
         EnsureCapacity();
     }
 
-    public Inventory(int maxSlots)
+    public Data_Inventory(int maxSlots)
     {
         max_slots = Mathf.Max(0, maxSlots);
         EnsureCapacity();

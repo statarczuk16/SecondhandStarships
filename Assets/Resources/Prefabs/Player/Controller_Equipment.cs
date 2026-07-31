@@ -29,7 +29,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     [SerializeField] private Mediator_PlayerMiniGames m_minigame_mediator;
     [SerializeField] private  InventoryGridController m_inventory_controller;
     
-    private Inventory m_inventory = new Inventory();
+    private Data_Inventory _mDataInventory = new Data_Inventory();
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
@@ -92,7 +92,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
             }
 
             Data_ShipModule cloned = sourcePart.GetData().Clone();
-            if (!m_inventory.TryAddModule(cloned, out string error))
+            if (!_mDataInventory.TryAddModule(cloned, out string error))
             {
                 TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.ERROR,
                     $"Failed to seed starting part {prefabGO.name}: {error}");
@@ -165,12 +165,12 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
         Data_ShipModule data = part.GetData();
 
-        if (m_inventory.ContainsModule(data))
+        if (_mDataInventory.ContainsModule(data))
         {
             return false; // already added
         }
 
-        if (!m_inventory.TryAddModule(data, out string error))
+        if (!_mDataInventory.TryAddModule(data, out string error))
         {
             // Inventory full (or other failure) — leave the physical part in
             // the world rather than destroying something we couldn't store.
@@ -186,19 +186,19 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     {
         if (data == null) return;
 
-        if (!m_inventory.TryRemoveModule(data))
+        if (!_mDataInventory.TryRemoveModule(data))
         {
             TopicLogger.Log(LogTopic.Equipment_Controller, LogLevel.ERROR,
                 "Attempted to remove part not in inventory");
             return;
         }
 
-        m_selected_part_index = Mathf.Clamp(m_selected_part_index, 0, Mathf.Max(0, m_inventory.GetModulesCompact().Count - 1));
+        m_selected_part_index = Mathf.Clamp(m_selected_part_index, 0, Mathf.Max(0, _mDataInventory.GetModulesCompact().Count - 1));
     }
 
     public void ClearInventory()
     {
-        m_inventory.ClearModules();
+        _mDataInventory.ClearModules();
     }
 
     public EquipmentType GetEquippedTool()
@@ -234,14 +234,14 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     }
 
 
-    public Inventory GetInventory()
+    public Data_Inventory GetInventory()
     {
-        return m_inventory;
+        return _mDataInventory;
     }
 
     public IReadOnlyList<Data_ShipModule> GetShipPartInventory()
     {
-        return m_inventory.GetModulesCompact();
+        return _mDataInventory.GetModulesCompact();
     }
 
 
@@ -251,7 +251,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     // right-hand part carousel should render � not the full inventory.
     public IReadOnlyList<Data_ShipModule> GetDisplayingParts()
     {
-        return m_inventory.GetModulesCompact();
+        return _mDataInventory.GetModulesCompact();
     }
 
     public int GetSelectedPartIndex()
@@ -261,7 +261,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public Data_ShipModule GetEquippedPart()
     {
-        IReadOnlyList<Data_ShipModule> parts = m_inventory.GetModulesCompact();
+        IReadOnlyList<Data_ShipModule> parts = _mDataInventory.GetModulesCompact();
         bool exists = m_selected_part_index >= 0 && m_selected_part_index < parts.Count;
         if (exists)
         {
@@ -272,7 +272,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public void ScrollEquippedPartUp()
     {
-        int count = m_inventory.GetModulesCompact().Count;
+        int count = _mDataInventory.GetModulesCompact().Count;
         if (count == 0) return;
 
         m_selected_part_index = (m_selected_part_index + 1) % count;
@@ -280,7 +280,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public void ScrollEquippedPartDown()
     {
-        int count = m_inventory.GetModulesCompact().Count;
+        int count = _mDataInventory.GetModulesCompact().Count;
         if (count == 0) return;
 
         m_selected_part_index = (m_selected_part_index - 1 + count) % count;

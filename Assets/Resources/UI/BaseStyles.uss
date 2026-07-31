@@ -112,6 +112,7 @@
     align-items: center;
     overflow: hidden;
     position: relative;
+    flex-direction: row;
 }
 
 .tool-inventory-viewport {
@@ -141,6 +142,7 @@
 .tool-tooltip-box {
     left: 280px;
     height: 260px;
+    width: 160px;
 }
 
 .tool-box-label {
