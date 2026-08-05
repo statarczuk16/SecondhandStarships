@@ -1,15 +1,9 @@
 using UnityEngine;
 
-[RequireComponent(typeof(HighlightableRenderer))] 
 public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwner, IInteractable
 {
     [SerializeField] private Data_Inventory m_data_inventory;
-    [SerializeField] private HighlightableRenderer m_highlight_renderer;
-    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
-    {
-        m_highlight_renderer.SetHighlight(state);
-    }
-
+    
     public Data_Inventory GetInventory()
     {
         return this.m_data_inventory;
@@ -32,7 +26,7 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
 
     public void OnInteract(Controller_Equipment controller)
     {
-        controller.DisplayInventory(this);
+        controller.DisplayInventory(controller, this);
     }
 
     public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
@@ -40,5 +34,24 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
         return;
     }
 
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        return $"//SERVICE HATCH -> OPEN TO INSPECT PARTS";
+    }
+
     public Transform InteractionPoint => this.transform;
+    
+    public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
+    {
+        if (state == InteractionHighlightState.VALID)
+        {
+            MeshRenderer graphics = this.GetComponent<MeshRenderer>();
+            graphics.enabled = true;
+        }
+        else
+        {
+            MeshRenderer graphics = this.GetComponent<MeshRenderer>();
+            graphics.enabled = false;
+        }
+    }
 }

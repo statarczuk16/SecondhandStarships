@@ -9,12 +9,6 @@ using UnityEngine.UIElements;
 ///   - Right: currently compatible ship parts (Controller_Equipment.GetDisplayingParts())
 /// Both keep their selection vertically centered, show up to 5 boxes at once,
 /// fade toward the periphery, and wrap around in both directions.
-///
-/// Scroll input is a single up/down pair � Controller_Equipment.ScrollUp/ScrollDown
-/// already decide internally whether that means "scroll parts" (when a slot's
-/// compatible parts are being displayed) or "scroll tools" (otherwise), so this
-/// script doesn't need to make that choice itself; it just reflects whichever
-/// index changed.
 /// </summary>
 public class ToolInventoryUI : MonoBehaviour
 {
@@ -26,7 +20,6 @@ public class ToolInventoryUI : MonoBehaviour
     
     [SerializeField] private Controller_Equipment m_equipment_controller;
 
-    // One of these per carousel column so positioning/refresh logic isn't duplicated.
     private class Carousel
     {
         public VisualElement Viewport;
@@ -87,7 +80,7 @@ public class ToolInventoryUI : MonoBehaviour
                 if (mb != null)
                 {
                     m_hover_preview.style.display = DisplayStyle.Flex;
-                    m_hover_preview_label.text = mb.gameObject.name;
+                    m_hover_preview_label.text = foo.GetInteractionLabel(m_equipment_controller);
                 }
                 else
                 {
@@ -99,7 +92,6 @@ public class ToolInventoryUI : MonoBehaviour
         {
             Debug.Log($"{e.Message} {e.StackTrace}");
         }
-        
     }
 
     private void Update()
@@ -119,8 +111,6 @@ public class ToolInventoryUI : MonoBehaviour
             RefreshCarousel(m_part_carousel, partLabels);
         else
             UpdateCarouselPositions(m_part_carousel, m_equipment_controller.GetSelectedPartIndex());
-        
-        
     }
 
     private void RefreshToolTooltip()
@@ -183,6 +173,7 @@ public class ToolInventoryUI : MonoBehaviour
         {
             var emptyLabel = new Label(carousel.EmptyMessage);
             emptyLabel.AddToClassList("tool-inventory-empty-label");
+            emptyLabel.AddToClassList("theme-text-disabled");
             carousel.Viewport.Add(emptyLabel);
             return;
         }
@@ -191,12 +182,14 @@ public class ToolInventoryUI : MonoBehaviour
         {
             var box = new VisualElement();
             box.AddToClassList("tool-box");
+            box.AddToClassList("theme-bg-panel");
+            box.AddToClassList("theme-border");
 
             var label = new Label(text);
             label.AddToClassList("tool-box-label");
+            label.AddToClassList("theme-text-primary");
             box.Add(label);
 
-            // Anchor every box at vertical center; per-frame translate handles offset.
             box.style.top = new Length(50, LengthUnit.Percent);
             box.style.marginTop = -BOX_HEIGHT / 2f;
 
@@ -218,9 +211,16 @@ public class ToolInventoryUI : MonoBehaviour
             int diff = CircularDiff(i, selected, count);
             int absDiff = Mathf.Abs(diff);
 
+            // Strip structural distance classes
             box.RemoveFromClassList("tool-box-selected");
             box.RemoveFromClassList("tool-box-dist-1");
             box.RemoveFromClassList("tool-box-dist-2");
+
+            // Strip theme color classes before re-evaluating state
+            box.RemoveFromClassList("theme-bg-selected");
+            box.RemoveFromClassList("theme-border-selected");
+            box.RemoveFromClassList("theme-bg-panel");
+            box.RemoveFromClassList("theme-border");
 
             if (absDiff > MAX_VISIBLE_DISTANCE)
             {
@@ -231,17 +231,27 @@ public class ToolInventoryUI : MonoBehaviour
             box.style.display = DisplayStyle.Flex;
             box.style.translate = new Translate(0, diff * BOX_SPACING);
 
-            if (diff == 0) box.AddToClassList("tool-box-selected");
-            else if (absDiff == 1) box.AddToClassList("tool-box-dist-1");
-            else if (absDiff == 2) box.AddToClassList("tool-box-dist-2");
+            if (diff == 0)
+            {
+                box.AddToClassList("tool-box-selected");
+                box.AddToClassList("theme-bg-selected");
+                box.AddToClassList("theme-border-selected");
+            }
+            else
+            {
+                box.AddToClassList("theme-bg-panel");
+                box.AddToClassList("theme-border");
+
+                if (absDiff == 1) box.AddToClassList("tool-box-dist-1");
+                else if (absDiff == 2) box.AddToClassList("tool-box-dist-2");
+            }
         }
     }
 
-    // Shortest signed distance from `selected` to `index` around a circular list of size `count`.
     private static int CircularDiff(int index, int selected, int count)
     {
-        int raw = ((index - selected) % count + count) % count; // normalize to [0, count)
-        if (raw > count / 2) raw -= count; // fold into (-count/2, count/2]
+        int raw = ((index - selected) % count + count) % count;
+        if (raw > count / 2) raw -= count;
         return raw;
     }
 

@@ -21,6 +21,17 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
     private GameObject m_spawnedBoltVisual;
     private float m_screwLength = 0f;
 
+
+
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        if (controller.GetEquippedTool() != requiredTool)
+        {
+            return $"//BOLT -> requires {requiredTool}";
+        }
+        return $"//BOLT install_progress = {m_installation_progress}";
+    }
+
     public Transform InteractionPoint => transform;
     public InstallationState GetInstallState() => m_installation_state;
     public float GetInstallationProgress() => m_installation_progress;

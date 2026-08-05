@@ -8,6 +8,18 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
     private Data_ShipModule _currentGhostModuleData;
     private Component_Ship m_parent_ship;
     private bool m_placement_blocked;
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        if (controller.GetEquippedTool() != EquipmentType.SHIP_BUILDER)
+        {
+            return $"//SHIP_SURFACE {this.m_parent_ship.name} -> EQUIP {EquipmentType.SHIP_BUILDER} TO INSTALL MODULES";
+        }
+        else
+        {
+            return $"//SHIP_SURFACE {this.m_parent_ship.name}";
+        }
+    }
+
     public Transform InteractionPoint => transform;
     [Header("Debug")]
     [SerializeField] private List<GameObject> m_current_blockers = new List<GameObject>();

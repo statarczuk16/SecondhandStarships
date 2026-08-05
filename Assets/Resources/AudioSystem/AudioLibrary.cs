@@ -17,6 +17,10 @@ public enum SoundID
     UI_ButtonClick,
     UI_PanelOpen,
     UI_PanelClose,
+    
+    Generator,
+    
+    Toggle
 }
 
 [CreateAssetMenu(menuName = "Audio/Audio Library")]

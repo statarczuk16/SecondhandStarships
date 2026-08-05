@@ -1,0 +1,67 @@
+/* ===========================================================
+   GREEN PHOSPHOR THEME
+   =========================================================== */
+
+:root {
+    /* BACKGROUNDS */
+    --theme-bg-screen: rgba(13,22,16,.85);
+    --theme-bg-panel: rgba(28,38,33,.65);
+    --theme-bg-panel-alt: rgba(13,22,16,.40);
+    --theme-bg-raised: rgba(28,38,33,.90);
+    --theme-bg-hover: rgba(74,107,92,.60);
+    --theme-bg-selected: rgba(28,38,33,.90);
+    --theme-bg-overlay: rgba(0,0,0,.65);
+
+    /* BORDERS */
+    --theme-border: rgba(74,107,92,.40);
+    --theme-border-subtle: rgba(74,107,92,.15);
+    --theme-border-active: rgba(51,255,51,.80);
+    --theme-border-selected: rgba(51,255,51,.95);
+    --theme-border-warning: rgba(218,165,32,.90);
+    --theme-border-danger: rgba(204,0,0,.80);
+
+    /* TEXT */
+    --theme-text-primary: rgba(51,255,51,.85);
+    --theme-text-accent: rgba(218,165,32,.90);
+    --theme-text-muted: rgba(74,107,92,.80);
+    --theme-text-disabled: rgba(74,107,92,.40);
+
+    --theme-text-success: rgba(51,255,51,1);
+    --theme-text-warning: rgba(218,165,32,.90);
+    --theme-text-danger: rgba(204,0,0,.80);
+}
+
+/* BACKGROUNDS */
+
+.theme-bg-screen      { background-color: var(--theme-bg-screen); }
+.theme-bg-panel       { background-color: var(--theme-bg-panel); }
+.theme-bg-panel-alt   { background-color: var(--theme-bg-panel-alt); }
+.theme-bg-raised      { background-color: var(--theme-bg-raised); }
+.theme-bg-hover       { background-color: var(--theme-bg-hover); }
+.theme-bg-selected    { background-color: var(--theme-bg-selected); }
+.theme-bg-overlay     { background-color: var(--theme-bg-overlay); }
+
+/* BORDERS */
+
+.theme-border          { border-color: var(--theme-border); }
+.theme-border-subtle   { border-color: var(--theme-border-subtle); }
+.theme-border-active   { border-color: var(--theme-border-active); }
+.theme-border-selected { border-color: var(--theme-border-selected); }
+.theme-border-warning  { border-color: var(--theme-border-warning); }
+.theme-border-danger   { border-color: var(--theme-border-danger); }
+
+/* TEXT */
+
+.theme-text-primary    { color: var(--theme-text-primary); }
+.theme-text-accent     { color: var(--theme-text-accent); }
+.theme-text-muted      { color: var(--theme-text-muted); }
+.theme-text-disabled   { color: var(--theme-text-disabled); }
+
+.theme-text-success    { color: var(--theme-text-success); }
+.theme-text-warning    { color: var(--theme-text-warning); }
+.theme-text-danger     { color: var(--theme-text-danger); }
+
+/* HOVER UTILITIES */
+
+.theme-hover-bg:hover     { background-color: var(--theme-bg-hover); }
+.theme-hover-border:hover { border-color: var(--theme-border-active); }

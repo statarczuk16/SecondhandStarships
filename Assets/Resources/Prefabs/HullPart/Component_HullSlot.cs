@@ -8,6 +8,11 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
     [SerializeField] private GameObject defaultHullPartPrefab;
     bool installed = false;
 
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        return $"//HULL_SLOT";
+    }
+
     public Transform InteractionPoint => transform;
 
     public void Awake()

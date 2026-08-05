@@ -49,7 +49,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         _mDataInventory = new Data_Inventory(m_max_slots);
         SeedTestData();
 
-        controller_eq.DisplayInventory(this);
+        controller_eq.DisplayInventory(controller_eq, this);
         TopicLogger.Log(LogTopic.Inventory, LogLevel.INFO,
             $"{name}: built a {m_max_slots}-slot inventory and attached it to the grid UI");
     }
@@ -70,7 +70,7 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         Tier tier = (Tier)UnityEngine.Random.Range(0, 3);
         int amount = UnityEngine.Random.Range(m_item_amount_range.x, m_item_amount_range.y + 1);
 
-        if (!_mDataInventory.TryAddItem(type, tier, amount, out string error))
+        if (!_mDataInventory.TryAddItem(type, tier, amount, out int remainder, out string error))
         {
             TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"AddRandomItem failed: {error}");
         }

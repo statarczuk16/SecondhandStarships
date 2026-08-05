@@ -27,9 +27,9 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     [SerializeField] List<GameObject> m_starting_part_prefabs;
 
     [SerializeField] private Mediator_PlayerMiniGames m_minigame_mediator;
-    [SerializeField] private  InventoryGridController m_inventory_controller;
+    [SerializeField] private  DualInventoryController m_inventory_controller;
     
-    private Data_Inventory _mDataInventory = new Data_Inventory();
+    [SerializeField] private Data_Inventory _mDataInventory = new Data_Inventory();
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
@@ -324,18 +324,18 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public void OpenPlayerMenu()
     {
-        DisplayInventory(this);//opens player inventory
+        DisplayInventory(this, null);//opens player inventory
     }
 
     public void ClosePlayerMenu()
     {
-        this.m_inventory_controller.CloseInventory(this);
+        this.m_inventory_controller.CloseUI();
         m_minigame_mediator.ChangeInputMode(PlayerState.MovingMode);
     }
 
-    public void DisplayInventory(IInventoryOwner inventory)
+    public void DisplayInventory(IInventoryOwner left_inventory, IInventoryOwner right_inventory)
     {
-        this.m_inventory_controller.OpenInventory(inventory);
+        this.m_inventory_controller.OpenUI(left_inventory, right_inventory);
         m_minigame_mediator.ChangeInputMode(PlayerState.MenuMode);
     }
 }

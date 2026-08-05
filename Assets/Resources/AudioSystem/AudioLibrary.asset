@@ -21,3 +21,7 @@ MonoBehaviour:
     audioEvent: {fileID: 11400000, guid: ea136c9f5e983f64bb452d3275fc2c08, type: 2}
   - id: 5
     audioEvent: {fileID: 11400000, guid: 29594c68c09b5db4b9e0c1c51823b432, type: 2}
+  - id: 10
+    audioEvent: {fileID: 11400000, guid: f7627591d13650046a62caef20a9a5d6, type: 2}
+  - id: 11
+    audioEvent: {fileID: 11400000, guid: f9f66609243de9c42a9e66e00283ae71, type: 2}

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
 public interface IMinigameView
 {
     void Show();
@@ -11,7 +10,6 @@ public interface IMinigameView
     void FlashMiss();
 }
 
-
 public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
 {
     private VisualElement rootContainer;
@@ -20,11 +18,6 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
     private VisualElement SweetZoneElementTight;
     private VisualElement FrequencyIndicator;
     private Label StatusMessageLabel;
-
-    // HUD Amber Color Palette Configs
-    private readonly Color hudAmberActive = new Color(1.0f, 0.62f, 0.0f, 0.85f);
-    private readonly Color hudGreenLock = new Color(0.0f, 0.95f, 0.4f, 0.9f);
-    private readonly Color hudRedWarning = new Color(1.0f, 0.15f, 0.15f, 0.9f);
 
     private void OnEnable()
     {
@@ -54,7 +47,6 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
         FrequencyIndicator = rootContainer.QOrFail<VisualElement>("FrequencyIndicator");
         StatusMessageLabel = rootContainer.QOrFail<Label>("StatusMessageLabel");
 
-        // Ensure the UI starts hidden once it finishes loading
         Hide();
     }
 
@@ -67,7 +59,7 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
             if (StatusMessageLabel != null)
             {
                 StatusMessageLabel.text = "//BOLT_TIGHTNESS - 0";
-                StatusMessageLabel.style.color = hudAmberActive;
+                ResetThemeState();
             }
         }
     }
@@ -84,14 +76,13 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
     {
         float indicatorTopPositionPercent = (1f - positionNormalized) * 100f;
         FrequencyIndicator.style.top = Length.Percent(indicatorTopPositionPercent);
-        // Reset elements back to default HUD Amber standard lines during dragging transitions
-        FrequencyIndicator.style.backgroundColor = hudAmberActive;
+        
+        // Reset indicator and label colors back to primary active state during movement
+        ResetThemeState();
     }
 
     public void SetTightenSweetSpot(float sweetSpotCenterNormalized, float sweetSpotWidthNormalized)
     {
-       
-
         // --- Vertical Math Layout Translation ---
         // UI Toolkit positions 0% at the TOP and 100% at the BOTTOM.
         // 0f = Down/Tighten (Bottom of UI), 1f = Up/Loosen (Top of UI). Invert to map correctly.
@@ -100,15 +91,10 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
 
         SweetZoneElementTight.style.height = Length.Percent(sweetZoneHeightPercent);
         SweetZoneElementTight.style.top = Length.Percent(sweetZoneTopPositionPercent);
-
-        StatusMessageLabel.style.color = hudAmberActive;
-
     }
 
     public void SetLoosenSweetSpot(float sweetSpotCenterNormalized, float sweetSpotWidthNormalized)
     {
-        
-
         // --- Vertical Math Layout Translation ---
         // UI Toolkit positions 0% at the TOP and 100% at the BOTTOM.
         // 0f = Down/Tighten (Bottom of UI), 1f = Up/Loosen (Top of UI). Invert to map correctly.
@@ -117,36 +103,64 @@ public class MiniGame_Wrench_UI_Script : MonoBehaviour, IMinigameView
 
         SweetZoneElementLoose.style.height = Length.Percent(sweetZoneHeightPercent);
         SweetZoneElementLoose.style.top = Length.Percent(sweetZoneTopPositionPercent);
-       
-        StatusMessageLabel.style.color = hudAmberActive;
-        
     }
 
     public void UpdateTaskProgress(float progress)
     {
-        
-        StatusMessageLabel.text = $"// BOLT_TIGHTNESS - {progress:F1}";
-        
+        if (StatusMessageLabel != null)
+        {
+            StatusMessageLabel.text = $"// BOLT_TIGHTNESS - {progress:F1}";
+        }
     }
 
     public void FlashHit()
     {
-        
-        StatusMessageLabel.style.color = hudGreenLock;
-        FrequencyIndicator.style.backgroundColor = hudGreenLock;
-        
+        if (StatusMessageLabel != null)
+        {
+            StatusMessageLabel.RemoveFromClassList("theme-text-primary");
+            StatusMessageLabel.RemoveFromClassList("theme-text-danger");
+            StatusMessageLabel.AddToClassList("theme-text-success");
+        }
+
+        if (FrequencyIndicator != null)
+        {
+            FrequencyIndicator.RemoveFromClassList("theme-border-active");
+            FrequencyIndicator.RemoveFromClassList("theme-border-danger");
+            FrequencyIndicator.AddToClassList("theme-border-selected");
+        }
     }
 
     public void FlashMiss()
     {
         if (StatusMessageLabel != null)
         {
-            StatusMessageLabel.style.color = hudRedWarning;
+            StatusMessageLabel.RemoveFromClassList("theme-text-primary");
+            StatusMessageLabel.RemoveFromClassList("theme-text-success");
+            StatusMessageLabel.AddToClassList("theme-text-danger");
         }
 
         if (FrequencyIndicator != null)
         {
-            FrequencyIndicator.style.backgroundColor = hudRedWarning;
+            FrequencyIndicator.RemoveFromClassList("theme-border-active");
+            FrequencyIndicator.RemoveFromClassList("theme-border-selected");
+            FrequencyIndicator.AddToClassList("theme-border-danger");
+        }
+    }
+
+    private void ResetThemeState()
+    {
+        if (StatusMessageLabel != null)
+        {
+            StatusMessageLabel.RemoveFromClassList("theme-text-success");
+            StatusMessageLabel.RemoveFromClassList("theme-text-danger");
+            StatusMessageLabel.AddToClassList("theme-text-primary");
+        }
+
+        if (FrequencyIndicator != null)
+        {
+            FrequencyIndicator.RemoveFromClassList("theme-border-selected");
+            FrequencyIndicator.RemoveFromClassList("theme-border-danger");
+            FrequencyIndicator.AddToClassList("theme-border-active");
         }
     }
 }

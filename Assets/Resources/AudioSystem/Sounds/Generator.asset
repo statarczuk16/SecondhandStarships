@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d6cacefecbce945a2919b7d5770108, type: 3}
-  m_Name: WrenchSuccess
+  m_Name: Generator
   m_EditorClassIdentifier: Assembly-CSharp::AudioEventSO
   clips:
-  - {fileID: 8300000, guid: ddf00d05da1534ac283539c1f194bffb, type: 3}
-  - {fileID: 8300000, guid: 1966d2dac531e48fdb64ad8e18779105, type: 3}
+  - {fileID: 8300000, guid: 39df1f44cfe18f946ad1eb4b3bf105ec, type: 3}
   volume: 1
   volumeVariance: 0
   pitch: 1
-  pitchVariance: 0.2
-  mixerGroup: {fileID: 990565233575997346, guid: fdeb5fca9eac20b4a903adb3ad9324d1, type: 2}
-  loop: 0
+  pitchVariance: 0
+  mixerGroup: {fileID: 5647574610576873060, guid: fdeb5fca9eac20b4a903adb3ad9324d1, type: 2}
+  loop: 1
   spatialBlend: 1

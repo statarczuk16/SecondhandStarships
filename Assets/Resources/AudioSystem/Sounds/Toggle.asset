@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d6cacefecbce945a2919b7d5770108, type: 3}
+  m_Name: Toggle
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEventSO
+  clips:
+  - {fileID: 8300000, guid: 77865c5416964a04bba58c3a02e78953, type: 3}
+  - {fileID: 8300000, guid: 10ad2834e2edaef499194c1d3609d191, type: 3}
+  - {fileID: 8300000, guid: 52fc2a7c805b137498ac05cc16e3c147, type: 3}
+  - {fileID: 8300000, guid: 348473c602d72d8428a5abc930752c8f, type: 3}
+  - {fileID: 8300000, guid: e8b8e98cf7ee9cf4082e31559b495d88, type: 3}
+  - {fileID: 8300000, guid: f76668db95b46bf44b0d6fce691b657a, type: 3}
+  - {fileID: 8300000, guid: 61321a6acb445704a8b4c0e96aec2145, type: 3}
+  volume: 1
+  volumeVariance: 0.196
+  pitch: 1
+  pitchVariance: 0.2
+  mixerGroup: {fileID: 990565233575997346, guid: fdeb5fca9eac20b4a903adb3ad9324d1, type: 2}
+  loop: 0
+  spatialBlend: 1

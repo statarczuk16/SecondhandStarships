@@ -13,6 +13,19 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
     [SerializeField] private Data_Inventory mDataInventory;
     
     private HighlightableRenderer m_highlight_renderer;
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        if (controller.GetEquippedTool() != EquipmentType.SHIP_BUILDER)
+        {
+            return $"//SHIP_MODULE {this.name} -> EQUIP {EquipmentType.SHIP_BUILDER} TO INSPECT INSTALLATION STATUS";
+        }
+        else
+        {
+            return $"//SHIP_MODULE {this.name} INSTALLATION_STATUS -> {this.GetPartState()}";
+        }
+       
+    }
+
     public Transform InteractionPoint => throw new NotImplementedException();
 
     private void Awake()
@@ -95,7 +108,11 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             return; //no op we are already 
         }
         this.m_data.install_state = InstallationState.INSTALLING;
-        this.m_parent_surface.OnPartUninstalled(this);
+        if (m_parent_surface)
+        {
+            this.m_parent_surface.OnPartUninstalled(this);
+        }
+        
     }
 
     private void OnInstalled()
@@ -106,7 +123,11 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         }
         AudioEvents.Fire(SoundID.Part_Installed, this.transform.position);
         this.m_data.install_state = InstallationState.INSTALLED;
-        this.m_parent_surface.OnPartInstalled(this);
+        if (m_parent_surface)
+        {
+            this.m_parent_surface.OnPartInstalled(this);
+        }
+       
     }
 
     private void OnUninstalled()
@@ -116,8 +137,12 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             return; //no op we are already
         }
         this.m_data.install_state = InstallationState.UNINSTALLED;
-        this.m_parent_surface.OnPartUninstalled(this);
-        this.m_parent_surface = null;
+        if (this.m_parent_surface)
+        {
+            this.m_parent_surface.OnPartUninstalled(this);
+            this.m_parent_surface = null;
+        }
+        
     }
 
 

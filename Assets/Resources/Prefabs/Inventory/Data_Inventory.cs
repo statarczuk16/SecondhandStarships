@@ -33,38 +33,38 @@ public enum Tier
 public enum ItemType
 {
     // --- Materials ---
-    Wire,
-    Insulation,
-    Pipe,
-    Gasket,
-    Tubing,
-    Switch,
-    SheetMetal,
-    Rod,
-    Semiconductor,
+    Acid,
+    Canister,
     Capacitor,
-    Mesh,
-    Magnet,
+    Ceramic,
+    Gasket,
+    Gear,
+    Insulation,
     Lens,
     Lubricant,
-    Gear,
-    Canister,
-    Ceramic,
-    Acid,
+    Magnet,
+    Mesh,
+    Pipe,
+    Rod,
+    Semiconductor,
+    SheetMetal,
+    Switch,
+    Tubing,
+    Wire,
 
     // --- Parts ---
-    Motor,
-    Coil,
-    HeatingElement,
-    Microcontroller,
-    SensorModule,
-    JunctionBox,
-    Pump,
-    Filter,
     Actuator,
+    Coil,
     Fan,
+    Filter,
     Gimbal,
-    Igniter
+    HeatingElement,
+    Igniter,
+    JunctionBox,
+    Microcontroller,
+    Motor,
+    Pump,
+    SensorModule
 }
 
 public enum InventorySlotType
@@ -261,19 +261,21 @@ public class Data_Inventory
     // Items (materials & parts)
     // -------------------------------------------------------------
 
-    public bool TryAddItem(ItemType item_type, Tier tier, int amount, out string error)
+   public bool TryAddItem(ItemType item_type, Tier tier, int amount, out int leftover, out string error)
     {
-        return TryAddItem(item_type, tier, amount, -1, out error);
+        return TryAddItem(item_type, tier, amount, -1, out leftover, out error);
     }
 
     /// <summary>
     /// If preferSlotIndex is a valid empty slot or a matching stack, the
     /// item lands there first. Otherwise falls back to an existing matching
     /// stack anywhere, then the first empty slot.
+    /// Returns leftover amount if the inventory becomes full or hits a stack limit.
     /// </summary>
-    public bool TryAddItem(ItemType item_type, Tier tier, int amount, int preferSlotIndex, out string error)
+    public bool TryAddItem(ItemType item_type, Tier tier, int amount, int preferSlotIndex, out int leftover, out string error)
     {
         EnsureCapacity();
+        leftover = amount; // Default to returning the full amount if we fail
 
         if (amount <= 0)
         {
@@ -281,6 +283,7 @@ public class Data_Inventory
             return false;
         }
 
+        // 1. Try preferred slot first
         if (preferSlotIndex >= 0 && preferSlotIndex < slots.Count)
         {
             Data_InventorySlot preferred = slots[preferSlotIndex];
@@ -294,6 +297,8 @@ public class Data_Inventory
                 preferred.item_type = item_type;
                 preferred.tier = tier;
                 preferred.count += amount;
+                
+                leftover = 0;
                 error = null;
                 TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
                     $"Placed {amount}x {item_type} (T{(int)tier + 1}) in slot {preferSlotIndex}");
@@ -301,16 +306,20 @@ public class Data_Inventory
             }
         }
 
+        // 2. Try existing stack anywhere else
         int existingIndex = FindItemSlotIndex(item_type, tier);
         if (existingIndex >= 0)
         {
             slots[existingIndex].count += amount;
+            
+            leftover = 0;
             error = null;
             TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
                 $"Stacked {amount}x {item_type} (T{(int)tier + 1}) -> now {slots[existingIndex].count}");
             return true;
         }
 
+        // 3. Try finding a new empty slot
         int emptyIndex = FindEmptySlotIndex();
         if (emptyIndex < 0)
         {
@@ -325,11 +334,13 @@ public class Data_Inventory
         slot.tier = tier;
         slot.count = amount;
 
+        leftover = 0;
         error = null;
         TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
             $"New stack: {item_type} (T{(int)tier + 1}) x{amount} in slot {emptyIndex}");
         return true;
     }
+    
 
     /// <summary>
     /// Removes amount of a given item, pulling from whichever matching
@@ -625,4 +636,6 @@ public class Data_Inventory
         }
         return result;
     }
+    public IReadOnlyList<RecipeIngredient> Recipe => recipe;
+    
 }

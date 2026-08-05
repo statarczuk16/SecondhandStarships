@@ -1,0 +1,67 @@
+/* ===========================================================
+   COBALT & PEACH THEME (Blue Dominant)
+   =========================================================== */
+
+:root {
+    /* BACKGROUNDS (Dominant Blues & Slates) */
+    --theme-bg-screen: #2e3036;
+    --theme-bg-panel: #41579b;
+    --theme-bg-panel-alt: #494c58;
+    --theme-bg-raised: #6c7e9d;
+    --theme-bg-hover: #5b7271;
+    --theme-bg-selected: #fdaf67;
+    --theme-bg-overlay: rgba(24, 17, 17, 0.75);
+
+    /* BORDERS */
+    --theme-border: #6c7e9d;
+    --theme-border-subtle: #494c58;
+    --theme-border-active: #8cb2b0;
+    --theme-border-selected: #fdaf67;
+    --theme-border-warning: #c1854e;
+    --theme-border-danger: #ba6522;
+
+    /* TEXT */
+    --theme-text-primary: #b6d0be;
+    --theme-text-accent: #fdaf67;
+    --theme-text-muted: #778f92;
+    --theme-text-disabled: #705e56;
+
+    --theme-text-success: #8cb2b0;
+    --theme-text-warning: #c1854e;
+    --theme-text-danger: #ba6522;
+}
+
+/* BACKGROUNDS */
+
+.theme-bg-screen      { background-color: var(--theme-bg-screen); }
+.theme-bg-panel       { background-color: var(--theme-bg-panel); }
+.theme-bg-panel-alt   { background-color: var(--theme-bg-panel-alt); }
+.theme-bg-raised      { background-color: var(--theme-bg-raised); }
+.theme-bg-hover       { background-color: var(--theme-bg-hover); }
+.theme-bg-selected    { background-color: var(--theme-bg-selected); }
+.theme-bg-overlay     { background-color: var(--theme-bg-overlay); }
+
+/* BORDERS */
+
+.theme-border          { border-color: var(--theme-border); }
+.theme-border-subtle   { border-color: var(--theme-border-subtle); }
+.theme-border-active   { border-color: var(--theme-border-active); }
+.theme-border-selected { border-color: var(--theme-border-selected); }
+.theme-border-warning  { border-color: var(--theme-border-warning); }
+.theme-border-danger   { border-color: var(--theme-border-danger); }
+
+/* TEXT */
+
+.theme-text-primary    { color: var(--theme-text-primary); }
+.theme-text-accent     { color: var(--theme-text-accent); }
+.theme-text-muted      { color: var(--theme-text-muted); }
+.theme-text-disabled   { color: var(--theme-text-disabled); }
+
+.theme-text-success    { color: var(--theme-text-success); }
+.theme-text-warning    { color: var(--theme-text-warning); }
+.theme-text-danger     { color: var(--theme-text-danger); }
+
+/* HOVER UTILITIES */
+
+.theme-hover-bg:hover     { background-color: var(--theme-bg-hover); }
+.theme-hover-border:hover { border-color: var(--theme-border-active); }

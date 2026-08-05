@@ -41,6 +41,11 @@ public class Component_TankOutputPort : MonoBehaviour, IInteractable, IHighlight
     private HighlightableRenderer m_highlight_renderer;
 
 
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        return $"//FLUID_PORT | SOURCE_CONNECTED -> {m_source != null} | DRAIN_CONNECTED -> {m_piped_receiver != null}";
+    }
+
     public Transform InteractionPoint => this.transform;
 
     private void Awake()

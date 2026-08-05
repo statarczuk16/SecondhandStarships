@@ -1,21 +1,20 @@
+/* ==============================================================
+   BASE STYLES (Structural & Layout Only)
+   ============================================================== */
+
 .screen-overlay-wrap {
     flex-grow: 1;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0);
     padding-right: 40px;
 }
-
-
 
 .screen-overlay-wrap-centered-dim-background {
     width: 100%;
     height: 100%;
-    /* Flexbox centering properties */
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional dim background */
 }
 
 .visor-overlay-column {
@@ -26,7 +25,6 @@
     padding-left: 20px;
     padding-right: 0;
     border-left-width: 1px;
-    border-color: rgba(255, 160, 0, 0.25);
 }
 
 .status-message-container {
@@ -34,7 +32,6 @@
 }
 
 .status-message-label {
-    color: rgba(255, 160, 0, 0.8);
     font-size: 24px;
     margin-top: 4px;
 }
@@ -52,10 +49,8 @@
 .calibration-track {
     width: 65px;
     height: 100%;
-    background-color: rgba(186, 143, 69, 0.361);
     border-left-width: 1px;
     border-right-width: 1px;
-    border-color: rgba(255, 160, 0, 0.3);
     position: relative;
 }
 
@@ -63,10 +58,8 @@
     position: absolute;
     width: 100%;
     height: auto;
-    background-color: rgba(156, 127, 114, 0.686);
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-color: rgba(255, 160, 0, 0.75);
 }
 
 .frequency-indicator {
@@ -74,10 +67,8 @@
     width: 100%;
     height: 10px;
     left: 0;
-    background-color: rgb(245, 110, 0);
     margin-top: -5px;
     border-width: 2px;
-    border-color: rgb(255, 200, 150);
 }
 
 .direction-labels {
@@ -88,13 +79,12 @@
 }
 
 .direction-label {
-    color: rgba(255, 160, 0, 0.9);
     font-size: 20px;
 }
 
 .direction-label-center {
-    color: rgba(255, 255, 255, 0.9);
 }
+
 /* ---------- Tool Inventory Carousel ---------- */
 .inventory-screen-root {
     flex-grow: 1;
@@ -127,9 +117,7 @@
     width: 250px;
     height: 84px;
     margin-bottom: 12px;
-    background-color: rgba(40, 28, 16, 0.55);
     border-width: 1px;
-    border-color: rgba(255, 160, 0, 0.35);
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -146,20 +134,16 @@
 }
 
 .tool-box-label {
-    color: rgba(255, 160, 0, 0.8);
     font-size: 18px;
     -unity-text-align: middle-center;
     letter-spacing: 2px;
 }
 
 .tool-box-selected {
-    border-color: rgba(255, 200, 120, 0.95);
     border-width: 2px;
-    background-color: rgba(80, 50, 20, 0.7);
 }
 
 .tool-box-selected .tool-box-label {
-    color: rgb(255, 220, 170);
 }
 
 .tool-box-dist-1 {
@@ -170,10 +154,7 @@
     opacity: 0.22;
 }
 
-
-
 .tool-inventory-empty-label {
-    color: rgba(255, 160, 0, 0.5);
     font-size: 20px;
     -unity-text-align: middle-center;
 }
@@ -201,16 +182,44 @@
 .label-box {
     width: 250px;
     height: 84px;
-    background-color: rgba(40, 28, 16, 0.55);
     border-width: 1px;
-    border-color: rgba(255, 160, 0, 0.35);
     transition-property: translate, opacity, border-color, background-color;
     transition-duration: 180ms;
     transition-timing-function: ease-out;
     justify-content: center;
 }
 
+.label-box.label-box-double-wide {
+    width: 500px;
+}
+
+.auto-size-box {
+    /* Remove explicit width/height so it fits content */
+    width: auto;
+    height: auto;
+
+    /* Optional: Use flex to center or organize the label inside */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* Padding so the box has breathing room around the text */
+    padding: 8px 12px;
+}
+
+.auto-size-label {
+    /* Allow the text to wrap if it reaches a maximum container limit */
+    white-space: normal;
+
+    /* Ensure the label doesn't force a fixed size */
+    width: auto;
+    height: auto;
+    font-size: 20px;
+}
+
 .reticle {
+    position: absolute;
     width: 24px;
     height: 24px;
     justify-content: center;
@@ -222,5 +231,4 @@
     width: 4px;
     height: 4px;
     border-radius: 2px;
-    background-color: rgb(255, 200, 150);
 }

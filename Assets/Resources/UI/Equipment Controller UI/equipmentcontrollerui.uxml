@@ -1,5 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <!-- Load structural styles and color theme -->
     <Style src="../BaseStyles.uss" />
+    <Style src="../ColorPalettes/theme_retro_future.uss" />
+
     <ui:VisualElement name="InventoryScreenRoot" class="inventory-screen-root">
         
         <ui:VisualElement name="ToolInventoryWrap" class="tool-inventory-wrap">
@@ -7,8 +10,9 @@
                 <!-- Tool boxes are instantiated and positioned at runtime by Component_ToolInventoryUI -->
             </ui:VisualElement>
             
-            <ui:VisualElement name="ToolTooltipBox" class="tool-box tool-tooltip-box">
-                <ui:Label name="ToolTooltipLabel" class="tool-box-label" />
+            <!-- Applied panel and border theme classes to the static tooltip box -->
+            <ui:VisualElement name="ToolTooltipBox" class="tool-box tool-tooltip-box theme-bg-panel theme-border">
+                <ui:Label name="ToolTooltipLabel" class="tool-box-label theme-text-primary" />
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -27,14 +31,15 @@
 
     <ui:VisualElement name="ReticleContainer" class="reticle-container" picking-mode="Ignore">
         <ui:VisualElement name="Reticle" class="reticle">
-            <ui:VisualElement name="ReticleDot" class="reticle-dot" />
+            <!-- Used the selected background color to make the center dot visible -->
+            <ui:VisualElement name="ReticleDot" class="reticle-dot theme-bg-selected" />
         </ui:VisualElement>
 
-        <ui:VisualElement name="CurrentHover" class="label-box screen-vertical-top-fourth">
-            <ui:Label name="CurrentHoverLabel" text="Temp" class="tool-inventory-empty-label" />
+        <!-- Applied panel and border theme classes to the static hover box -->
+        <ui:VisualElement name="CurrentHover" class="auto-size-box screen-vertical-top-fourth theme-bg-panel theme-border">
+            <ui:Label name="CurrentHoverLabel" text="Temp" class="auto-size-label theme-text-primary" />
         </ui:VisualElement>
 
     </ui:VisualElement>
-
 
 </ui:UXML>

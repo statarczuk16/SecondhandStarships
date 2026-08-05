@@ -1,20 +1,22 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="../BaseStyles.uss" />
+    <Style src="../ColorPalettes/theme_retro_future.uss" />
+
     <ui:VisualElement name="ScreenOverlayWrap" class="screen-overlay-wrap">
-        <ui:VisualElement name="VisorOverlayColumn" class="visor-overlay-column">
+        <ui:VisualElement name="VisorOverlayColumn" class="visor-overlay-column theme-border-subtle">
             <ui:VisualElement class="status-message-container">
-                <ui:Label name="StatusMessageLabel" text="// BOLT_TIGHTNESS - 0" class="status-message-label"/>
+                <ui:Label name="StatusMessageLabel" text="// BOLT_TIGHTNESS - 0" class="status-message-label theme-text-primary"/>
             </ui:VisualElement>
             <ui:VisualElement name="MainDeckRow" class="main-deck-row">
-                <ui:VisualElement name="CalibrationTrack" class="calibration-track">
-                    <ui:VisualElement name="SweetZoneElementLoose" class="sweet-zone-element"/>
-                    <ui:VisualElement name="SweetZoneElementTight" class="sweet-zone-element"/>
-                    <ui:VisualElement name="FrequencyIndicator" class="frequency-indicator"/>
+                <ui:VisualElement name="CalibrationTrack" class="calibration-track theme-border-subtle">
+                    <ui:VisualElement name="SweetZoneElementLoose" class="sweet-zone-element theme-bg-panel-alt theme-border"/>
+                    <ui:VisualElement name="SweetZoneElementTight" class="sweet-zone-element theme-bg-panel-alt theme-border"/>
+                    <ui:VisualElement name="FrequencyIndicator" class="frequency-indicator theme-bg-selected theme-border-active"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="DirectionLabels" class="direction-labels">
-                    <ui:Label text="▲ LOOSEN&#10;" class="direction-label"/>
-                    <ui:Label text="— " class="direction-label direction-label-center"/>
-                    <ui:Label text="▼ TIGHTEN" class="direction-label"/>
+                    <ui:Label text="▲ LOOSEN&#10;" class="direction-label theme-text-muted"/>
+                    <ui:Label text="— " class="direction-label direction-label-center theme-text-muted"/>
+                    <ui:Label text="▼ TIGHTEN" class="direction-label theme-text-muted"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

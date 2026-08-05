@@ -3,82 +3,65 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 /// <summary>
-/// Renders a persistent inventory grid
+/// Renders a single inventory grid. Managed by DualInventoryController.
 /// </summary>
-public class InventoryGridController : MonoBehaviour
+public class InventoryGridController
 {
-    [Tooltip("Must implement IInventoryOwner. Assign the component that owns the Inventory to display (equipment controller, garage storage, cargo hold, etc.).")]
-    [SerializeField] private MonoBehaviour m_inventory_owner_behaviour;
+    public IInventoryOwner InventoryOwner { get; private set; }
+    public bool HasOwner => InventoryOwner != null;
 
-    private IInventoryOwner m_inventory_owner;
+    public event Action<int> OnSlotRightClicked;
+    public event Action<int> OnSlotClicked;
 
+    private readonly string m_debugName;
+    private VisualElement m_rootElement;
     private VisualElement m_viewport;
     private Label m_capacity_label;
+    private VisualElement m_recipeFooter;
+    private VisualElement m_recipeFooter2;
 
     private readonly List<VisualElement> m_slot_elements = new List<VisualElement>();
     private readonly List<string> m_bound_signature = new List<string>();
 
-    /// <summary>Fired whenever a slot is clicked, regardless of whether it triggered a pick-up/place/cancel.</summary>
-    public event Action<int> OnSlotClicked;
-
-    // Index of the slot currently "picked up" awaiting a destination, or -1 if nothing held.
     private int m_held_slot_index = -1;
+
+    public InventoryGridController(string debugName)
+    {
+        m_debugName = debugName;
+    }
+
+    private void HandleSlotRightClicked(int index)
+    {
+        OnSlotRightClicked?.Invoke(index);
+    }
     
-    // Lets code repoint this UI at a different inventory at runtime (e.g.
-    // switching the grid from the player's backpack to a garage storage
-    // container when the player opens it).
+    public void Initialize(VisualElement rootElement)
+    {
+        m_rootElement = rootElement;
+        if (m_rootElement == null) return;
+
+        m_viewport = m_rootElement.Q<VisualElement>("InventoryGridViewport");
+        m_capacity_label = m_rootElement.Q<Label>("InventoryCapacityLabel");
+        m_recipeFooter = m_rootElement.Q<VisualElement>("RecipeFooter");
+        m_recipeFooter2 = m_rootElement.Q<VisualElement>("RecipeFooter2");
+        
+        RefreshGrid();
+    }
+
     public void SetInventoryOwner(IInventoryOwner owner)
     {
-        m_inventory_owner = owner;
-        m_held_slot_index = -1;
+        InventoryOwner = owner;
+        SetHeldIndex(-1);
         RefreshGrid();
     }
 
-    private void OnEnable()
+    public void Tick()
     {
-        var panelRenderer = GetComponent<PanelRenderer>();
-        if (panelRenderer != null)
-        {
-            panelRenderer.RegisterUIReloadCallback(OnUIReload);
-        }
-    }
+        if (m_viewport == null || InventoryOwner == null) return;
 
-    private void OnDisable()
-    {
-        var panelRenderer = GetComponent<PanelRenderer>();
-        if (panelRenderer != null)
-        {
-            panelRenderer.UnregisterUIReloadCallback(OnUIReload);
-        }
-    }
-
-    private void OnUIReload(PanelRenderer pr, VisualElement root)
-    {
-        m_viewport = root.QOrFail<VisualElement>("InventoryGridViewport");
-        m_capacity_label = root.QOrFail<Label>("InventoryCapacityLabel");
-        RefreshGrid();
-    }
-
-    public void OpenInventory(IInventoryOwner owner)
-    {
-        this.gameObject.SetActive(true);
-        SetInventoryOwner(owner);
-    }
-    
-    public void CloseInventory(IInventoryOwner owner)
-    {
-        this.gameObject.SetActive(false);
-        SetInventoryOwner(null);
-    }
-
-    private void Update()
-    {
-        if (m_viewport == null || m_inventory_owner == null) return;
-
-        Data_Inventory dataInventory = m_inventory_owner.GetInventory();
+        Data_Inventory dataInventory = InventoryOwner.GetInventory();
         if (dataInventory == null) return;
 
         List<string> signature = BuildSignature(dataInventory);
@@ -88,46 +71,15 @@ public class InventoryGridController : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------
-    // Pick-up / place
-    // -------------------------------------------------------------
+    public void SetHeldIndex(int index)
+    {
+        m_held_slot_index = index;
+        ApplyHeldHighlight();
+    }
 
     private void HandleSlotClicked(int index)
     {
         OnSlotClicked?.Invoke(index);
-
-        Data_Inventory dataInventory = m_inventory_owner?.GetInventory();
-        if (dataInventory == null) return;
-
-        if (m_held_slot_index < 0)
-        {
-            // Nothing held yet — picking up requires a non-empty slot.
-            Data_InventorySlot slot = dataInventory.GetSlot(index);
-            if (slot != null && !slot.IsEmpty)
-            {
-                m_held_slot_index = index;
-            }
-            ApplyHeldHighlight();
-            return;
-        }
-
-        if (m_held_slot_index == index)
-        {
-            // Clicked the held slot again — cancel the pick-up.
-            m_held_slot_index = -1;
-            ApplyHeldHighlight();
-            return;
-        }
-
-        if (!dataInventory.TryMoveSlot(m_held_slot_index, index, out string error))
-        {
-            TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Could not move slot {m_held_slot_index} -> {index}: {error}");
-            // Keep holding — let the player pick a different destination.
-            return;
-        }
-
-        m_held_slot_index = -1;
-        RefreshGrid();
     }
 
     // -------------------------------------------------------------
@@ -136,9 +88,17 @@ public class InventoryGridController : MonoBehaviour
 
     private void RefreshGrid()
     {
-        if (m_viewport == null || m_inventory_owner == null) return;
+        if (m_viewport == null) return;
 
-        Data_Inventory dataInventory = m_inventory_owner.GetInventory();
+        if (InventoryOwner == null)
+        {
+            m_viewport.Clear();
+            if (m_recipeFooter != null) m_recipeFooter.style.display = DisplayStyle.None;
+            if (m_recipeFooter2 != null) m_recipeFooter2.style.display = DisplayStyle.None;
+            return;
+        }
+
+        Data_Inventory dataInventory = InventoryOwner.GetInventory();
         if (dataInventory == null) return;
 
         m_viewport.Clear();
@@ -149,8 +109,20 @@ public class InventoryGridController : MonoBehaviour
         for (int i = 0; i < dataInventory.MaxSlots; i++)
         {
             VisualElement slotElement = BuildSlotElement(dataInventory.GetSlot(i));
-            int capturedIndex = i; // avoid closure-over-loop-variable bug
-            slotElement.RegisterCallback<ClickEvent>(_ => HandleSlotClicked(capturedIndex));
+            int capturedIndex = i;
+            slotElement.RegisterCallback<PointerUpEvent>(evt => 
+            {
+                // button 0 is Left Click
+                if (evt.button == 0)
+                {
+                    HandleSlotClicked(capturedIndex);
+                }
+                // button 1 is Right Click
+                else if (evt.button == 1)
+                {
+                    HandleSlotRightClicked(capturedIndex);
+                }
+            });
 
             m_viewport.Add(slotElement);
             m_slot_elements.Add(slotElement);
@@ -162,6 +134,75 @@ public class InventoryGridController : MonoBehaviour
         {
             m_capacity_label.text = $"{dataInventory.UsedSlots} / {dataInventory.MaxSlots}";
         }
+
+        RefreshRecipeFooter(dataInventory);
+    }
+
+    private void RefreshRecipeFooter(Data_Inventory dataInventory)
+    {
+        if (m_recipeFooter == null) return;
+
+        if (dataInventory.Recipe == null || dataInventory.Recipe.Count == 0)
+        {
+            m_recipeFooter.style.display = DisplayStyle.None;
+            m_recipeFooter2.style.display = DisplayStyle.None;
+            return;
+        }
+
+        m_recipeFooter.style.display = DisplayStyle.Flex;
+        m_recipeFooter.Clear();
+        m_recipeFooter2.style.display = DisplayStyle.Flex;
+        m_recipeFooter2.Clear();
+
+        // 1. Tally requirements exactly as Data_Inventory does internally
+        var required = new Dictionary<(ItemType, Tier), int>();
+        foreach (var ingredient in dataInventory.Recipe)
+        {
+            var key = (ingredient.item_type, ingredient.tier);
+            required.TryGetValue(key, out int count);
+            required[key] = count + 1;
+        }
+
+        // 2. Build Row 1: The individual items
+        VisualElement itemsRow = new VisualElement();
+        itemsRow.style.flexDirection = FlexDirection.Row;
+        itemsRow.style.flexWrap = Wrap.Wrap;
+        itemsRow.style.justifyContent = Justify.Center;
+        itemsRow.style.marginBottom = 6;
+
+        bool allMet = true;
+
+        foreach (var kvp in required)
+        {
+            int need = kvp.Value;
+            int have = dataInventory.GetItemCount(kvp.Key.Item1, kvp.Key.Item2);
+            bool isMet = have >= need;
+
+            if (!isMet) allMet = false;
+
+            string itemName = FriendlyName(kvp.Key.Item1.ToString());
+            string symbol = isMet ? "✓" : "✗";
+            
+            Label reqLabel = new Label($"{need} {itemName} {symbol}");
+            reqLabel.style.marginRight = 8;
+            reqLabel.style.color = isMet ? new StyleColor(new Color(0.3f, 0.8f, 0.3f)) : new StyleColor(new Color(0.9f, 0.3f, 0.3f));
+            
+            itemsRow.Add(reqLabel);
+        }
+
+        // 3. Build Row 2: Overall status
+        VisualElement overallRow = new VisualElement();
+        overallRow.style.flexDirection = FlexDirection.Row;
+        overallRow.style.justifyContent = Justify.Center;
+
+        Label overallLabel = new Label(allMet ? "//READY" : "//MISSING PARTS");
+        overallLabel.style.color = allMet ? new StyleColor(new Color(0.3f, 0.8f, 0.3f)) : new StyleColor(new Color(0.9f, 0.3f, 0.3f));
+        overallLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+
+        overallRow.Add(overallLabel);
+
+        m_recipeFooter.Add(itemsRow);
+        m_recipeFooter2.Add(overallRow);
     }
 
     private static VisualElement BuildSlotElement(Data_InventorySlot slot)
@@ -172,23 +213,25 @@ public class InventoryGridController : MonoBehaviour
         if (slot == null || slot.IsEmpty)
         {
             element.AddToClassList("inventory-slot-empty");
+            element.AddToClassList("theme-bg-panel-alt");
+            element.AddToClassList("theme-border-subtle");
             return element;
         }
 
         element.AddToClassList("inventory-slot-filled");
+        element.AddToClassList("theme-bg-panel");
+        element.AddToClassList("theme-border");
 
         if (slot.slot_type == InventorySlotType.Item)
         {
-            //var tierBadge = new Label($"T{(int)slot.tier + 1}");
-            //tierBadge.AddToClassList("inventory-slot-tier-badge");
-            //element.Add(tierBadge);
-
             var label = new Label(FriendlyName(slot.item_type.ToString()));
             label.AddToClassList("inventory-slot-label");
+            label.AddToClassList("theme-text-primary");
             element.Add(label);
 
             var countBadge = new Label(slot.count > 1 ? $"x{slot.count}" : "");
             countBadge.AddToClassList("inventory-slot-count-badge");
+            countBadge.AddToClassList("theme-text-primary");
             element.Add(countBadge);
         }
         else if (slot.slot_type == InventorySlotType.Module)
@@ -201,14 +244,8 @@ public class InventoryGridController : MonoBehaviour
 
             var label = new Label(partName);
             label.AddToClassList("inventory-slot-label");
+            label.AddToClassList("theme-text-accent");
             element.Add(label);
-
-            //if (slot.module != null)
-            //{
-            //    var stateBadge = new Label(slot.module.install_state.ToString());
-            //    stateBadge.AddToClassList("inventory-slot-module-badge");
-            //    element.Add(stateBadge);
-            //}
         }
 
         return element;
@@ -218,13 +255,28 @@ public class InventoryGridController : MonoBehaviour
     {
         for (int i = 0; i < m_slot_elements.Count; i++)
         {
+            var element = m_slot_elements[i];
+
             if (i == m_held_slot_index)
             {
-                m_slot_elements[i].AddToClassList("inventory-slot-held");
+                element.AddToClassList("inventory-slot-held");
+                element.RemoveFromClassList("theme-bg-panel");
+                element.RemoveFromClassList("theme-border");
+                
+                element.AddToClassList("theme-bg-raised");
+                element.AddToClassList("theme-border-active");
             }
             else
             {
-                m_slot_elements[i].RemoveFromClassList("inventory-slot-held");
+                element.RemoveFromClassList("inventory-slot-held");
+                element.RemoveFromClassList("theme-bg-raised");
+                element.RemoveFromClassList("theme-border-active");
+
+                if (!element.ClassListContains("inventory-slot-empty"))
+                {
+                    element.AddToClassList("theme-bg-panel");
+                    element.AddToClassList("theme-border");
+                }
             }
         }
     }
@@ -248,6 +300,16 @@ public class InventoryGridController : MonoBehaviour
                 signature.Add($"MODULE:{slot.module?.part_name}:{slot.module?.install_state}");
             }
         }
+        
+        // Add the recipe to the signature so the UI refreshes if the recipe changes
+        if (dataInventory.Recipe != null)
+        {
+            foreach (var req in dataInventory.Recipe)
+            {
+                signature.Add($"RECIPE:{req.item_type}:{req.tier}");
+            }
+        }
+        
         return signature;
     }
 
@@ -261,8 +323,6 @@ public class InventoryGridController : MonoBehaviour
         return true;
     }
 
-    // "SheetMetal" -> "SHEET METAL". Enum names have no separators, unlike
-    // EquipmentType's SCREAMING_SNAKE_CASE, so ToUpperInvariant alone isn't readable.
     private static string FriendlyName(string raw)
     {
         var sb = new StringBuilder(raw.Length + 4);
