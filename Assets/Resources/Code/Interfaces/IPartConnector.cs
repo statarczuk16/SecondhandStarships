@@ -8,10 +8,12 @@ public enum InstallationState
     INSTALLED
 }
 
-public interface IPartConnector : IInteractable, IHighlightable
+public interface IPartConnector 
 {
     InstallationState GetInstallState();
     EquipmentType RequiredTool();
     bool SetOwner(Component_ShipPart owner);
     void InitializeConnector();
+    int GetInstallationProgress();       
+    void InstallationUpdate(int amount);
 }

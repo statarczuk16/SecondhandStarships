@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,6 +20,7 @@ public class DualInventoryController : MonoBehaviour
     // State for cross-inventory dragging
     private InventoryGridController m_heldGridSource = null;
     private int m_heldSlotIndex = -1;
+    private Controller_Equipment m_equipment_controller;
 
     private void Awake()
     {
@@ -70,11 +72,11 @@ public class DualInventoryController : MonoBehaviour
         m_containerGrid.Tick();
     }
 
-    public void OpenUI(IInventoryOwner playerOwner, IInventoryOwner containerOwner = null)
+    public void OpenUI(Controller_Equipment equipment_controller, IInventoryOwner playerOwner, IInventoryOwner containerOwner = null)
     {
         gameObject.SetActive(true);
         ClearHeldState();
-
+        m_equipment_controller = equipment_controller;
         m_playerGrid.SetInventoryOwner(playerOwner);
         m_containerGrid.SetInventoryOwner(containerOwner);
 
@@ -83,10 +85,14 @@ public class DualInventoryController : MonoBehaviour
 
     public void CloseUI()
     {
-        gameObject.SetActive(false);
-        ClearHeldState();
-        m_playerGrid.SetInventoryOwner(null);
-        m_containerGrid.SetInventoryOwner(null);
+        if (gameObject.activeSelf)
+        {
+            gameObject.SetActive(false);
+            ClearHeldState();
+            m_playerGrid.SetInventoryOwner(null);
+            m_containerGrid.SetInventoryOwner(null);
+        }
+        
     }
 
     private void RefreshLayoutVisibility()
@@ -177,6 +183,49 @@ public class DualInventoryController : MonoBehaviour
     
     // NEW: Handle right clicks for quick transferring exactly 1 item
     private void HandleSlotRightClicked(InventoryGridController clickedGrid, int clickedIndex)
+    {
+        // Don't allow quick-transfer if the user is currently holding an item on the cursor
+        if (m_heldGridSource != null) return;
+
+        // Identify the opposite grid
+        InventoryGridController targetGrid = (clickedGrid == m_playerGrid) ? m_containerGrid : m_playerGrid;
+        
+        // If the other inventory isn't open, we can't transfer anything
+        if (!targetGrid.HasOwner) return;
+
+        if (targetGrid.InventoryOwner.IsInstallTarget() || clickedGrid.InventoryOwner.IsInstallTarget())
+        {
+            //open install mini game
+            var connector = new Connector_InventoryItemRemoval(
+                InstallationState.UNINSTALLED,
+                EquipmentType.SCREW_DRIVER /* or whatever tool pulls parts */
+            );
+
+            // Define the win action using a lambda expression
+            Action win_action = () => 
+            {
+                QuickMove(clickedGrid, clickedIndex);
+            };
+            Action always_action = () => 
+            {
+                this.gameObject.SetActive(true);
+            };
+            var minigame_goal = new HashSet<InstallationState>
+            {
+                InstallationState.INSTALLED
+            };
+            IToolMinigame minigame = new MiniGame_Wrench(connector, connector.RequiredTool(), minigame_goal);
+            minigame.SetOutcomes(InputMode.MenuMode, always_action, win_action, null);
+            this.gameObject.SetActive(false);
+            m_equipment_controller.startMiniGame(minigame);
+        }
+        else
+        {
+            QuickMove(clickedGrid, clickedIndex);
+        }
+    }
+
+    private void QuickMove(InventoryGridController clickedGrid, int clickedIndex)
     {
         // Don't allow quick-transfer if the user is currently holding an item on the cursor
         if (m_heldGridSource != null) return;

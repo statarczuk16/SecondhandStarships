@@ -35,6 +35,11 @@ public class Component_InventoryTestDriver : MonoBehaviour, IInventoryOwner
         return _mDataInventory;
     }
 
+    public bool IsInstallTarget()
+    {
+        return false;
+    }
+
     // -------------------------------------------------------------
     // One-shot setup — the only thing this driver does automatically is
     // nothing. Everything happens here, on demand, from the Inspector.

@@ -342,12 +342,24 @@ PrefabInstance:
       value: med_generator
       objectReference: {fileID: 0}
     - target: {fileID: 4070710967750516945, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
+      propertyPath: m_data_inventory.max_slots
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070710967750516945, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
+      propertyPath: m_data_inventory.slots.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070710967750516945, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
       propertyPath: m_data_inventory.slots.Array.data[0].count
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4070710967750516945, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
       propertyPath: m_data_inventory.slots.Array.data[0].slot_type
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6430118701751219227, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
+      propertyPath: m_Name
+      value: InventoryAccessPanel
       objectReference: {fileID: 0}
     - target: {fileID: 6742618302349440965, guid: da2f31669840de1478f8d9ffb08240c6, type: 3}
       propertyPath: m_Enabled
@@ -1061,8 +1073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 816845682}
   - component: {fileID: 816845685}
-  - component: {fileID: 816845684}
-  - component: {fileID: 816845683}
+  - component: {fileID: 816845686}
   m_Layer: 0
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -1085,35 +1096,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2005074253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &816845683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816845681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af89ee7b06bd32c4cb3e9919f19b8832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Component_InventoryTestDriver
-  m_max_slots: 20
-  m_item_stack_count: 3
-  m_module_count: 2
-  m_item_amount_range: {x: 1, y: 5}
---- !u!114 &816845684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816845681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9628ac2e6ab603c41ab86e2ff9884714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryGridController
-  m_inventory_owner_behaviour: {fileID: 0}
 --- !u!1931382934 &816845685
 PanelRenderer:
   m_ObjectHideFlags: 0
@@ -1172,6 +1154,18 @@ PanelRenderer:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_Position: 0
+--- !u!114 &816845686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816845681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd88b70329227d4992152d11035fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DualInventoryController
 --- !u!1 &817423386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6870,7 +6864,55 @@ PrefabInstance:
     - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
       propertyPath: m_inventory_controller
       value: 
-      objectReference: {fileID: 816845684}
+      objectReference: {fileID: 816845686}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[0].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[1].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[2].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[3].count
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[0].item_type
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[0].slot_type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[1].item_type
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[1].slot_type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[2].item_type
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[2].slot_type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[3].item_type
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018423285544113071, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
+      propertyPath: _mDataInventory.slots.Array.data[3].slot_type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3183273868089065988, guid: 525c7932ebc3a4248a2f6fdb5cc082b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.34

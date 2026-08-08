@@ -239,6 +239,11 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         return _mDataInventory;
     }
 
+    public bool IsInstallTarget()
+    {
+        return false;
+    }
+
     public IReadOnlyList<Data_ShipModule> GetShipPartInventory()
     {
         return _mDataInventory.GetModulesCompact();
@@ -330,12 +335,12 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     public void ClosePlayerMenu()
     {
         this.m_inventory_controller.CloseUI();
-        m_minigame_mediator.ChangeInputMode(PlayerState.MovingMode);
+        m_minigame_mediator.ChangeInputMode(InputMode.MovingMode);
     }
 
     public void DisplayInventory(IInventoryOwner left_inventory, IInventoryOwner right_inventory)
     {
-        this.m_inventory_controller.OpenUI(left_inventory, right_inventory);
-        m_minigame_mediator.ChangeInputMode(PlayerState.MenuMode);
+        this.m_inventory_controller.OpenUI(this, left_inventory, right_inventory);
+        m_minigame_mediator.ChangeInputMode(InputMode.MenuMode);
     }
 }

@@ -5,4 +5,5 @@
 public interface IInventoryOwner
 {
     Data_Inventory GetInventory();
+    bool IsInstallTarget();
 }

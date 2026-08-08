@@ -2,7 +2,7 @@ using System;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
-public class Component_Generator : MonoBehaviour, IToggleable 
+public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner
 {
     [SerializeField] private Component_Inventory m_inventory;
     private bool m_is_running = false;
@@ -70,4 +70,15 @@ public class Component_Generator : MonoBehaviour, IToggleable
     {
         return m_is_running;
     }
+
+    public Data_Inventory GetInventory()
+    {
+        return m_inventory.GetInventory();
+    }
+
+    public bool IsInstallTarget()
+    {
+        return true;
+    }
+    
 }

@@ -14,9 +14,9 @@
                     <ui:VisualElement name="FrequencyIndicator" class="frequency-indicator theme-bg-selected theme-border-active"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="DirectionLabels" class="direction-labels">
-                    <ui:Label text="▲ LOOSEN&#10;" class="direction-label theme-text-muted"/>
+                    <ui:Label text="▲ UNINSTALL;" class="direction-label theme-text-muted"/>
                     <ui:Label text="— " class="direction-label direction-label-center theme-text-muted"/>
-                    <ui:Label text="▼ TIGHTEN" class="direction-label theme-text-muted"/>
+                    <ui:Label text="▼ INSTALL" class="direction-label theme-text-muted"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
