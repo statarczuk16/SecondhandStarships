@@ -20,7 +20,9 @@ public enum SoundID
     
     Generator,
     
-    Toggle
+    Toggle,
+    DoorOpen,
+    DoorClose
 }
 
 [CreateAssetMenu(menuName = "Audio/Audio Library")]

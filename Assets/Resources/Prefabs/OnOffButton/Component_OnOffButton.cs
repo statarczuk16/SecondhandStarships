@@ -4,8 +4,8 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
 {
 
     // Serialize a MonoBehaviour so it appears in the Inspector
-    [SerializeField] private MonoBehaviour m_controlledObjectSource;
-    [SerializeField] private HighlightableRenderer m_highlight_renderer;
+    [SerializeField, Required] private MonoBehaviour m_controlledObjectSource;
+    [SerializeField, Required] private HighlightableRenderer m_highlight_renderer;
     // The actual interface property used by your logic
     private IToggleable m_controlled_object;
 
@@ -56,11 +56,19 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
          bool can_toggle = m_controlled_object.CanToggle(out string reason);
          if (can_toggle)
          {
-             return $"//ON/OFF TOGGLE -> GO_AHEAD";
+             if (this.m_controlled_object.IsOn())
+             {
+                 return $"//TURN OFF {this.m_controlledObjectSource.name}";
+             }
+             else
+             {
+                 return $"//TURN ON {this.m_controlledObjectSource.name}";
+             }
+             
          }
          else
          {
-             return $"//ON/OFF TOGGLE -> {reason}";
+             return $"// {this.m_controlledObjectSource.name} CANNOT_TOGGLE -- {reason}";
          }
          
     }

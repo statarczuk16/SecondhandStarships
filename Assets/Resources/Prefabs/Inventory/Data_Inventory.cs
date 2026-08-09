@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -74,6 +75,14 @@ public enum InventorySlotType
     Module
 }
 
+public enum InventoryStartupBehavior
+{
+    UseInspector,
+    Empty,
+    AllPartsInstalled,
+    SomePartsMissing
+}
+
 // ---------------------------------------------------------------------
 // Data
 // ---------------------------------------------------------------------
@@ -106,6 +115,23 @@ public class Data_InventorySlot
         count = 0;
         module = null;
     }
+    
+    public Data_InventorySlot() { }
+    
+    public Data_InventorySlot(Data_InventorySlot other)
+    {
+        if (other == null) return;
+
+        slot_type = other.slot_type;
+        item_type = other.item_type;
+        tier = other.tier;
+        count = other.count;
+        
+        // Note: This copies the reference for 'module'. 
+        // If Data_ShipModule needs to be deeply cloned, you should implement 
+        // a copy constructor for Data_ShipModule as well (e.g., module = new Data_ShipModule(other.module);)
+        module = other.module; 
+    }
 }
 
 // ---------------------------------------------------------------------
@@ -117,12 +143,17 @@ public class Data_Inventory
 {
     [Header("Capacity")]
     [SerializeField] private int max_slots = 5;
+    [SerializeField] private bool can_stack = false;
 
     [Header("Slots")]
     [SerializeField] private List<Data_InventorySlot> slots = new List<Data_InventorySlot>();
     
     [Header("Recipe")]
     [SerializeField] private List<RecipeIngredient> recipe = new List<RecipeIngredient>();
+    
+   
+    
+    
 
     public Data_Inventory()
     {
@@ -168,11 +199,140 @@ public class Data_Inventory
         {
             slots.Add(new Data_InventorySlot());
         }
+
+        List<Data_InventorySlot> slots_to_remove = new List<Data_InventorySlot>();
+        List<Data_InventorySlot> slots_to_expand = new List<Data_InventorySlot>();
+        for(int i = 0; i < slots.Count; i++)
+        {
+            Data_InventorySlot slot = slots[i];
+            if (slot.count == 0 && slot.slot_type == InventorySlotType.Item)
+            {
+                slots_to_remove.Add(slot);
+            }
+            else if (can_stack == false && slot.count > 1)
+            {
+                slots_to_expand.Add(slot);
+            }
+        }
+
+        foreach(Data_InventorySlot slot in slots_to_remove)
+        {
+            TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Cleaning up empty slot {slot.item_type}");
+            slots.Remove(slot);
+        }
+        foreach(Data_InventorySlot slot in slots_to_expand)
+        {
+            TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Cleaning up illegal {slot.count} stacked {slot.item_type} on non-stackable inventory");
+            //if 4 stored in this slot, but we can't stack, we need to set count to 1 and add 3 more slots of this type
+            int num_add = slot.count - 1;
+            slot.count = 1;
+            for (int i = 0; i < num_add; i++)
+            {
+                Data_InventorySlot new_slot = new Data_InventorySlot(slot);
+                TopicLogger.Log(LogTopic.Inventory, LogLevel.WARN, $"Cleanup - adding slot {slot.count} {slot.item_type}");
+                int leftover;
+                string error;
+                bool success = this.TryAddItem(slot.item_type, slot.tier, slot.count, -1, out leftover, out error);
+                if (!success)
+                {
+                    TopicLogger.Log(LogTopic.Inventory, LogLevel.ERROR, $"Cleanup - adding slot {slot.count} {slot.item_type} FAILED {error}");
+                }
+            }
+                
+        }
+        
     }
+
+
 
     public bool HasAllRecipeItems()
     {
         return HasAllRecipeItems(out _);
+    }
+    
+    /// <summary>
+    /// Clears all inventory slots and populates them with the items required by the recipe.
+    /// Returns true if successful, or false if the inventory lacks the capacity to hold the recipe items.
+    /// </summary>
+    /// <summary>
+    /// Clears the inventory, adjusts max_slots to precisely fit the recipe requirements,
+    /// and populates it with all necessary recipe items.
+    /// </summary>
+    public bool TryFillWithRecipeItems(out string error)
+    {
+        if (recipe == null || recipe.Count == 0)
+        {
+            ClearAll();
+            error = null;
+            return true;
+        }
+
+        // 1. Tally required counts per (type, tier)
+        var required = new Dictionary<(ItemType, Tier), int>();
+        foreach (RecipeIngredient ingredient in recipe)
+        {
+            var key = (ingredient.item_type, ingredient.tier);
+            required.TryGetValue(key, out int count);
+            required[key] = count + 1;
+        }
+
+        // 2. Calculate how many physical slots will be needed
+        int slotsNeeded = 0;
+        if (can_stack)
+        {
+            slotsNeeded = required.Count; // One stack per unique (ItemType, Tier)
+        }
+        else
+        {
+            foreach (var kvp in required)
+            {
+                slotsNeeded += kvp.Value; // One slot per individual item
+            }
+        }
+
+        // 3. Clear existing contents so resizing won't fail due to occupied slots
+        ClearAll();
+
+        // 4. Set max slots to match the recipe requirements
+        if (!TrySetMaxSlots(slotsNeeded, out error))
+        {
+            return false;
+        }
+
+        // 5. Populate inventory with the recipe requirements
+        foreach (var kvp in required)
+        {
+            ItemType itemType = kvp.Key.Item1;
+            Tier tier = kvp.Key.Item2;
+            int totalAmount = kvp.Value;
+
+            if (can_stack)
+            {
+                bool success = TryAddItem(itemType, tier, totalAmount, out int leftover, out error);
+                if (!success || leftover > 0)
+                {
+                    error = $"failed to add recipe item {itemType}: {error}";
+                    return false;
+                }
+            }
+            else
+            {
+                // If stacking is disabled, add them as individual 1-count items
+                for (int i = 0; i < totalAmount; i++)
+                {
+                    bool success = TryAddItem(itemType, tier, 1, out int leftover, out error);
+                    if (!success || leftover > 0)
+                    {
+                        error = $"failed to add recipe item {itemType}: {error}";
+                        return false;
+                    }
+                }
+            }
+        }
+
+        error = null;
+        TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG, $"Successfully resized inventory to {slotsNeeded} slots and filled with recipe items.");
+        return true;
     }
     
     
@@ -283,41 +443,45 @@ public class Data_Inventory
             return false;
         }
 
-        // 1. Try preferred slot first
-        if (preferSlotIndex >= 0 && preferSlotIndex < slots.Count)
+        if (can_stack)
         {
-            Data_InventorySlot preferred = slots[preferSlotIndex];
-            bool matchesPreferred = preferred.slot_type == InventorySlotType.Item
-                && preferred.item_type == item_type
-                && preferred.tier == tier;
-
-            if (preferred.IsEmpty || matchesPreferred)
+            // 1. Try preferred slot first
+            if (preferSlotIndex >= 0 && preferSlotIndex < slots.Count)
             {
-                preferred.slot_type = InventorySlotType.Item;
-                preferred.item_type = item_type;
-                preferred.tier = tier;
-                preferred.count += amount;
+                Data_InventorySlot preferred = slots[preferSlotIndex];
+                bool matchesPreferred = preferred.slot_type == InventorySlotType.Item
+                                        && preferred.item_type == item_type
+                                        && preferred.tier == tier;
+
+                if (preferred.IsEmpty || matchesPreferred)
+                {
+                    preferred.slot_type = InventorySlotType.Item;
+                    preferred.item_type = item_type;
+                    preferred.tier = tier;
+                    preferred.count += amount;
                 
+                    leftover = 0;
+                    error = null;
+                    TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
+                        $"Placed {amount}x {item_type} (T{(int)tier + 1}) in slot {preferSlotIndex}");
+                    return true;
+                }
+            }
+
+            // 2. Try existing stack anywhere else
+            int existingIndex = FindItemSlotIndex(item_type, tier);
+            if (existingIndex >= 0)
+            {
+                slots[existingIndex].count += amount;
+            
                 leftover = 0;
                 error = null;
                 TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
-                    $"Placed {amount}x {item_type} (T{(int)tier + 1}) in slot {preferSlotIndex}");
+                    $"Stacked {amount}x {item_type} (T{(int)tier + 1}) -> now {slots[existingIndex].count}");
                 return true;
             }
         }
-
-        // 2. Try existing stack anywhere else
-        int existingIndex = FindItemSlotIndex(item_type, tier);
-        if (existingIndex >= 0)
-        {
-            slots[existingIndex].count += amount;
-            
-            leftover = 0;
-            error = null;
-            TopicLogger.Log(LogTopic.Inventory, LogLevel.DEBUG,
-                $"Stacked {amount}x {item_type} (T{(int)tier + 1}) -> now {slots[existingIndex].count}");
-            return true;
-        }
+        
 
         // 3. Try finding a new empty slot
         int emptyIndex = FindEmptySlotIndex();
@@ -536,6 +700,15 @@ public class Data_Inventory
             {
                 slots[i].Clear();
             }
+        }
+    }
+    
+    public void ClearAll()
+    {
+        EnsureCapacity();
+        for (int i = 0; i < slots.Count; i++)
+        {
+            slots[i].Clear();
         }
     }
 

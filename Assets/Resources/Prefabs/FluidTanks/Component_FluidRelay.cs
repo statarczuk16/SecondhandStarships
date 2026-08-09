@@ -102,7 +102,7 @@ public class Component_FluidRelay : MonoBehaviour, IFluidReceiver, IFluidSender
 
     public float ReceiveFluid(float amountL, float dt, FluidType type)
     {
-        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.INFO, $"{this.name} got {amountL}L of {type}!");
+        TopicLogger.Log(LogTopic.FluidSystem, LogLevel.DEBUG, $"{this.name} got {amountL}L of {type}!");
 
         float distributable;
         float total_leak = 0f;

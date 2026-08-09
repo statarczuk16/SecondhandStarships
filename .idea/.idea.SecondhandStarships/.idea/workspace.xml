@@ -12,19 +12,36 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Glass_2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Glass_2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Hexagon.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Hexagon.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Holo_emission.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Materials/Holo_emission.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Converter/Component_Converter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/sm_oxygen_tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/sm_oxygen_tank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/med_generator.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/med_generator.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Lit.shader" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Lit.shader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Panel.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Panel.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Hatch.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Hatch.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/DualInventoryGridController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/DualInventoryGridController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +58,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/6d/dbd4b0e7/Action`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/84/fc660e80/Cursor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa13f9e80e3d4ab5bfc2bc34416dfe572b200/30/2b348836/RaycastHit.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/HierarchyRequiredFieldWarning.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IToggleable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/GameEventBus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/RequiredAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/SpriteUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Electrolyzer/Component_Electrolyzer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" root0="FORCE_HIGHLIGHTING" />
@@ -112,10 +131,10 @@
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="9560">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="24804">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="9560" />
+      <option name="pid" value="24804" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
         <list>
@@ -142,6 +161,7 @@
       <workItem from="1784568209073" duration="95801000" />
       <workItem from="1786127915941" duration="12629000" />
       <workItem from="1786209661550" duration="9637000" />
+      <workItem from="1786298845581" duration="13587000" />
     </task>
     <servers />
   </component>
@@ -249,45 +269,6 @@
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs</url>
-          <line>14</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Inventory\Component_Inventory.cs" containingFunctionPresentation="Method 'Awake'">
-            <startOffsets>
-              <option value="472" />
-            </startOffsets>
-            <endOffsets>
-              <option value="554" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs</url>
-          <line>46</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'Awake'">
-            <startOffsets>
-              <option value="1417" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1462" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs</url>
-          <line>55</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\FluidTanks\Component_FluidRelay.cs" containingFunctionPresentation="Method 'AddDownstream'">
-            <startOffsets>
-              <option value="1631" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1667" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/UI/Wrench Mini Game/MiniGame_Wrench.cs</url>
           <line>187</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\UI\Wrench Mini Game\MiniGame_Wrench.cs" containingFunctionPresentation="Method 'End'">
@@ -299,6 +280,45 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
+          <line>77</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'OnInteract'">
+            <startOffsets>
+              <option value="1703" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1717" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
+          <line>62</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'CanInteract'">
+            <startOffsets>
+              <option value="1442" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1454" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs</url>
+          <line>161</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_PlayerInteraction.cs" containingFunctionPresentation="Method 'TryInteract'">
+            <startOffsets>
+              <option value="5299" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5332" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

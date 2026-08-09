@@ -8,6 +8,10 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner
     private bool m_is_running = false;
     private AudioHandle m_generator_sound_handle = AudioHandle.Invalid;
 
+    public void Awake()
+    {
+        this.m_inventory.ClaimInventory(this);
+    }
     private void Update()
     {
         if (IsOn())

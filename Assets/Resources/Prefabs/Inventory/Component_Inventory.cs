@@ -1,21 +1,91 @@
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwner, IInteractable
 {
     [SerializeField] private Data_Inventory m_data_inventory;
-    [SerializeField] private Component_PrefabBoundary m_owning_prefab;
     [SerializeField] private IInventoryOwner m_owner;
     [SerializeField] private HighlightableRenderer m_highlightable;
+    [SerializeField] private InventoryStartupBehavior startup_behavior = InventoryStartupBehavior.UseInspector;
 
     private void Awake()
     {
-        if (!m_owning_prefab)
+        switch(startup_behavior)
         {
-            throw new Exception("Component_PrefabBoundary not found " + this.gameObject.name);
+            case InventoryStartupBehavior.UseInspector:
+            {
+                break;
+            }
+            case InventoryStartupBehavior.Empty:
+            {
+                this.m_data_inventory.ClearAll();
+                break;
+            }
+            case InventoryStartupBehavior.AllPartsInstalled:
+            {
+                string err;
+                bool success = this.m_data_inventory.TryFillWithRecipeItems(out err);
+                if (!success)
+                {
+                    TopicLogger.Log(LogTopic.Inventory, LogLevel.ERROR, $"Couldnt fill inventory with recipe {err}");
+                }
+                break;
+            }
+            case InventoryStartupBehavior.SomePartsMissing:
+            {
+                var recipeList = this.m_data_inventory.Recipe;
+                if (recipeList == null || recipeList.Count <= 1)
+                {
+                    string err;
+                    this.m_data_inventory.TryFillWithRecipeItems(out err);
+                    break;
+                }
+
+                int num_parts = recipeList.Count;
+                // Random.Range max is exclusive for integers, picking between 1 and num_parts - 1
+                int partsToKeep = Random.Range(1, num_parts);
+
+                // Create a randomized subset of the recipe ingredients using a Fisher-Yates shuffle
+                var subset = new List<RecipeIngredient>(recipeList);
+                for (int i = 0; i < subset.Count; i++)
+                {
+                    int rnd = Random.Range(i, subset.Count);
+                    RecipeIngredient temp = subset[i];
+                    subset[i] = subset[rnd];
+                    subset[rnd] = temp;
+                }
+                subset.RemoveRange(partsToKeep, subset.Count - partsToKeep);
+
+                this.m_data_inventory.ClearAll();
+
+                string error;
+                if (!this.m_data_inventory.TrySetMaxSlots(recipeList.Count, out error))
+                {
+                    TopicLogger.Log(LogTopic.Inventory, LogLevel.ERROR, $"Couldnt set max slots for missing parts: {error}");
+                    break;
+                }
+
+                foreach (var ingredient in subset)
+                {
+                    int leftover;
+                    bool success = this.m_data_inventory.TryAddItem(ingredient.item_type, ingredient.tier, 1, out leftover, out error);
+                    if (!success || leftover > 0)
+                    {
+                        TopicLogger.Log(LogTopic.Inventory, LogLevel.ERROR, $"Couldnt add recipe item during partial fill: {error}");
+                    }
+                }
+                break;
+            }
         }
-        m_owner = m_owning_prefab.GetComponent<IInventoryOwner>();
-       
+    }
+
+    public void ClaimInventory(IInventoryOwner new_owner)
+    {
+        this.m_owner = new_owner;
     }
 
     public Data_Inventory GetInventory()
