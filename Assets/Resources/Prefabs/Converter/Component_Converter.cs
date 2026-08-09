@@ -23,10 +23,10 @@ public class Component_Converter : MonoBehaviour, IFluidReceiver
     private const float UPDATE_TIC_s = .25f; //TODO all fluid processors should hae the same value here.
     private float update_tic_counter_s = 0f;
     private bool m_is_leaking = false;
+    private bool m_is_on = false;
 
     private void Awake()
     {
-        m_particle_system = GetComponent<ParticleSystem>(); 
         // 1. Initialize component references
         if (m_output_ports == null)
         {
@@ -38,10 +38,7 @@ public class Component_Converter : MonoBehaviour, IFluidReceiver
         {
             m_input_ports = new List<Component_FluidRelay>(GetComponentsInChildren<Component_FluidRelay>(true));
         }
-        for (int i = 0; i < m_input_ports.Count; i++)
-        {
-            m_input_ports[i].AddDownstream(this);
-        }
+       
 
         // 2. Initialize runtime dictionaries from Inspector data
         m_data.InitializeRuntimeData();
@@ -52,6 +49,23 @@ public class Component_Converter : MonoBehaviour, IFluidReceiver
 
         m_outputFluidTypes = new FluidType[m_data.output_conversion_rate_per_s.Count];
         m_data.output_conversion_rate_per_s.Keys.CopyTo(m_outputFluidTypes, 0);
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < m_input_ports.Count; i++)
+        {
+            m_input_ports[i].AddDownstream(this);
+        }
+    }
+
+    public void TurnOn()
+    {
+        m_is_on = true;
+    }
+    public void TurnOff()
+    {
+        m_is_on = false;
     }
 
     private void Update()
@@ -75,7 +89,7 @@ public class Component_Converter : MonoBehaviour, IFluidReceiver
         m_is_leaking = false;
         float dt = update_tic_counter_s; // actual elapsed time this tick, not the fixed constant
 
-        if (CanConvert(dt))
+        if (m_is_on && CanConvert(dt))
         {
             ConvertAndOutput(dt);
         }

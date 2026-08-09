@@ -109,6 +109,7 @@ public class DualInventoryController : MonoBehaviour
 
     private void HandleSlotClicked(InventoryGridController clickedGrid, int clickedIndex)
     {
+        return;
         var clickedDataInv = clickedGrid.InventoryOwner.GetInventory();
 
         // SCENARIO 1: We aren't holding anything yet. Pick up if not empty.

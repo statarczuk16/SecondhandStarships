@@ -5,20 +5,17 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
 
     // Serialize a MonoBehaviour so it appears in the Inspector
     [SerializeField] private MonoBehaviour m_controlledObjectSource;
-    
+    [SerializeField] private HighlightableRenderer m_highlight_renderer;
     // The actual interface property used by your logic
     private IToggleable m_controlled_object;
 
     private void Awake()
     {
-        // Check and assign the interface reference at runtime
-        if (m_controlledObjectSource is IToggleable toggleable)
+        m_controlled_object = m_controlledObjectSource.GetComponent<IToggleable>();
+
+        if (m_controlled_object == null)
         {
-            m_controlled_object = toggleable;
-        }
-        else
-        {
-            Debug.LogError($"Assigned object {this.m_controlledObjectSource.name} does not implement IToggleable!", this);
+            Debug.LogError($"Assigned object {m_controlledObjectSource.name} does not have a component implementing IToggleable!", this);
         }
     }
     public bool CanInteract(Controller_Equipment controller)
@@ -72,25 +69,32 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
     
     public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
-        MeshRenderer graphics = this.GetComponent<MeshRenderer>();
-
-        if (state == InteractionHighlightState.VALID || state == InteractionHighlightState.INVALID)
+        if (m_highlight_renderer)
         {
-            graphics.enabled = true;
-
-            MaterialPropertyBlock block = new MaterialPropertyBlock();
-            graphics.GetPropertyBlock(block);
-
-            Color current = block.GetColor("_BaseColor");
-            Color tint = state == InteractionHighlightState.VALID ? Color.green : Color.red;
-            tint.a = 0.5f;
-
-            block.SetColor("_BaseColor", tint);
-            graphics.SetPropertyBlock(block);
+            m_highlight_renderer.SetHighlight(state);
         }
         else
         {
-            graphics.enabled = false;
+            MeshRenderer graphics = this.GetComponent<MeshRenderer>();
+            if (state == InteractionHighlightState.VALID || state == InteractionHighlightState.INVALID)
+            {
+                graphics.enabled = true;
+
+                MaterialPropertyBlock block = new MaterialPropertyBlock();
+                graphics.GetPropertyBlock(block);
+
+                Color current = block.GetColor("_BaseColor");
+                Color tint = state == InteractionHighlightState.VALID ? Color.green : Color.red;
+                tint.a = 0.5f;
+
+                block.SetColor("_BaseColor", tint);
+                graphics.SetPropertyBlock(block);
+            }
+            else
+            {
+                graphics.enabled = false;
+            }  
         }
+        
     }
 }

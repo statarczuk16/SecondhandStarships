@@ -116,7 +116,7 @@ public class Data_InventorySlot
 public class Data_Inventory
 {
     [Header("Capacity")]
-    [SerializeField] private int max_slots = 30;
+    [SerializeField] private int max_slots = 5;
 
     [Header("Slots")]
     [SerializeField] private List<Data_InventorySlot> slots = new List<Data_InventorySlot>();

@@ -5,13 +5,17 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
 {
     [SerializeField] private Data_Inventory m_data_inventory;
     [SerializeField] private Component_PrefabBoundary m_owning_prefab;
+    [SerializeField] private IInventoryOwner m_owner;
+    [SerializeField] private HighlightableRenderer m_highlightable;
 
     private void Awake()
     {
         if (!m_owning_prefab)
         {
-            throw new Exception("Component_PrefabBoundary not found");
+            throw new Exception("Component_PrefabBoundary not found " + this.gameObject.name);
         }
+        m_owner = m_owning_prefab.GetComponent<IInventoryOwner>();
+       
     }
 
     public Data_Inventory GetInventory()
@@ -20,13 +24,7 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
     }
     public bool IsInstallTarget()
     {
-        if (m_owning_prefab)
-        {
-            IInventoryOwner owner = m_owning_prefab.GetComponent<IInventoryOwner>();
-            return owner?.IsInstallTarget() ?? false;
-        }
-
-        return false;
+        return m_owner?.IsInstallTarget() ?? false;
     }
     
 
@@ -64,15 +62,19 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
     
     public void SetHighlight(InteractionHighlightState state, Controller_Equipment controller = null)
     {
-        if (state == InteractionHighlightState.VALID)
+        bool visible = state == InteractionHighlightState.VALID;
+        if (m_highlightable)
         {
-            MeshRenderer graphics = this.GetComponent<MeshRenderer>();
-            graphics.enabled = true;
+            m_highlightable.SetHighlight(state);
         }
         else
         {
-            MeshRenderer graphics = this.GetComponent<MeshRenderer>();
-            graphics.enabled = false;
+            MeshRenderer[] graphics = GetComponentsInChildren<MeshRenderer>(true);
+            for (int i = 0; i < graphics.Length; i++)
+            {
+                graphics[i].enabled = visible;
+            }
         }
+        
     }
 }
