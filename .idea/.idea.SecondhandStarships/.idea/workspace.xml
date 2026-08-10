@@ -12,36 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioSystem/AudioLibrary.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Color.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_003.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_006.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Door_panel_007.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Lit.shader" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/ExternalAssets/ithappy-sci-fi/Door/Lit.shader.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/FluidTanks/Component_FluidRelay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Hatch.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Inventory_Access_Hatch.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +44,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManagerStateMonitors.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Temp/GeneratedFromGraph-Shader_Interior_Glow.shader" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -161,7 +133,7 @@
       <workItem from="1784568209073" duration="95801000" />
       <workItem from="1786127915941" duration="12629000" />
       <workItem from="1786209661550" duration="9637000" />
-      <workItem from="1786298845581" duration="13587000" />
+      <workItem from="1786298845581" duration="15484000" />
     </task>
     <servers />
   </component>
