@@ -54,7 +54,7 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
             ClearGhost();
             return;
         }
-        PlaceGhost(controller.GetEquippedPart(), hitInfo);
+        PlaceGhost(controller.GetEquippedPart(), hitInfo, controller);
     }
 
     public void OnHoverExit(Controller_Equipment controller)
@@ -101,7 +101,7 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
         // hit position before we can spawn it usefully.
     }
 
-    private void PlaceGhost(Data_ShipModule dataShipModule, RaycastHit hitInfo)
+    private void PlaceGhost(Data_ShipModule dataShipModule, RaycastHit hitInfo, Controller_Equipment controller)
     {
         if (dataShipModule == null)
         {
@@ -117,9 +117,33 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
         }
 
         currentGhost.transform.position = hitInfo.point;
-        currentGhost.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
+        currentGhost.transform.rotation = GetGhostRotation(hitInfo, controller);
 
         UpdatePlacementValidity();
+    }
+    
+    /// <summary>
+    /// Orients the ghost against the surface's up/forward axes, but flips each
+    /// axis toward the player if they're viewing the surface from the "far"
+    /// side (e.g. standing above a ceiling panel, or behind a wall surface).
+    /// </summary>
+    private Quaternion GetGhostRotation(RaycastHit hitInfo, Controller_Equipment controller)
+    {
+        Vector3 surfaceUp = transform.up;
+        Vector3 surfaceForward = transform.forward;
+
+        Camera playerCamera = controller.transform.GetComponentInChildren<Camera>();
+        
+    
+        Vector3 toCamera = (playerCamera.transform.position - hitInfo.point).normalized;
+    
+        Vector3 resolvedUp = Vector3.Dot(toCamera, surfaceUp) < 0f ? -surfaceUp : surfaceUp;
+        Vector3 resolvedForward = Vector3.Dot(toCamera, surfaceForward) < 0f ? -surfaceForward : surfaceForward;
+    
+        // LookRotation only needs an approximate up axis - it will project it
+        // onto the plane perpendicular to forward automatically, so resolvedUp
+        // and resolvedForward don't need to be perfectly orthogonal here.
+        return Quaternion.LookRotation(resolvedForward, resolvedUp);
     }
 
     private void UpdatePlacementValidity()

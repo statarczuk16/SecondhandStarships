@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 838350086393632581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,7 +116,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
   playerCamera: {fileID: 294203631785624668}
-  interactRange: 5
+  interactRange: 2
   interactableMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -400,6 +400,51 @@ MonoBehaviour:
   - {fileID: 2369911243249985210, guid: dcde246560ed6774fb7a58a57421aad3, type: 3}
   m_minigame_mediator: {fileID: 3736229147870429815}
   m_inventory_controller: {fileID: 0}
+  _mDataInventory:
+    max_slots: 20
+    can_stack: 1
+    slots:
+    - slot_type: 1
+      item_type: 29
+      tier: 0
+      count: 1
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 1
+      item_type: 26
+      tier: 0
+      count: 1
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 1
+      item_type: 28
+      tier: 0
+      count: 1
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 1
+      item_type: 24
+      tier: 0
+      count: 5
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    - slot_type: 1
+      item_type: 1
+      tier: 0
+      count: 1
+      module:
+        part_name: part_name_uninit
+        prefab: {fileID: 0}
+        install_state: 0
+    recipe: []
 --- !u!114 &3736229147870429815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,4 +457,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95650a78c65cac439027c1c465dce56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mediator_PlayerMiniGames
-  wrench_minigame_ui: {fileID: 0}
+  m_wrench_minigame_ui: {fileID: 0}

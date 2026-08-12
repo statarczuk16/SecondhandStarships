@@ -12,6 +12,16 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Glass.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Glass.shadergraph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Interior_Glow.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Interior_Glow.shadergraph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x1.5.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,10 +113,10 @@
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="24804">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="21900">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="24804" />
+      <option name="pid" value="21900" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
         <list>
@@ -133,7 +143,8 @@
       <workItem from="1784568209073" duration="95801000" />
       <workItem from="1786127915941" duration="12629000" />
       <workItem from="1786209661550" duration="9637000" />
-      <workItem from="1786298845581" duration="15484000" />
+      <workItem from="1786298845581" duration="18081000" />
+      <workItem from="1786494070140" duration="5720000" />
     </task>
     <servers />
   </component>
@@ -281,16 +292,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs</url>
-          <line>161</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_PlayerInteraction.cs" containingFunctionPresentation="Method 'TryInteract'">
+          <line>147</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_PlayerInteraction.cs" containingFunctionPresentation="Method 'UpdateHoverTarget'">
             <startOffsets>
-              <option value="5299" />
+              <option value="4837" />
             </startOffsets>
             <endOffsets>
-              <option value="5332" />
+              <option value="4908" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="31" />
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

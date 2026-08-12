@@ -6,7 +6,8 @@ using UnityEngine.InputSystem.XR;
 public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private GameObject defaultHullPartPrefab;
-    bool installed = false;
+    [SerializeField] private bool installed = false;
+    [SerializeField, Required] private Component_MountPoint m_mount_point;
 
     public string GetInteractionLabel(Controller_Equipment controller)
     {
@@ -54,7 +55,7 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
         {
             MeshRenderer graphics = this.GetComponent<MeshRenderer>();
             graphics.enabled = false;
-            GameObject spawnedPart = GameObject.Instantiate(defaultHullPartPrefab, this.transform.parent, false);
+            GameObject spawnedPart = GameObject.Instantiate(defaultHullPartPrefab, this.m_mount_point.GetMountPoint(), false);
             spawnedPart.transform.localPosition = Vector3.zero;
             installed = true;
         }
