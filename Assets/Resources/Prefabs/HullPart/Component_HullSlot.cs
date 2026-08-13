@@ -7,7 +7,7 @@ public class Component_HullSlot : MonoBehaviour, IInteractable, IHighlightable
 {
     [SerializeField] private GameObject defaultHullPartPrefab;
     [SerializeField] private bool installed = false;
-    [SerializeField, Required] private Component_MountPoint m_mount_point;
+    [SerializeField, Required] private Component_PrimitiveMountPoint m_mount_point;
 
     public string GetInteractionLabel(Controller_Equipment controller)
     {

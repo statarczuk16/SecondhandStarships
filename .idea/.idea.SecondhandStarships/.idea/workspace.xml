@@ -12,16 +12,13 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Glass.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Glass.shadergraph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Interior_Glow.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Materials/Shader_Interior_Glow.shadergraph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_PrimitiveMountPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_PrimitiveMountPoint.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x1.5.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullPart_6x4.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x1.5.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/HullWall_6x4.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/_Deprecated/ShipPartSlot/Component_ShipPartSlot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/_Deprecated/ShipPartSlot/Component_ShipPartSlot.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +37,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/84/fc660e80/Cursor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/aa13f9e80e3d4ab5bfc2bc34416dfe572b200/30/2b348836/RaycastHit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/HierarchyRequiredFieldWarning.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IInventoryOwner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IToggleable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/GameEventBus.cs" root0="FORCE_HIGHLIGHTING" />
@@ -54,7 +52,6 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/InputManagerStateMonitors.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Temp/GeneratedFromGraph-Shader_Interior_Glow.shader" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -113,15 +110,13 @@
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="21900">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="21900" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -145,6 +140,7 @@
       <workItem from="1786209661550" duration="9637000" />
       <workItem from="1786298845581" duration="18081000" />
       <workItem from="1786494070140" duration="5720000" />
+      <workItem from="1786578842922" duration="3233000" />
     </task>
     <servers />
   </component>
