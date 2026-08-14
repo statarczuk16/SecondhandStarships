@@ -187,4 +187,12 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector, IInteractable, 
     {
         return requiredTool;
     }
+
+    public void ForceInstall()
+    {
+        SpawnBoltVisual();
+        m_installation_progress = 100;
+        m_installation_state = InstallationState.INSTALLED;
+        PositionBoltVisual();
+    }
 }

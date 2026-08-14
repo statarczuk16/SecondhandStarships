@@ -6,7 +6,7 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 {
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
-    private Component_Ship m_parent_ship;
+    [SerializeField] private Component_Ship m_parent_ship;
     private bool m_placement_blocked;
     public string GetInteractionLabel(Controller_Equipment controller)
     {
@@ -26,11 +26,15 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 
     public void Awake()
     {
-        m_parent_ship = this.transform.GetComponentInParent<Component_Ship>();
-        if(m_parent_ship == null)
+        if(!m_parent_ship)
         {
-            throw new Exception("Needs to have parent" + this.name);
+            m_parent_ship = this.transform.GetComponentInParent<Component_Ship>();
+            if (m_parent_ship == null)
+            {
+                throw new Exception("Needs to have parent" + this.name);
+            }
         }
+        
     }
 
     public bool CanInteract(Controller_Equipment controller)
@@ -193,6 +197,19 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
         
         
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (m_parent_ship != null) return;
+        Component_Ship found = GetComponentInParent<Component_Ship>();
+        if (found != null)
+        {
+            m_parent_ship = found;
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+    }
+#endif
 
     private Bounds GetGhostBounds()
     {

@@ -16,4 +16,5 @@ public interface IPartConnector
     void InitializeConnector();
     int GetInstallationProgress();       
     void InstallationUpdate(int amount);
+    void ForceInstall();
 }

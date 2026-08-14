@@ -29,8 +29,11 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
 
     private void Awake()
     {
-        // Interface lists can't be serialized in the Inspector, so gather connectors
-        // from the part's own hierarchy at runtime instead.
+        InitializeConnectors();
+    }
+
+    public void InitializeConnectors()
+    {
         m_connectors = new List<IPartConnector>(GetComponentsInChildren<IPartConnector>(true));
         foreach (IPartConnector connector in m_connectors)
         {
@@ -143,6 +146,29 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         }
         
     }
+
+    public void PlaceAsInstalled(Component_BuildableSurface surface)
+    {
+        InitializeConnectors();
+        m_data.install_state = InstallationState.UNINSTALLED;
+        m_parent_surface = surface;
+        foreach (IPartConnector connector in m_connectors)
+        {
+            connector.InitializeConnector();
+            connector.ForceInstall();
+        }
+
+        if (PartUsesConnectors())
+        {
+            OnConnectorStatusChanged();
+        }
+        else
+        {
+            OnInstalled();
+        }
+        AudioEvents.Fire(SoundID.Part_Placed, this.transform.position);
+    }
+
 
 
     public bool CanInteract(Controller_Equipment controller)

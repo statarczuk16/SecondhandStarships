@@ -3,24 +3,37 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// Editor tool for placing prefabs by hand while snapping them to Component_MountPoint
-/// markers in the scene. Ghost follows the mouse, snapping to whatever surface is under
-/// the cursor by default, and locking to the nearest mount-point pair (ghost <-> scene)
-/// when one is found within the search radius.
+/// Editor tool with two independent placement modes, shown side by side:
 ///
-/// A mount point's outward normal is its local +Z (transform.forward). Placement snaps
-/// two mount points so their positions coincide and their normals point opposite ways
-/// (i.e. the two objects meet face-to-face).
+/// LEFT  - places arbitrary prefabs by hand while snapping them to
+///         Component_MountPoint markers in the scene (unchanged from before).
+///
+/// RIGHT - places Component_ShipPart prefabs onto whatever Component_BuildableSurface
+///         is under the cursor, oriented the same way Component_BuildableSurface's own
+///         runtime ghost orients itself (surface up/forward, flipped toward the
+///         viewer). On click the part is instantiated and immediately marked fully
+///         installed via Component_ShipPart.PlaceAsInstalled(), so you don't have to
+///         walk through each connector's minigame by hand while iterating in editor.
+///
+/// Only one placement mode can be active at a time; entering one exits the other.
 /// </summary>
 public class Editor_PrefabMountPlacer : EditorWindow
 {
     private const float MaxRaycastDistance = 1000f;
 
+    private enum PlacementMode { None, MountPrefab, ShipPart }
+    private PlacementMode m_placementMode = PlacementMode.None;
+
+    private static readonly Color FreeTint = new Color(0.4f, 0.8f, 1f, 1f);
+    private static readonly Color SnappedTint = new Color(0.3f, 1f, 0.4f, 1f);
+    private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+
+    // ---- Mount-point prefab placement (left panel) ----
+
     private List<GameObject> m_availablePrefabs = new List<GameObject>();
     private GameObject m_selectedPrefab;
     private Vector2 m_scrollPos;
 
-    private bool m_placementActive;
     private float m_snapRadius = 1.5f;
     private bool m_parentToMountTarget = true;
 
@@ -31,12 +44,18 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private bool m_currentlySnapped;
     private Component_MountPoint m_snappedSceneMount;
     private string m_bestGhostMountLocalId;
-    private Vector3 m_lastSearchCenter;
     private bool m_hasValidHit;
 
-    private static readonly Color FreeTint = new Color(0.4f, 0.8f, 1f, 1f);
-    private static readonly Color SnappedTint = new Color(0.3f, 1f, 0.4f, 1f);
-    private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+    // ---- Ship part placement (right panel) ----
+
+    private List<GameObject> m_availableShipParts = new List<GameObject>();
+    private GameObject m_selectedShipPart;
+    private Vector2 m_shipPartScrollPos;
+
+    private GameObject m_shipPartGhost;
+    private GameObject m_shipPartGhostSourcePrefab;
+    private Component_BuildableSurface m_shipPartHoveredSurface;
+    private bool m_shipPartHasValidHit;
 
     [MenuItem("Tools/Ship Builder/Prefab Mount Placer")]
     private static void Open()
@@ -47,14 +66,75 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private void OnEnable()
     {
         RefreshPrefabList();
+        RefreshShipPartList();
     }
 
     private void OnDisable()
     {
-        SetPlacementActive(false);
+        SetPlacementMode(PlacementMode.None);
     }
 
     private void OnGUI()
+    {
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.BeginVertical(GUILayout.Width(Mathf.Max(220f, position.width * 0.5f - 6f)));
+        DrawMountPrefabPanel();
+        EditorGUILayout.EndVertical();
+
+        GUILayout.Box(GUIContent.none, GUILayout.Width(1f), GUILayout.ExpandHeight(true));
+
+        EditorGUILayout.BeginVertical();
+        DrawShipPartPanel();
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void SetPlacementMode(PlacementMode mode)
+    {
+        if (mode == m_placementMode) return;
+
+        if (m_placementMode != PlacementMode.None)
+        {
+            SceneView.duringSceneGui -= OnSceneGUI;
+            DestroyGhost();
+            DestroyShipPartGhost();
+            m_hasValidHit = false;
+            m_shipPartHasValidHit = false;
+        }
+
+        m_placementMode = mode;
+
+        if (mode != PlacementMode.None)
+        {
+            // Avoid the built-in Move/Rotate gizmo intercepting our placement clicks.
+            Selection.activeGameObject = null;
+            SceneView.duringSceneGui += OnSceneGUI;
+        }
+
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        switch (m_placementMode)
+        {
+            case PlacementMode.MountPrefab:
+                OnSceneGUI_MountPrefab(sceneView);
+                break;
+            case PlacementMode.ShipPart:
+                OnSceneGUI_ShipPart(sceneView);
+                break;
+        }
+    }
+
+    // ===================================================================
+    // Mount-point prefab placement (left panel)
+    // ===================================================================
+
+    private void DrawMountPrefabPanel()
     {
         EditorGUILayout.LabelField("Mountable Prefabs", EditorStyles.boldLabel);
 
@@ -88,18 +168,19 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
         EditorGUILayout.Space();
 
+        bool active = m_placementMode == PlacementMode.MountPrefab;
         using (new EditorGUI.DisabledScope(m_selectedPrefab == null))
         {
-            GUI.backgroundColor = m_placementActive ? new Color(1f, 0.5f, 0.5f) : new Color(0.5f, 1f, 0.5f);
-            string label = m_placementActive ? "Exit Placement Mode (Esc)" : "Enter Placement Mode";
+            GUI.backgroundColor = active ? new Color(1f, 0.5f, 0.5f) : new Color(0.5f, 1f, 0.5f);
+            string label = active ? "Exit Placement Mode (Esc)" : "Enter Placement Mode";
             if (GUILayout.Button(label, GUILayout.Height(30)))
             {
-                SetPlacementActive(!m_placementActive);
+                SetPlacementMode(active ? PlacementMode.None : PlacementMode.MountPrefab);
             }
             GUI.backgroundColor = Color.white;
         }
 
-        if (m_placementActive)
+        if (active)
         {
             EditorGUILayout.HelpBox(
                 "Left-click in the Scene view to place " + (m_selectedPrefab != null ? m_selectedPrefab.name : "") +
@@ -162,29 +243,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         }
     }
 
-    private void SetPlacementActive(bool active)
-    {
-        if (active == m_placementActive) return;
-        m_placementActive = active;
-
-        if (active)
-        {
-            // Avoid the built-in Move/Rotate gizmo intercepting our placement clicks.
-            Selection.activeGameObject = null;
-            SceneView.duringSceneGui += OnSceneGUI;
-        }
-        else
-        {
-            SceneView.duringSceneGui -= OnSceneGUI;
-            DestroyGhost();
-            m_hasValidHit = false;
-        }
-
-        SceneView.RepaintAll();
-        Repaint();
-    }
-
-    private void OnSceneGUI(SceneView sceneView)
+    private void OnSceneGUI_MountPrefab(SceneView sceneView)
     {
         if (m_selectedPrefab == null)
         {
@@ -221,7 +280,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         }
         else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
         {
-            SetPlacementActive(false);
+            SetPlacementMode(PlacementMode.None);
             e.Use();
         }
 
@@ -244,14 +303,18 @@ public class Editor_PrefabMountPlacer : EditorWindow
         m_ghostSourcePrefab = m_selectedPrefab;
         m_ghostBaseRotation = m_ghost.transform.rotation;
 
-        StripToVisualOnly(m_ghost);
+        // Keep Component_MountPoint on this ghost - the mount-to-mount snap search
+        // below needs it. The ship-part ghost strips it since it isn't relevant there.
+        StripToVisualOnly(m_ghost, keepMountPoints: true);
     }
 
-    private static void StripToVisualOnly(GameObject root)
+    private static void StripToVisualOnly(GameObject root, bool keepMountPoints)
     {
         foreach (Component c in root.GetComponentsInChildren<Component>(true))
         {
-            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is Component_MountPoint)
+            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer)
+                continue;
+            if (keepMountPoints && c is Component_MountPoint)
                 continue;
 
             Object.DestroyImmediate(c);
@@ -275,7 +338,6 @@ public class Editor_PrefabMountPlacer : EditorWindow
         // Base pose: follow the mouse, align to whatever surface it's over.
         m_ghost.transform.position = hit.point;
         m_ghost.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * m_ghostBaseRotation;
-        m_lastSearchCenter = hit.point;
 
         m_currentlySnapped = TryFindMountSnap(hit.point, out Vector3 snapPos, out Quaternion snapRot);
         if (m_currentlySnapped)
@@ -284,7 +346,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
             m_ghost.transform.rotation = snapRot;
         }
 
-        ApplyGhostTint(m_currentlySnapped ? SnappedTint : FreeTint);
+        ApplyGhostTint(m_ghost, m_currentlySnapped ? SnappedTint : FreeTint);
     }
 
     /// <summary>
@@ -365,11 +427,11 @@ public class Editor_PrefabMountPlacer : EditorWindow
         return true;
     }
 
-    private void ApplyGhostTint(Color color)
+    private static void ApplyGhostTint(GameObject ghost, Color color)
     {
         MaterialPropertyBlock block = new MaterialPropertyBlock();
         block.SetColor(EmissionColorId, color);
-        foreach (Renderer r in m_ghost.GetComponentsInChildren<Renderer>(true))
+        foreach (Renderer r in ghost.GetComponentsInChildren<Renderer>(true))
         {
             r.SetPropertyBlock(block);
         }
@@ -433,6 +495,206 @@ public class Editor_PrefabMountPlacer : EditorWindow
         }
 
         Undo.RegisterCreatedObjectUndo(placed, "Place " + m_selectedPrefab.name);
+        Selection.activeGameObject = placed;
+    }
+
+    // ===================================================================
+    // Ship part placement (right panel)
+    // ===================================================================
+
+    private void DrawShipPartPanel()
+    {
+        EditorGUILayout.LabelField("Ship Parts", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Refresh List"))
+        {
+            RefreshShipPartList();
+        }
+
+        m_shipPartScrollPos = EditorGUILayout.BeginScrollView(m_shipPartScrollPos, "box", GUILayout.Height(180));
+        if (m_availableShipParts.Count == 0)
+        {
+            EditorGUILayout.HelpBox("No prefabs found containing a Component_ShipPart.", MessageType.Info);
+        }
+        foreach (GameObject prefab in m_availableShipParts)
+        {
+            bool isSelected = prefab == m_selectedShipPart;
+            GUI.backgroundColor = isSelected ? new Color(0.5f, 0.8f, 1f) : Color.white;
+            if (GUILayout.Button(prefab.name))
+            {
+                m_selectedShipPart = prefab;
+            }
+        }
+        GUI.backgroundColor = Color.white;
+        EditorGUILayout.EndScrollView();
+
+        EditorGUILayout.Space();
+
+        bool active = m_placementMode == PlacementMode.ShipPart;
+        using (new EditorGUI.DisabledScope(m_selectedShipPart == null))
+        {
+            GUI.backgroundColor = active ? new Color(1f, 0.5f, 0.5f) : new Color(0.5f, 1f, 0.5f);
+            string label = active ? "Exit Placement Mode (Esc)" : "Enter Placement Mode";
+            if (GUILayout.Button(label, GUILayout.Height(30)))
+            {
+                SetPlacementMode(active ? PlacementMode.None : PlacementMode.ShipPart);
+            }
+            GUI.backgroundColor = Color.white;
+        }
+
+        if (active)
+        {
+            string label = m_selectedShipPart != null ? m_selectedShipPart.name : "";
+            string status = m_shipPartHoveredSurface != null
+                ? "Left-click to place " + label + ", installed, on " + m_shipPartHoveredSurface.name + "."
+                : "Hover a Component_BuildableSurface to place " + label + ".";
+            EditorGUILayout.HelpBox(status, MessageType.Info);
+        }
+    }
+
+    private void RefreshShipPartList()
+    {
+        m_availableShipParts.Clear();
+
+        string[] guids = AssetDatabase.FindAssets("t:Prefab");
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (asset == null) continue;
+
+            if (asset.GetComponentInChildren<Component_ShipPart>(true) != null)
+            {
+                m_availableShipParts.Add(asset);
+            }
+        }
+    }
+
+    private void OnSceneGUI_ShipPart(SceneView sceneView)
+    {
+        if (m_selectedShipPart == null)
+        {
+            return;
+        }
+
+        sceneView.wantsMouseMove = true;
+
+        int controlId = GUIUtility.GetControlID(FocusType.Passive);
+        HandleUtility.AddDefaultControl(controlId);
+
+        Event e = Event.current;
+
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        // Collide (not Ignore) - Component_BuildableSurface's own runtime interaction
+        // raycast may be trigger-based, so we shouldn't skip triggers here.
+        m_shipPartHasValidHit = Physics.Raycast(ray, out RaycastHit hit, MaxRaycastDistance, ~0, QueryTriggerInteraction.Collide);
+
+        m_shipPartHoveredSurface = m_shipPartHasValidHit
+            ? hit.collider.GetComponentInParent<Component_BuildableSurface>()
+            : null;
+
+        if (m_shipPartHoveredSurface != null)
+        {
+            EnsureShipPartGhost();
+            UpdateShipPartGhostPose(hit, m_shipPartHoveredSurface, sceneView.camera);
+        }
+        else if (m_shipPartGhost != null)
+        {
+            m_shipPartGhost.SetActive(false);
+        }
+
+        if (e.type == EventType.MouseDown && e.button == 0 && !e.alt && m_shipPartHoveredSurface != null)
+        {
+            PlaceShipPartInstance(m_shipPartHoveredSurface);
+            e.Use();
+        }
+        else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
+        {
+            SetPlacementMode(PlacementMode.None);
+            e.Use();
+        }
+
+        sceneView.Repaint();
+        Repaint(); // keep the HelpBox status text in the tool window live
+    }
+
+    private void EnsureShipPartGhost()
+    {
+        if (m_shipPartGhost != null && m_shipPartGhostSourcePrefab == m_selectedShipPart)
+        {
+            m_shipPartGhost.SetActive(true);
+            return;
+        }
+
+        DestroyShipPartGhost();
+
+        m_shipPartGhost = Object.Instantiate(m_selectedShipPart);
+        m_shipPartGhost.hideFlags = HideFlags.HideAndDontSave;
+        m_shipPartGhost.name = m_selectedShipPart.name + "_ShipPartGhost";
+        m_shipPartGhostSourcePrefab = m_selectedShipPart;
+
+        // No gameplay components on the ghost - it's a preview only, and we don't
+        // want Awake() wiring up connectors/highlight state on something we're
+        // about to destroy.
+        StripToVisualOnly(m_shipPartGhost, keepMountPoints: false);
+    }
+
+    private void DestroyShipPartGhost()
+    {
+        if (m_shipPartGhost != null)
+        {
+            Object.DestroyImmediate(m_shipPartGhost);
+        }
+        m_shipPartGhost = null;
+        m_shipPartGhostSourcePrefab = null;
+        m_shipPartHoveredSurface = null;
+    }
+
+    /// <summary>
+    /// Mirrors Component_BuildableSurface.GetGhostRotation()'s runtime logic: align
+    /// to the surface's up/forward, but flip whichever axis points away from the
+    /// viewer so the ghost always faces you. Runtime uses the player camera; here we
+    /// use the scene view camera instead.
+    /// </summary>
+    private void UpdateShipPartGhostPose(RaycastHit hit, Component_BuildableSurface surface, Camera sceneCamera)
+    {
+        m_shipPartGhost.transform.position = hit.point;
+
+        Vector3 surfaceUp = surface.transform.up;
+        Vector3 surfaceForward = surface.transform.forward;
+
+        Vector3 toCamera = sceneCamera != null
+            ? (sceneCamera.transform.position - hit.point).normalized
+            : surfaceForward;
+
+        Vector3 resolvedUp = Vector3.Dot(toCamera, surfaceUp) < 0f ? -surfaceUp : surfaceUp;
+        Vector3 resolvedForward = Vector3.Dot(toCamera, surfaceForward) < 0f ? -surfaceForward : surfaceForward;
+
+        m_shipPartGhost.transform.rotation = Quaternion.LookRotation(resolvedForward, resolvedUp);
+
+        ApplyGhostTint(m_shipPartGhost, SnappedTint);
+    }
+
+    private void PlaceShipPartInstance(Component_BuildableSurface surface)
+    {
+        if (m_shipPartGhost == null || m_selectedShipPart == null) return;
+
+        GameObject placed = (GameObject)PrefabUtility.InstantiatePrefab(m_selectedShipPart);
+        placed.transform.SetPositionAndRotation(m_shipPartGhost.transform.position, m_shipPartGhost.transform.rotation);
+
+        Component_ShipPart shipPart = placed.GetComponentInChildren<Component_ShipPart>(true);
+        if (shipPart == null)
+        {
+            Debug.LogWarning("Editor_PrefabMountPlacer: placed ship part prefab has no Component_ShipPart - install not applied.");
+        }
+        else
+        {
+            // Same downstream code path as a fully-completed runtime install - see
+            // Component_ShipPart.PlaceAsInstalled().
+            shipPart.PlaceAsInstalled(surface);
+        }
+
+        Undo.RegisterCreatedObjectUndo(placed, "Place " + m_selectedShipPart.name);
         Selection.activeGameObject = placed;
     }
 }

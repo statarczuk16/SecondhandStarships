@@ -56,4 +56,10 @@ public class Connector_InventoryItemRemoval : IPartConnector
     public EquipmentType RequiredTool() => m_required_tool;
     public bool SetOwner(Component_ShipPart owner) => false; // not applicable here
     public void InitializeConnector() { }
+
+    public void ForceInstall()
+    {
+        m_finish_state = InstallationState.INSTALLED;
+        m_installation_progress = 100;
+    }
 }
