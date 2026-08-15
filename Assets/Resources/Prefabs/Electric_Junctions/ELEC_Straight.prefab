@@ -58,6 +58,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3028183057493415938}
+  - component: {fileID: -1334322809571235713}
   m_Layer: 0
   m_Name: ELEC_Straight
   m_TagString: Untagged
@@ -83,6 +84,20 @@ Transform:
   - {fileID: 9032060358472602736}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1334322809571235713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5025738392427823238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d86c4705121ffd34d98aed89cfe419ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PowerRelay
+  m_connections: []
+  m_owning_network: {fileID: 0}
 --- !u!1 &6157874724123617885
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,12 @@ using System;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
-public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner
+public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, IPowerGenerator
 {
     [SerializeField] private Component_Inventory m_inventory;
     private bool m_is_running = false;
     private AudioHandle m_generator_sound_handle = AudioHandle.Invalid;
+    private const int POWER_PER_SECOND = 1000;
 
     public void Awake()
     {
@@ -84,5 +85,13 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner
     {
         return true;
     }
-    
+
+    public float GetPowerGeneratedThisDT()
+    {
+        if(IsOn())
+        {
+            return this.GetPowerGeneratedThisDT() * Time.deltaTime;
+        }
+        return 0f;
+    }
 }
