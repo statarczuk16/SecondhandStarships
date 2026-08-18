@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -30,7 +31,8 @@ public class Component_MountPoint : MonoBehaviour
     // Serialized so a connection made in the editor survives script recompiles,
     // scene saves/reloads, and is available at runtime too - not just placer bookkeeping.
     [SerializeField] private Component_MountPoint m_connectedTo;
-    public bool m_is_snap_candidate;
+    public Component_MountPoint snap_candidate;
+    public float snap_candidate_dist;
 
     public string MountTag => m_mountTag;
     public MountRole Role => m_role;
@@ -38,8 +40,15 @@ public class Component_MountPoint : MonoBehaviour
     public bool IsOccupied => m_connectedTo != null;
     public Component_MountPoint ConnectedTo => m_connectedTo;
 
-    public string LocalId => m_localId;
-    public bool HasLocalId => !string.IsNullOrEmpty(m_localId);
+    public string GetLocalId()
+    {
+        if (!HasLocalId)
+        {
+            throw new Exception("Mount Missing local ID " + this.name + " " + this.transform.parent.name);
+        }
+        return this.m_localId;
+    }
+    public bool HasLocalId => !string.IsNullOrEmpty(m_localId) && m_localId != "-1";
 
     /// <summary>
     /// Assigns a new ID only if one isn't already set. Intended to be called by
@@ -49,7 +58,7 @@ public class Component_MountPoint : MonoBehaviour
     /// </summary>
     public void AssignIdIfMissing()
     {
-        if (string.IsNullOrEmpty(m_localId) || m_localId == "-1") 
+        if (string.IsNullOrEmpty(m_localId) || m_localId == "-1")
         {
             m_localId = System.Guid.NewGuid().ToString("N");
         }
@@ -92,23 +101,59 @@ public class Component_MountPoint : MonoBehaviour
     public static void ConnectMounts(Component_MountPoint one, Component_MountPoint two)
     {
         Debug.Log($"ConnectMounts {one.transform.parent.name}:{one.name} <-> {two.transform.parent.name}:{two.name}");
-        one.m_connectedTo = two;
-        two.m_connectedTo = one;
+
+    #if UNITY_EDITOR
+            // Tell Unity we are about to change these objects so it can track the change
+            if (!Application.isPlaying)
+            {
+                UnityEditor.Undo.RecordObject(one, "Connect Mounts");
+                UnityEditor.Undo.RecordObject(two, "Connect Mounts");
+            }
+    #endif
+
+            one.m_connectedTo = two;
+            two.m_connectedTo = one;
+
+    #if UNITY_EDITOR
+            // Tell Unity the objects have been modified and need to be saved
+            if (!Application.isPlaying)
+            {
+                UnityEditor.EditorUtility.SetDirty(one);
+                UnityEditor.EditorUtility.SetDirty(two);
+                
+                // If these mounts belong to prefab instances in the scene, 
+                // this ensures the override is recorded properly!
+                UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(one);
+                UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(two);
+            }
+    #endif
     }
 
     public void ClearConnection()
     {
+        TopicLogger.Log(LogTopic.General, LogLevel.WARN, $"Mount connection cleared");
         m_connectedTo = null;
+    }
+    
+    private void OnDestroy()
+    {
+        if (m_connectedTo != null)
+        {
+            m_connectedTo.ClearConnection();
+           ClearConnection();
+        }
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         
-        if (m_is_snap_candidate)
+        if (snap_candidate != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(transform.position, 0.05f);
+            Gizmos.DrawLine(transform.position, snap_candidate.GetMountPoint().position);
+            string label = $"{snap_candidate_dist}";
+            UnityEditor.Handles.Label(transform.position + Vector3.up * 0.05f, label);
         }
         else
         {

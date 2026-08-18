@@ -44,11 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a729ff4521faa8b43ab5bfd2aa4f24aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_MountPoint
-  m_localId: -1
+  m_localId: 8aacfe8b5d66419bb34e3e80bd852976
   m_mountTag: ELEC
   m_role: 0
   m_snapRadiusOverride: -1
   m_connectedTo: {fileID: 0}
+  snap_candidate: {fileID: 0}
+  snap_candidate_dist: 0
 --- !u!1 &1408307053517735953
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,11 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a729ff4521faa8b43ab5bfd2aa4f24aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_MountPoint
-  m_localId: -1
+  m_localId: ff1fb60838694dc8a1544ff7ba12fdad
   m_mountTag: ELEC
   m_role: 0
   m_snapRadiusOverride: -1
   m_connectedTo: {fileID: 0}
+  snap_candidate: {fileID: 0}
+  snap_candidate_dist: 0
 --- !u!1 &4619148416349303673
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,11 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a729ff4521faa8b43ab5bfd2aa4f24aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_MountPoint
-  m_localId: -1
+  m_localId: a81a652680414cea9d09800b0956ed60
   m_mountTag: ELEC
   m_role: 0
   m_snapRadiusOverride: -1
   m_connectedTo: {fileID: 0}
+  snap_candidate: {fileID: 0}
+  snap_candidate_dist: 0
 --- !u!1 &5823342462877587874
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +164,7 @@ GameObject:
   - component: {fileID: 4569444014464434470}
   - component: {fileID: 8652577153872720219}
   m_Layer: 0
-  m_Name: ELEC_Node 1
+  m_Name: ELEC_Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Component_PowerRelay
   m_connections: []
   m_owning_network: {fileID: 0}
+  m_power_radius: 2.5
 --- !u!1 &9031160226080343987
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,11 +249,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a729ff4521faa8b43ab5bfd2aa4f24aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_MountPoint
-  m_localId: -1
+  m_localId: df6e59567c1f4b668144bdbaa8cd9dbc
   m_mountTag: ELEC
   m_role: 0
-  m_snapRadiusOverride: -1
+  m_snapRadiusOverride: 0
   m_connectedTo: {fileID: 0}
+  snap_candidate: {fileID: 0}
+  snap_candidate_dist: 0
 --- !u!1001 &4855767272597397215
 PrefabInstance:
   m_ObjectHideFlags: 0

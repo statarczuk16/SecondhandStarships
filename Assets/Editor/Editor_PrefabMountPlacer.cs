@@ -35,7 +35,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private Vector2 m_scrollPos;
 
     private float m_snapRadius = 1.5f;
-    private bool m_parentToMountTarget = true;
+    private bool m_parentToMountTarget = false;
     private float m_ghostTwistDegrees;
 
     private GameObject m_ghost;
@@ -58,6 +58,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private Component_BuildableSurface m_shipPartHoveredSurface;
     private bool m_shipPartHasValidHit;
     private Component_MountPoint current_best_ghost_candidate;
+    [SerializeField] private LayerMask m_mountRaycastLayerMask = Physics.DefaultRaycastLayers;
 
     [MenuItem("Tools/Ship Builder/Prefab Mount Placer")]
     private static void Open()
@@ -268,7 +269,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         {
             EnsureGhost();
             UpdateGhostPose(hit);
-            DrawDebugHandles(hit.point);
+            DrawDebugHandles();
         }
         else if (m_ghost != null)
         {
@@ -367,7 +368,8 @@ public class Editor_PrefabMountPlacer : EditorWindow
             * m_ghostBaseRotation
             * Quaternion.AngleAxis(m_ghostTwistDegrees, Vector3.up);
 
-        m_currentlySnapped = TryFindMountSnap(hit.point, out Vector3 snapPos, out Quaternion snapRot);
+        
+        m_currentlySnapped = TryFindMountSnap(out Vector3 snapPos, out Quaternion snapRot);
         if (m_currentlySnapped)
         {
             m_ghost.transform.position = snapPos;
@@ -405,7 +407,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     /// searchCenter and computes the rigid transform that snaps them together
     /// (positions coincide, normals opposed), applied to the ghost's root.
     /// </summary>
-    private bool TryFindMountSnap(Vector3 searchCenter, out Vector3 targetPosition, out Quaternion targetRotation)
+   private bool TryFindMountSnap(out Vector3 targetPosition, out Quaternion targetRotation)
     {
         targetPosition = default;
         targetRotation = default;
@@ -421,22 +423,42 @@ public class Editor_PrefabMountPlacer : EditorWindow
         Component_MountPoint bestSceneMount = null;
         float bestDistSqr = float.MaxValue;
 
-        foreach (Component_MountPoint sceneMount in allSceneMounts)
+        foreach (Component_MountPoint ghostMount in ghostMounts)
         {
-            if (sceneMount.transform.IsChildOf(m_ghost.transform)) continue;
-            if (sceneMount.IsOccupied) continue;
-
-            float effectiveRadius = sceneMount.SnapRadiusOverride > 0f ? sceneMount.SnapRadiusOverride : m_snapRadius;
-            float radiusSqr = effectiveRadius * effectiveRadius;
-
-            float centerDistSqr = (sceneMount.transform.position - searchCenter).sqrMagnitude;
-            if (centerDistSqr > radiusSqr) continue;
-
-            foreach (Component_MountPoint ghostMount in ghostMounts)
+            if (ghostMount.IsOccupied)
             {
-                if (!ghostMount.CanConnectTo(sceneMount)) continue;
+                continue;
+            }
+            Vector3 ghostPos = ghostMount.transform.position;
 
-                float pairDistSqr = (ghostMount.transform.position - sceneMount.transform.position).sqrMagnitude;
+            foreach (Component_MountPoint sceneMount in allSceneMounts)
+            {
+                if (sceneMount.transform.IsChildOf(m_ghost.transform)) continue;
+                if (sceneMount.IsOccupied) continue;
+
+                if (!ghostMount.CanConnectTo(sceneMount)) continue;
+                
+                float effectiveRadius =
+                    sceneMount.SnapRadiusOverride > 0f ? sceneMount.SnapRadiusOverride : m_snapRadius;
+                float radiusSqr = effectiveRadius * effectiveRadius;
+
+                // Using ghost mount position as the search center check
+                float centerDistSqr = (sceneMount.transform.position - ghostPos).sqrMagnitude;
+                if (centerDistSqr > radiusSqr) continue;
+                
+                // Check alignment. mounts should roughly face opposite ---> <---
+                // -1 means facing opposite, 1 is facing the same way, 0 means perpendicular
+                float alignmentDot = Vector3.Dot(ghostMount.transform.forward,
+                    sceneMount.transform.forward);
+                if (alignmentDot > -.5f) continue;
+
+                if (Physics.Linecast(ghostMount.GetMountPoint().position, sceneMount.transform.position,
+                        m_mountRaycastLayerMask))
+                {
+                    continue; // Obstacle blocks the path to this scene mount
+                }
+
+                float pairDistSqr = (ghostPos - sceneMount.transform.position).sqrMagnitude;
                 if (pairDistSqr < bestDistSqr)
                 {
                     bestDistSqr = pairDistSqr;
@@ -445,16 +467,18 @@ public class Editor_PrefabMountPlacer : EditorWindow
                 }
             }
         }
-
+        
         if (current_best_ghost_candidate != null)
         {
-            current_best_ghost_candidate.m_is_snap_candidate = false;
+            current_best_ghost_candidate.snap_candidate = null;
             current_best_ghost_candidate = null;
         }
         if (bestGhostMount == null) return false;
+
         current_best_ghost_candidate = bestGhostMount;
-        current_best_ghost_candidate.m_is_snap_candidate = true;
-        m_bestGhostMountLocalId = bestGhostMount.LocalId;
+        current_best_ghost_candidate.snap_candidate = bestSceneMount;
+        current_best_ghost_candidate.snap_candidate_dist = bestDistSqr;
+        m_bestGhostMountLocalId = bestGhostMount.GetLocalId();
 
         Transform root = m_ghost.transform;
         Transform mount = bestGhostMount.transform;
@@ -466,9 +490,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         Vector3 positionOffsetLocal = Quaternion.Inverse(root.rotation) * (mount.position - root.position);
 
         // Full target orientation for the mount itself: forward opposed AND up
-        // matched (not opposed). Constraining forward alone leaves the twist
-        // around that axis free, which is what let the ghost flip upside down -
-        // LookRotation pins both axes at once so there's no leftover freedom to flip.
+        // matched (not opposed). LookRotation pins both axes at once.
         Vector3 desiredForward = -bestSceneMount.transform.forward;
         Vector3 desiredUp = bestSceneMount.transform.up;
         Quaternion mountWorldTarget = Quaternion.LookRotation(desiredForward, desiredUp);
@@ -494,12 +516,29 @@ public class Editor_PrefabMountPlacer : EditorWindow
         }
     }
 
-    private void DrawDebugHandles(Vector3 searchCenter)
+    private void DrawDebugHandles()
     {
-        Handles.color = new Color(1f, 1f, 0f, 0.15f);
-        Handles.DrawWireDisc(searchCenter, Vector3.up, m_snapRadius);
-        Handles.DrawWireDisc(searchCenter, Vector3.right, m_snapRadius);
-        Handles.DrawWireDisc(searchCenter, Vector3.forward, m_snapRadius);
+        Component_MountPoint[] ghostMounts = m_ghost != null ? m_ghost.GetComponentsInChildren<Component_MountPoint>(true) : null;
+    
+        if (ghostMounts != null)
+        {
+            foreach (Component_MountPoint ghostMount in ghostMounts)
+            {
+                if (ghostMount == null) continue;
+                
+                if (ghostMount.IsOccupied) continue;
+
+                Vector3 ghostPos = ghostMount.transform.position;
+            
+                // Use SnapRadiusOverride if available on the mount, otherwise fall back to m_snapRadius
+                float effectiveRadius = ghostMount.SnapRadiusOverride > 0f ? ghostMount.SnapRadiusOverride : m_snapRadius;
+
+                Handles.color = new Color(1f, 1f, 0f, 0.15f);
+                Handles.DrawWireDisc(ghostPos, Vector3.up, effectiveRadius);
+                Handles.DrawWireDisc(ghostPos, Vector3.right, effectiveRadius);
+                Handles.DrawWireDisc(ghostPos, Vector3.forward, effectiveRadius);
+            }
+        }
 
         if (m_currentlySnapped && m_snappedSceneMount != null)
         {
@@ -516,37 +555,53 @@ public class Editor_PrefabMountPlacer : EditorWindow
         GameObject placed = (GameObject)PrefabUtility.InstantiatePrefab(m_selectedPrefab);
         placed.transform.SetPositionAndRotation(m_ghost.transform.position, m_ghost.transform.rotation);
 
+        // Optional parent override using the primary snapped scene mount if available
         if (m_currentlySnapped && m_snappedSceneMount != null)
         {
             if (m_parentToMountTarget)
             {
                 placed.transform.SetParent(m_snappedSceneMount.transform, true);
             }
+        }
 
-            // Mark the matching mount point on the *real* instance (not the ghost,
-            // which gets reused/destroyed) as connected, and occupy the scene mount
-            // so the placer skips it on subsequent placements. Matched by stable ID
-            // rather than array position - see Component_MountPoint.LocalId.
-            if (!string.IsNullOrEmpty(m_bestGhostMountLocalId))
+        // Gather all mount points on the newly placed instance and all scene mounts in the world
+        Component_MountPoint[] placedMounts = placed.GetComponentsInChildren<Component_MountPoint>(true);
+        Component_MountPoint[] allSceneMounts = Object.FindObjectsByType<Component_MountPoint>(FindObjectsSortMode.None);
+
+        // Check every mount point on the placed prefab to see if any other mounts 
+        // satisfy the multi-snap criteria with open scene mounts.
+        foreach (Component_MountPoint placedMount in placedMounts)
+        {
+            if (placedMount.IsOccupied) continue;
+
+            foreach (Component_MountPoint sceneMount in allSceneMounts)
             {
-                Component_MountPoint placedMount = null;
-                foreach (Component_MountPoint candidate in placed.GetComponentsInChildren<Component_MountPoint>(true))
+                // Skip scene mounts belonging to the placed object itself or already occupied
+                if (sceneMount.transform.IsChildOf(placed.transform)) continue;
+                if (sceneMount.IsOccupied) continue;
+
+                // 1. Check compatibility (Role and Tag)
+                if (!placedMount.CanConnectTo(sceneMount)) continue;
+
+                // 2. Check distance within 0.1 units
+                float distSqr = (placedMount.transform.position - sceneMount.transform.position).sqrMagnitude;
+                if (distSqr > 0.1f * 0.1f) continue;
+
+                // 3. Check dot product for opposite facing (-1). 
+                // Using <= -0.95f (or -0.99f) guards against minor floating-point inaccuracies in Unity transforms.
+                float alignmentDot = Vector3.Dot(placedMount.transform.forward, sceneMount.transform.forward);
+                if (alignmentDot > -0.95f) continue;
+
+                // All criteria met: Connect them!
+                Component_MountPoint.ConnectMounts(placedMount, sceneMount);
+
+                // If this happens to match the primary snap, keep references updated if needed
+                if (placedMount.GetLocalId() == m_bestGhostMountLocalId)
                 {
-                    if (candidate.LocalId == m_bestGhostMountLocalId)
-                    {
-                        placedMount = candidate;
-                        break;
-                    }
+                    m_snappedSceneMount = sceneMount;
                 }
 
-                if (placedMount != null)
-                {
-                    Component_MountPoint.ConnectMounts(placedMount, m_snappedSceneMount);
-                }
-                else
-                {
-                    Debug.LogWarning("Editor_PrefabMountPlacer: couldn't find the matching mount point by ID on the placed instance - connection not marked.");
-                }
+                break; // Mount connected, move to the next placed mount point
             }
         }
 

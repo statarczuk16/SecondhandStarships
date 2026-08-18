@@ -15,6 +15,7 @@ public class Component_PowerNode : MonoBehaviour, IMountable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private List<Component_PowerNode> m_connections = new List<Component_PowerNode>();
     [SerializeField] private Component_PowerNetwork m_owning_network;
+    [SerializeField] private float m_power_radius = 5f;
     
     public void AddBidirectional(GameObject mountable)
     {
@@ -120,5 +121,18 @@ public class Component_PowerNode : MonoBehaviour, IMountable
             // there's nothing left to rebuild.
         }
     }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Color color = Color.yellow;
+        color.a = 0.05f;
+        Gizmos.color = color;
+        Gizmos.DrawSphere(transform.position, this.m_power_radius);
+        
+    }
+
+    
+#endif
     
 }
