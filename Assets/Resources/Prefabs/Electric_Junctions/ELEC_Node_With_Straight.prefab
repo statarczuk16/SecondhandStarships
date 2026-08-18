@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2335734125574020586, guid: 1adcd96405c337247a2a0465aa6e27f9, type: 3}
       propertyPath: m_connectedTo
       value: 
-      objectReference: {fileID: 9144754529876436119}
+      objectReference: {fileID: 3075951210617516913}
     - target: {fileID: 4569444014464434470, guid: 1adcd96405c337247a2a0465aa6e27f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -92,6 +92,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3028183057493415938}
     m_Modifications:
+    - target: {fileID: 3609375490247493878, guid: 329d148d876078847820cbf6d92f1059, type: 3}
+      propertyPath: m_connectedTo
+      value: 
+      objectReference: {fileID: 3820627683590046926}
     - target: {fileID: 5293695124614278204, guid: 329d148d876078847820cbf6d92f1059, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.015930176
@@ -135,7 +139,7 @@ PrefabInstance:
     - target: {fileID: 7372493185069866768, guid: 329d148d876078847820cbf6d92f1059, type: 3}
       propertyPath: m_connectedTo
       value: 
-      objectReference: {fileID: 3820627683590046926}
+      objectReference: {fileID: 0}
     - target: {fileID: 7486668658926381080, guid: 329d148d876078847820cbf6d92f1059, type: 3}
       propertyPath: m_Name
       value: ELEC_Relay_Straight
@@ -145,14 +149,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 329d148d876078847820cbf6d92f1059, type: 3}
---- !u!4 &5894667780835760059 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5293695124614278204, guid: 329d148d876078847820cbf6d92f1059, type: 3}
-  m_PrefabInstance: {fileID: 1781431722756160391}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9144754529876436119 stripped
+--- !u!114 &3075951210617516913 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7372493185069866768, guid: 329d148d876078847820cbf6d92f1059, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3609375490247493878, guid: 329d148d876078847820cbf6d92f1059, type: 3}
   m_PrefabInstance: {fileID: 1781431722756160391}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -161,3 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a729ff4521faa8b43ab5bfd2aa4f24aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_MountPoint
+--- !u!4 &5894667780835760059 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5293695124614278204, guid: 329d148d876078847820cbf6d92f1059, type: 3}
+  m_PrefabInstance: {fileID: 1781431722756160391}
+  m_PrefabAsset: {fileID: 0}

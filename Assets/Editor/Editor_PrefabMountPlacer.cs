@@ -36,6 +36,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
     private float m_snapRadius = 1.5f;
     private bool m_parentToMountTarget = true;
+    private float m_ghostTwistDegrees;
 
     private GameObject m_ghost;
     private GameObject m_ghostSourcePrefab;
@@ -56,6 +57,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private GameObject m_shipPartGhostSourcePrefab;
     private Component_BuildableSurface m_shipPartHoveredSurface;
     private bool m_shipPartHasValidHit;
+    private Component_MountPoint current_best_ghost_candidate;
 
     [MenuItem("Tools/Ship Builder/Prefab Mount Placer")]
     private static void Open()
@@ -283,6 +285,25 @@ public class Editor_PrefabMountPlacer : EditorWindow
             SetPlacementMode(PlacementMode.None);
             e.Use();
         }
+        else if (e.type == EventType.ScrollWheel)
+        {
+            // Unity convention: scrolling up/away gives a negative delta.y,
+            // scrolling down/toward you gives positive.
+            bool scrolledUp = e.delta.y < 0f;
+
+            if (scrolledUp)
+            {
+                OnScrollUp();
+            }
+            else
+            {
+                OnScrollDown();
+            }
+
+            // Consume the event so the scene view doesn't also zoom the camera
+            // while we're using scroll for placement (rotation/tier/etc).
+            e.Use();
+        }
 
         sceneView.Repaint();
     }
@@ -302,9 +323,8 @@ public class Editor_PrefabMountPlacer : EditorWindow
         m_ghost.name = m_selectedPrefab.name + "_MountGhost";
         m_ghostSourcePrefab = m_selectedPrefab;
         m_ghostBaseRotation = m_ghost.transform.rotation;
+        m_ghostTwistDegrees = 0f;
 
-        // Keep Component_MountPoint on this ghost - the mount-to-mount snap search
-        // below needs it. The ship-part ghost strips it since it isn't relevant there.
         StripToVisualOnly(m_ghost, keepMountPoints: true);
     }
 
@@ -335,9 +355,17 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
     private void UpdateGhostPose(RaycastHit hit)
     {
-        // Base pose: follow the mouse, align to whatever surface it's over.
+        // Base pose: follow the mouse, align to the surface, then apply the
+        // scroll-wheel twist around the ghost's own local forward axis. Because
+        // Component_MountPoint children move with the ghost's rotation, this
+        // changes which ghost mount ends up geometrically closest to a candidate
+        // scene mount - so twisting is how scroll "picks" the preferred mount,
+        // with no separate selection state needed.
         m_ghost.transform.position = hit.point;
-        m_ghost.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * m_ghostBaseRotation;
+        m_ghost.transform.rotation =
+            Quaternion.FromToRotation(Vector3.up, hit.normal)
+            * m_ghostBaseRotation
+            * Quaternion.AngleAxis(m_ghostTwistDegrees, Vector3.up);
 
         m_currentlySnapped = TryFindMountSnap(hit.point, out Vector3 snapPos, out Quaternion snapRot);
         if (m_currentlySnapped)
@@ -347,6 +375,29 @@ public class Editor_PrefabMountPlacer : EditorWindow
         }
 
         ApplyGhostTint(m_ghost, m_currentlySnapped ? SnappedTint : FreeTint);
+    }
+    
+    private void OnScrollUp()
+    {
+        m_ghostTwistDegrees = NormalizeAngle(m_ghostTwistDegrees + RotationSnapIncrement());
+    }
+
+    private void OnScrollDown()
+    {
+        m_ghostTwistDegrees = NormalizeAngle(m_ghostTwistDegrees - RotationSnapIncrement());
+    }
+
+    private static float RotationSnapIncrement()
+    {
+        float snap = EditorSnapSettings.rotate;
+        return snap > 0f ? snap : 15f;
+    }
+
+    private static float NormalizeAngle(float degrees)
+    {
+        degrees %= 360f;
+        if (degrees < 0f) degrees += 360f;
+        return degrees;
     }
 
     /// <summary>
@@ -395,8 +446,14 @@ public class Editor_PrefabMountPlacer : EditorWindow
             }
         }
 
+        if (current_best_ghost_candidate != null)
+        {
+            current_best_ghost_candidate.m_is_snap_candidate = false;
+            current_best_ghost_candidate = null;
+        }
         if (bestGhostMount == null) return false;
-
+        current_best_ghost_candidate = bestGhostMount;
+        current_best_ghost_candidate.m_is_snap_candidate = true;
         m_bestGhostMountLocalId = bestGhostMount.LocalId;
 
         Transform root = m_ghost.transform;

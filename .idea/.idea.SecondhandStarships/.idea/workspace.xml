@@ -14,13 +14,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerRelay.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Straight.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Straight.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_With_Straight.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_With_Straight.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PowerNetworkTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PowerNetworkTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

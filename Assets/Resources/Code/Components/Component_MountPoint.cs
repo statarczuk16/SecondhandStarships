@@ -30,6 +30,7 @@ public class Component_MountPoint : MonoBehaviour
     // Serialized so a connection made in the editor survives script recompiles,
     // scene saves/reloads, and is available at runtime too - not just placer bookkeeping.
     [SerializeField] private Component_MountPoint m_connectedTo;
+    public bool m_is_snap_candidate;
 
     public string MountTag => m_mountTag;
     public MountRole Role => m_role;
@@ -48,7 +49,7 @@ public class Component_MountPoint : MonoBehaviour
     /// </summary>
     public void AssignIdIfMissing()
     {
-        if (string.IsNullOrEmpty(m_localId))
+        if (string.IsNullOrEmpty(m_localId) || m_localId == "-1") 
         {
             m_localId = System.Guid.NewGuid().ToString("N");
         }
@@ -90,6 +91,7 @@ public class Component_MountPoint : MonoBehaviour
     
     public static void ConnectMounts(Component_MountPoint one, Component_MountPoint two)
     {
+        Debug.Log($"ConnectMounts {one.transform.parent.name}:{one.name} <-> {two.transform.parent.name}:{two.name}");
         one.m_connectedTo = two;
         two.m_connectedTo = one;
     }
@@ -102,15 +104,29 @@ public class Component_MountPoint : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.color = IsOccupied ? new Color(1f, 0.4f, 0.4f) : new Color(0.3f, 1f, 1f);
-        Gizmos.DrawSphere(transform.position, 0.03f);
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 0.25f);
+        
+        if (m_is_snap_candidate)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(transform.position, 0.05f);
+        }
+        else
+        {
+            Gizmos.color = IsOccupied ? new Color(1f, 0.4f, 0.4f) : new Color(0.3f, 1f, 1f);
+            Gizmos.DrawSphere(transform.position, 0.03f);
+            Gizmos.DrawLine(transform.position, transform.position + transform.forward * 0.25f);
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
         string label = string.IsNullOrEmpty(m_mountTag) ? m_role.ToString() : $"{m_role} [{m_mountTag}]";
         UnityEditor.Handles.Label(transform.position + Vector3.up * 0.05f, label);
+        if (m_connectedTo != null)
+        {
+            Gizmos.DrawLine(transform.position, this.m_connectedTo.GetMountPoint().position);
+        }
+       
     }
 #endif
 }

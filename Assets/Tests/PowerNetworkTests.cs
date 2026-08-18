@@ -18,6 +18,7 @@ public class PowerNetworkTests
     [TearDown]
     public void TearDown()
     {
+        
         foreach (GameObject go in m_created)
         {
             if (go != null)
