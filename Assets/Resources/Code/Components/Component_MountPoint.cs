@@ -87,10 +87,11 @@ public class Component_MountPoint : MonoBehaviour
 
         return string.IsNullOrEmpty(m_mountTag) || string.IsNullOrEmpty(other.m_mountTag) || m_mountTag == other.m_mountTag;
     }
-
-    public void MarkConnected(Component_MountPoint other)
+    
+    public static void ConnectMounts(Component_MountPoint one, Component_MountPoint two)
     {
-        m_connectedTo = other;
+        one.m_connectedTo = two;
+        two.m_connectedTo = one;
     }
 
     public void ClearConnection()

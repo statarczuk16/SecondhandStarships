@@ -484,8 +484,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
                 if (placedMount != null)
                 {
-                    placedMount.MarkConnected(m_snappedSceneMount);
-                    m_snappedSceneMount.MarkConnected(placedMount);
+                    Component_MountPoint.ConnectMounts(placedMount, m_snappedSceneMount);
                 }
                 else
                 {

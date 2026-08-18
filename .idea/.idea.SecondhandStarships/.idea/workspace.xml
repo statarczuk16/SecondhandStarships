@@ -12,14 +12,15 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_PrimitiveMountPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_PrimitiveMountPoint.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Utilities/ShipPartUtilities.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_HullSlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/_Deprecated/ShipPartSlot/Component_ShipPartSlot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/_Deprecated/ShipPartSlot/Component_ShipPartSlot.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Components/Component_MountPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerRelay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerRelay.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Straight.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Straight.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +44,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/GameEventBus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/RequiredAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Code/Utilities/SpriteUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Utility_PowerTraversal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Electrolyzer/Component_Electrolyzer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
