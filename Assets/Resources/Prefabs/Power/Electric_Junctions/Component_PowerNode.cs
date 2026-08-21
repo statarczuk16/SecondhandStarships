@@ -15,11 +15,10 @@ public class Component_PowerNode : MonoBehaviour, IMountable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private List<Component_PowerNode> m_connections = new List<Component_PowerNode>();
     [SerializeField] private Component_PowerNetwork m_owning_network;
-    [SerializeField] private float m_power_radius = 5f;
     
     public void AddBidirectional(GameObject mountable)
     {
-        Component_PowerNode node = GetComponentInChildren<Component_PowerNode>(mountable);
+        Component_PowerNode node = mountable.GetComponentInChildren<Component_PowerNode>();
         if(m_connections.Contains(node) == false)
         {
             m_connections.Add(node);
@@ -62,6 +61,25 @@ public class Component_PowerNode : MonoBehaviour, IMountable
             m_owning_network = null;
         }
         return null;
+    }
+
+    public float DrawPower(float requested_power)
+    {
+        return this.m_owning_network.RequestPower(requested_power);
+    }
+    
+    public bool CanDrawPower(float requested_power)
+    {
+        return this.m_owning_network?.GetAvailablePower() >= requested_power;
+    }
+
+    public bool HasPower()
+    {
+        if (this.m_owning_network == null)
+        {
+            return false;
+        }
+        return this.m_owning_network.CheckHasPower();
     }
 
     internal void BuildNetwork(Component_PowerNetwork network)
@@ -121,18 +139,34 @@ public class Component_PowerNode : MonoBehaviour, IMountable
             // there's nothing left to rebuild.
         }
     }
-    
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+
+    public void ConnectGenerator(IPowerGenerator g)
     {
-        Color color = Color.yellow;
-        color.a = 0.05f;
-        Gizmos.color = color;
-        Gizmos.DrawSphere(transform.position, this.m_power_radius);
-        
+       this.m_owning_network?.ConnectGenerator(g);
     }
 
+    public void DisconnectGenerator(IPowerGenerator g)
+    {
+        this.m_owning_network?.DisconnectGenerator(g);
+    }
+
+    public void ConnectConsumer(IPowerConsumer c)
+    {
+        this.m_owning_network?.ConnectConsumer(c);
+    }
     
-#endif
-    
+    public void DisconnectConsumer(IPowerConsumer c)
+    {
+        this.m_owning_network?.DisconnectConsumer(c);
+    }
+
+    public void ConnectCapacitor(IPowerCapacity c)
+    {
+        this.m_owning_network?.ConnectCapacitor(c);
+    }
+
+    public void DisconnectCapacitor(IPowerCapacity c)
+    {
+        this.m_owning_network?.DisconnectCapacitor(c);
+    }
 }

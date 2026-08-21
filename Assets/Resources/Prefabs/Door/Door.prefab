@@ -53,6 +53,10 @@ MonoBehaviour:
   - {fileID: 8372217247271864666}
   - {fileID: 2973162141657048343}
   m_inventory: {fileID: 3928835594885391531}
+  m_power_slot: {fileID: 9048959708337620588}
+  m_connected_power_node: {fileID: 0}
+  m_power_radius: 5
+  m_power_usage: 1
 --- !u!114 &6352604502996043777
 MonoBehaviour:
   m_ObjectHideFlags: 0

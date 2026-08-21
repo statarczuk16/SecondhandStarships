@@ -36,6 +36,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
     private float m_snapRadius = 1.5f;
     private bool m_parentToMountTarget = false;
+    private float m_heightPlacementOffset_m = 1f;
     private float m_ghostTwistDegrees;
 
     private GameObject m_ghost;
@@ -59,6 +60,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private bool m_shipPartHasValidHit;
     private Component_MountPoint current_best_ghost_candidate;
     [SerializeField] private LayerMask m_mountRaycastLayerMask = Physics.DefaultRaycastLayers;
+    private bool m_initialized;
 
     [MenuItem("Tools/Ship Builder/Prefab Mount Placer")]
     private static void Open()
@@ -66,11 +68,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         GetWindow<Editor_PrefabMountPlacer>("Mount Placer");
     }
 
-    private void OnEnable()
-    {
-        RefreshPrefabList();
-        RefreshShipPartList();
-    }
+
 
     private void OnDisable()
     {
@@ -79,6 +77,13 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
     private void OnGUI()
     {
+        if (!m_initialized)
+        {
+            m_initialized = true;
+            RefreshPrefabList();
+            RefreshShipPartList();
+        }
+        
         EditorGUILayout.BeginHorizontal();
 
         EditorGUILayout.BeginVertical(GUILayout.Width(Mathf.Max(220f, position.width * 0.5f - 6f)));
@@ -168,7 +173,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         m_parentToMountTarget = EditorGUILayout.Toggle(
             new GUIContent("Parent To Mount Target", "When a mount snap occurs, parent the placed object under the scene mount point's GameObject."),
             m_parentToMountTarget);
-
+        m_heightPlacementOffset_m = Mathf.Max(0f, EditorGUILayout.FloatField("Placement Height", m_heightPlacementOffset_m));
         EditorGUILayout.Space();
 
         bool active = m_placementMode == PlacementMode.MountPrefab;
@@ -363,6 +368,9 @@ public class Editor_PrefabMountPlacer : EditorWindow
         // scene mount - so twisting is how scroll "picks" the preferred mount,
         // with no separate selection state needed.
         m_ghost.transform.position = hit.point;
+        Vector3 position =  m_ghost.transform.position;
+        position.y += m_heightPlacementOffset_m;
+        m_ghost.transform.position = position;
         m_ghost.transform.rotation =
             Quaternion.FromToRotation(Vector3.up, hit.normal)
             * m_ghostBaseRotation

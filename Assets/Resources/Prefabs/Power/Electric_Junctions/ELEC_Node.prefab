@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Component_PowerRelay
   m_connections: []
   m_owning_network: {fileID: 0}
-  m_power_radius: 2.5
+  m_power_radius: 4
 --- !u!1 &9031160226080343987
 GameObject:
   m_ObjectHideFlags: 0
