@@ -7,12 +7,24 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
     [SerializeField] private float m_power_radius;
     [SerializeField] private float m_power_usage_per_second;
     [SerializeField] private bool m_wants_to_be_on;
+    [SerializeField] private bool m_is_on;
     [SerializeField, Required] private GameObject m_light_toggle;
     private bool m_needs_startup_register = true;
 
     private void Start()
     {
-        RefreshLightVisual();
+        RefreshActualOnState();
+    }
+    
+    private void RefreshActualOnState()
+    {
+        bool should_be_on = m_wants_to_be_on && OnRequirementsMet(out _);
+        if (should_be_on == m_is_on)
+        {
+            return;
+        }
+        if (should_be_on) TurnOn();
+        else TurnOff();
     }
 
     private void Update()
@@ -22,19 +34,45 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
             m_needs_startup_register = TryGameStartNetworkConnect();
         }
     }
-
-    //single source of truth: re-derive power status on demand and set
-    //the light active only if we're both powered and want to be on.
-    //called on toggle, and whenever the network notifies us that our
-    //power situation may have changed (so we don't have to poll every frame).
-    private void RefreshLightVisual()
-    {
-        m_light_toggle.SetActive(m_wants_to_be_on && CanToggle(out _));
-    }
-
+    
     public bool CanToggle(out string reason)
     {
-        reason = "Whatever";
+        reason = "";
+        return true;
+    }
+
+    public void ToggleWantsToBeOn()
+    {
+        AudioEvents.Fire(SoundID.Toggle, transform.position);
+        m_wants_to_be_on = !m_wants_to_be_on;
+        RefreshActualOnState();
+    }
+
+    public bool IsOn()
+    {
+        return m_is_on;
+    }
+
+    public bool WantsToBeOn()
+    {
+        return m_wants_to_be_on;
+    }
+
+    public void TurnOff()
+    {
+        m_is_on = false;
+        m_light_toggle.SetActive(false);
+    }
+
+    public void TurnOn()
+    {
+        m_is_on = true;
+        m_light_toggle.SetActive(true);
+    }
+
+    public bool OnRequirementsMet(out string reason)
+    {
+       reason = "Whatever";
 
         if (!CheckHasPower())
         {
@@ -51,19 +89,7 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
 
         return true;
     }
-
-    public void Toggle()
-    {
-        AudioEvents.Fire(SoundID.Toggle, transform.position);
-        m_wants_to_be_on = !m_wants_to_be_on;
-        RefreshLightVisual();
-    }
-
-    public bool IsOn()
-    {
-        return m_wants_to_be_on;
-    }
-
+    
     public Component_PowerNode TryFindPowerNode()
     {
         var colliders = Physics.OverlapSphere(this.m_power_slot.transform.position, this.GetPowerRadius_M(), Physics.AllLayers, QueryTriggerInteraction.Ignore);
@@ -99,7 +125,7 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
 
     public float PowerConsumedPerDT(float dt)
     {
-        if (m_light_toggle.activeSelf == false)
+        if (!IsOn())
         {
             return 0f;
         }
@@ -137,12 +163,12 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
     //network telling us our power status may have changed - go check and refresh
     public void SetPoweredStarved()
     {
-        RefreshLightVisual();
+        RefreshActualOnState();
     }
 
     public void SetHasPower()
     {
-        RefreshLightVisual();
+        RefreshActualOnState();
     }
 
     public float GetPowerRadius_M()

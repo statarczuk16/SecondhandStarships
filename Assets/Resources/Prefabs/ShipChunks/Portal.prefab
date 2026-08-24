@@ -49,6 +49,8 @@ MonoBehaviour:
   m_role: 0
   m_snapRadiusOverride: -1
   m_connectedTo: {fileID: 0}
+  snap_candidate: {fileID: 0}
+  snap_candidate_dist: 0
 --- !u!1 &6127426418782569528
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,11 +245,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalPosition.y
@@ -309,11 +311,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 92662683990459863, guid: fc0f2ec28fee8df449003d01c9fc6718, type: 3}
       propertyPath: m_LocalPosition.y

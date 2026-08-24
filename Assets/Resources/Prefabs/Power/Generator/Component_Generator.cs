@@ -6,7 +6,8 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, 
 {
     [SerializeField] private Component_Inventory m_inventory;
     [SerializeField, Required] private Component_PowerNode m_connected_power_node;
-    private bool m_is_running = false;
+    private bool m_is_on = false;
+    [SerializeField] private bool m_wants_to_be_on;
     private AudioHandle m_generator_sound_handle = AudioHandle.Invalid;
     private const int POWER_PER_SECOND = 1000;
     private bool needs_startup_register = true;
@@ -18,18 +19,23 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, 
     }
     private void Update()
     {
-        if (IsOn())
+        if (needs_startup_register)
         {
-            if (CanStayOn() == false)
-            {
-                Toggle(); //turn generator off if inventory lacks stuff it needs to function
-            }
-
-            if (needs_startup_register)
-            {
-                needs_startup_register = TryGameStartNetworkConnect();
-            }
+            needs_startup_register = TryGameStartNetworkConnect();
         }
+
+        RefreshActualOnState();
+    }
+    
+    private void RefreshActualOnState()
+    {
+        bool should_be_on = m_wants_to_be_on && OnRequirementsMet(out _);
+        if (should_be_on == m_is_on)
+        {
+            return;
+        }
+        if (should_be_on) TurnOn();
+        else TurnOff();
     }
 
     public bool CanToggle(out string reason)
@@ -50,38 +56,47 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, 
         return false;
         
     }
-
-    public bool CanStayOn()
+    
+    public void ToggleWantsToBeOn()
     {
-        return !IsOn() || CanToggle(out string reason);
-    }
-
-    public void Toggle()
-    {
-        if (IsOn()) //if we are on and the audio is playing, turn audio off
-        {
-            if (this.m_generator_sound_handle.IsValid)
-            {
-                 AudioEvents.StopLoop(this.m_generator_sound_handle);
-                 this.m_generator_sound_handle = AudioHandle.Invalid;
-            }
-            
-           
-        }
-        else//if we are off and the audio is not playing, turn audio on
-        {
-            if (!this.m_generator_sound_handle.IsValid)
-            {
-                this.m_generator_sound_handle = AudioEvents.StartLoop(SoundID.Generator, this.transform);
-            }
-           
-        }
-        m_is_running = !m_is_running;
+        m_wants_to_be_on = !m_wants_to_be_on;
+        RefreshActualOnState();
     }
 
     public bool IsOn()
     {
-        return m_is_running;
+        return m_is_on;
+    }
+
+    public bool WantsToBeOn()
+    {
+        return m_wants_to_be_on;
+    }
+
+    public void TurnOff()
+    {
+        if (this.m_generator_sound_handle.IsValid)
+        {
+            AudioEvents.StopLoop(this.m_generator_sound_handle);
+            this.m_generator_sound_handle = AudioHandle.Invalid;
+        }
+
+        m_is_on = false;
+    }
+
+    public void TurnOn()
+    {
+        if (!this.m_generator_sound_handle.IsValid)
+        {
+            this.m_generator_sound_handle = AudioEvents.StartLoop(SoundID.Generator, this.transform);
+        }
+
+        m_is_on = true;
+    }
+
+    public bool OnRequirementsMet(out string reason)
+    {
+        return CanToggle(out reason);
     }
 
     public Data_Inventory GetInventory()

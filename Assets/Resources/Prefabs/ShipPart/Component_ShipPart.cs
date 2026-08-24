@@ -114,6 +114,9 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         {
             this.m_parent_surface.OnPartUninstalled(this);
         }
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
         
     }
 
@@ -129,6 +132,9 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
         {
             this.m_parent_surface.OnPartInstalled(this);
         }
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
        
     }
 
@@ -144,6 +150,9 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             this.m_parent_surface.OnPartUninstalled(this);
             this.m_parent_surface = null;
         }
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
         
     }
 
@@ -167,6 +176,9 @@ public class Component_ShipPart : MonoBehaviour, IInteractable, IHighlightable
             OnInstalled();
         }
         AudioEvents.Fire(SoundID.Part_Placed, this.transform.position);
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
     }
 
 

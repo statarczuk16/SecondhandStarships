@@ -7,38 +7,42 @@ public class Component_Ship : MonoBehaviour
 {
     [SerializeField] private Data_Ship m_data;
     [SerializeField] public GameObject m_ship_prefab; // prefab with PartComponents + fasteners pre-wired
-    [SerializeField] List<Component_ShipPart> m_parts;
-
-    void Awake() => m_parts = GetComponentsInChildren<Component_ShipPart>().ToList();
+    [SerializeField] public List<Component_ShipChunk> m_chunks;
 
     
-
     internal void Update()
     {
-        foreach(Component_ShipPart part in m_parts)
-        {
-            //idk do something
-        }
+        
     }
 
-    internal void InstallPart(Component_ShipPart part)
+    internal void InstallChunk(Component_ShipChunk chunk)
     {
-        if(m_parts.Contains(part))
+        if(m_chunks.Contains(chunk))
         {
-            TopicLogger.Log(LogTopic.Installation, LogLevel.ERROR, $"Ship {this.name} trying to install part already installed {part.name}");
+            TopicLogger.Log(LogTopic.Installation, LogLevel.ERROR, $"Ship {this.name} trying to install chunk already installed {chunk.name}");
             return;
         }
-        m_parts.Add(part);
+        m_chunks.Add(chunk);
+        #if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+        #endif 
     }
 
-    internal void OnPartUninstalled(Component_ShipPart part)
+    internal void OnPartUninstalled(Component_ShipChunk chunk)
     {
-        if (!m_parts.Contains(part))
+        if (!m_chunks.Contains(chunk))
         {
-            TopicLogger.Log(LogTopic.Installation, LogLevel.ERROR, $"Ship {this.name} trying to uninstall part it doesnt have installed {part.name}");
+            TopicLogger.Log(LogTopic.Installation, LogLevel.ERROR, $"Ship {this.name} trying to uninstall chunk it doesnt have installed {chunk.name}");
             return;
         }
-        m_parts.Remove(part);
+        m_chunks.Remove(chunk);
+        #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(this);
+        #endif
     }
+    
+    
+
+
 }
 

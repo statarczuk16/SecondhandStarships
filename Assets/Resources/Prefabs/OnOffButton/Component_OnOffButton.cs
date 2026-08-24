@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractable
@@ -6,8 +8,11 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
     // Serialize a MonoBehaviour so it appears in the Inspector
     [SerializeField, Required] private MonoBehaviour m_controlledObjectSource;
     [SerializeField, Required] private HighlightableRenderer m_highlight_renderer;
+    [SerializeField, Required] private List<DOTweenAnimation> m_animations;
+    
     // The actual interface property used by your logic
     private IToggleable m_controlled_object;
+    private bool toggled = false;
 
     private void Awake()
     {
@@ -41,8 +46,22 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
         }
         if (m_controlled_object.CanToggle(out string reason))
         {
+            
+            foreach (var animation in m_animations)
+            {
+                if (toggled)
+                {
+                    animation.DOPlayBackwards();
+                }
+                else
+                {
+                    animation.DOPlayForward();
+                }
+
+                toggled = !toggled;
+            }
             AudioEvents.Fire(SoundID.Toggle, this.transform.position);
-            m_controlled_object.Toggle();
+            m_controlled_object.ToggleWantsToBeOn();
         }
     }
 
@@ -53,8 +72,8 @@ public class Component_OnOffButton : MonoBehaviour, IHighlightable, IInteractabl
 
     public string GetInteractionLabel(Controller_Equipment controller)
     {
-         bool can_toggle = m_controlled_object.CanToggle(out string reason);
-         if (can_toggle)
+         bool can_turn_on = m_controlled_object.OnRequirementsMet(out string reason);
+         if (can_turn_on)
          {
              if (this.m_controlled_object.IsOn())
              {

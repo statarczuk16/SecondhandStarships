@@ -70,6 +70,10 @@ public class Component_PowerNode : MonoBehaviour, IMountable
     
     public bool CanDrawPower(float requested_power)
     {
+        if (requested_power < 0)
+        {
+            return true;
+        }
         return this.m_owning_network?.GetAvailablePower() >= requested_power;
     }
 

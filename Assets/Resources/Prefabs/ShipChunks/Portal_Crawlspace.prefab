@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8082113818730759934}
   m_Layer: 0
-  m_Name: Crawlspace_Portal
+  m_Name: Portal_Crawlspace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

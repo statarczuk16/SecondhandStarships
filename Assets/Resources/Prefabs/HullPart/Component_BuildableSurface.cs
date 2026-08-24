@@ -6,17 +6,17 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 {
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
-    [SerializeField] private Component_Ship m_parent_ship;
+    [SerializeField] private Component_ShipChunk m_parent_chunk;
     private bool m_placement_blocked;
     public string GetInteractionLabel(Controller_Equipment controller)
     {
         if (controller.GetEquippedTool() != EquipmentType.SHIP_BUILDER)
         {
-            return $"//SHIP_SURFACE {this.m_parent_ship.name} -> EQUIP {EquipmentType.SHIP_BUILDER} TO INSTALL MODULES";
+            return $"//SHIP_SURFACE {this.m_parent_chunk.name} -> EQUIP {EquipmentType.SHIP_BUILDER} TO INSTALL MODULES";
         }
         else
         {
-            return $"//SHIP_SURFACE {this.m_parent_ship.name}";
+            return $"//SHIP_SURFACE {this.m_parent_chunk.name}";
         }
     }
 
@@ -26,10 +26,10 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 
     public void Awake()
     {
-        if(!m_parent_ship)
+        if(!m_parent_chunk)
         {
-            m_parent_ship = this.transform.GetComponentInParent<Component_Ship>();
-            if (m_parent_ship == null)
+            m_parent_chunk = this.transform.GetComponentInParent<Component_ShipChunk>();
+            if (m_parent_chunk == null)
             {
                 throw new Exception("Needs to have parent" + this.name);
             }
@@ -73,12 +73,12 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 
     public void OnPartUninstalled(Component_ShipPart part)
     {
-        this.m_parent_ship.OnPartUninstalled(part);
+        this.m_parent_chunk.OnPartUninstalled(part);
     }
 
     public void OnPartInstalled(Component_ShipPart part)
     {
-        this.m_parent_ship.InstallPart(part);
+        this.m_parent_chunk.InstallPart(part);
     }
 
     public void OnInteract(Controller_Equipment controller)
@@ -201,11 +201,11 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (m_parent_ship != null) return;
-        Component_Ship found = GetComponentInParent<Component_Ship>();
+        if (m_parent_chunk != null) return;
+        Component_ShipChunk found = GetComponentInParent<Component_ShipChunk>();
         if (found != null)
         {
-            m_parent_ship = found;
+            m_parent_chunk = found;
             UnityEditor.EditorUtility.SetDirty(this);
         }
     }
@@ -234,5 +234,10 @@ public class Component_BuildableSurface : MonoBehaviour, IInteractable, IHighlig
         _currentGhostModuleData = null;
         GhostPreviewFactory.ClearBlockerTints();
         m_current_blockers.Clear();
+    }
+
+    public void InstallToChunk(Component_ShipChunk componentShipChunk)
+    {
+        
     }
 }

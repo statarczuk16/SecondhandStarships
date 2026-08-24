@@ -11,7 +11,7 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
     [SerializeField] private Component_PowerNode m_connected_power_node;
     [SerializeField] private float m_power_radius = 4;
     [SerializeField] private float m_power_usage = 1;
-    private bool isOpen;
+    private bool m_is_on;
     private bool m_needs_startup_register = true;
 
     public void Awake()
@@ -26,8 +26,8 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
             m_needs_startup_register = TryGameStartNetworkConnect();
         }
     }
-
-    public bool CanToggle(out string reason)
+    
+    public bool OnRequirementsMet(out string reason)
     {
         reason = "Whatever";
         if (!this.GetInventory().HasAllRecipeItems())
@@ -36,7 +36,6 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
             return false;
         }
 
-       
         if (!CheckHasPower())
         {
             reason = "//ERROR: NO POWER TO DOOR";
@@ -51,37 +50,58 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
         }
 
         return true;
+    }
+    
+    
+    public void ToggleWantsToBeOn()
+    {
+        if (!OnRequirementsMet(out _))
+        {
+            return; //can't toggle, requirements not met
+        }
 
+        if (IsOn()) TurnOff();
+        else TurnOn();
+    }
+    
+    public void TurnOn()
+    {
+        m_is_on = true;
+        this.m_connected_power_node.DrawPower(this.m_power_usage);
+        AudioEvents.Fire(SoundID.DoorOpen, transform.position);
+        foreach (var animation in doorAnimations)
+        {
+            animation.DOPlayForward();
+        }
     }
 
-    public void Toggle()
+    public void TurnOff()
     {
-        this.m_connected_power_node.DrawPower(this.m_power_usage);
-        if (isOpen)
+        m_is_on = false;
+        AudioEvents.Fire(SoundID.DoorClose, transform.position);
+        foreach (var animation in doorAnimations)
         {
-            AudioEvents.Fire(SoundID.DoorClose, transform.position);
-            foreach (var animation in doorAnimations)
-            {
-                animation.DOPlayBackwards();
-            }
+            animation.DOPlayBackwards();
         }
-        else
-        {
-            AudioEvents.Fire(SoundID.DoorOpen, transform.position);
-            foreach (var animation in doorAnimations)
-            {
-                animation.DOPlayForward();
-            }
-        }
-        
-
-        isOpen = !isOpen;
     }
 
     public bool IsOn()
     {
-        return isOpen;
+        return m_is_on;
     }
+
+    public bool WantsToBeOn()
+    {
+        return m_is_on; //door has no separate switch state — wants-to-be-on and is-on are the same thing
+    }
+
+
+    public bool CanToggle(out string reason)
+    {
+        return OnRequirementsMet(out reason);
+    }
+    
+    
 
     public bool CanInteract(Controller_Equipment controller)
     {
@@ -102,7 +122,7 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
     {
         if (CanToggle(out string reason))
         {
-            this.Toggle();
+            this.ToggleWantsToBeOn();
         }
         
     }
@@ -114,7 +134,7 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
 
     public string GetInteractionLabel(Controller_Equipment controller)
     {
-        if (isOpen)
+        if (m_is_on)
         {
             return "Close Door";
         }

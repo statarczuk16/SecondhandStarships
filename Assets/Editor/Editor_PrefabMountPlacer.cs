@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
@@ -35,6 +36,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private Vector2 m_scrollPos;
 
     private float m_snapRadius = 1.5f;
+    private bool m_parentToMountTargetShip = false;
     private bool m_parentToMountTarget = false;
     private float m_heightPlacementOffset_m = 1f;
     private float m_ghostTwistDegrees;
@@ -57,6 +59,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     private GameObject m_shipPartGhost;
     private GameObject m_shipPartGhostSourcePrefab;
     private Component_BuildableSurface m_shipPartHoveredSurface;
+    private float m_shipPartTwistDegrees;
     private bool m_shipPartHasValidHit;
     private Component_MountPoint current_best_ghost_candidate;
     [SerializeField] private LayerMask m_mountRaycastLayerMask = Physics.DefaultRaycastLayers;
@@ -172,6 +175,9 @@ public class Editor_PrefabMountPlacer : EditorWindow
         m_snapRadius = Mathf.Max(0.01f, EditorGUILayout.FloatField("Snap Radius", m_snapRadius));
         m_parentToMountTarget = EditorGUILayout.Toggle(
             new GUIContent("Parent To Mount Target", "When a mount snap occurs, parent the placed object under the scene mount point's GameObject."),
+            m_parentToMountTarget);
+        m_parentToMountTargetShip = EditorGUILayout.Toggle(
+            new GUIContent("Parent To Mount's Ship", "When a mount snap occurs, parent the placed object to ShipComponent of mount."),
             m_parentToMountTarget);
         m_heightPlacementOffset_m = Mathf.Max(0f, EditorGUILayout.FloatField("Placement Height", m_heightPlacementOffset_m));
         EditorGUILayout.Space();
@@ -338,7 +344,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
     {
         foreach (Component c in root.GetComponentsInChildren<Component>(true))
         {
-            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer)
+            if (c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is Component_PrefabBoundary || c is HighlightableRenderer)
                 continue;
             if (keepMountPoints && c is Component_MountPoint)
                 continue;
@@ -566,9 +572,21 @@ public class Editor_PrefabMountPlacer : EditorWindow
         // Optional parent override using the primary snapped scene mount if available
         if (m_currentlySnapped && m_snappedSceneMount != null)
         {
-            if (m_parentToMountTarget)
+            if (placed.GetComponent<Component_ShipChunk>() != null)
             {
-                placed.transform.SetParent(m_snappedSceneMount.transform, true);
+                Component_Ship ship = m_snappedSceneMount.GetComponentInParent<Component_Ship>();
+                if (ship != null)
+                {
+                    Debug.Log($"Override Ship Chunk parented to Found Ship {ship.name}");
+                    Undo.SetTransformParent(placed.transform, ship.transform, true, "Parent to Ship");
+                }
+
+                Component_ShipChunk chunk = placed.GetComponent<Component_ShipChunk>();
+                chunk.m_owning_ship = ship;
+            }
+            else if (m_parentToMountTarget)
+            {
+                Undo.SetTransformParent(placed.transform, m_snappedSceneMount.transform, true, "Parent to Mount");
             }
         }
 
@@ -615,6 +633,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
 
         Undo.RegisterCreatedObjectUndo(placed, "Place " + m_selectedPrefab.name);
         Selection.activeGameObject = placed;
+        EditorSceneManager.MarkSceneDirty(placed.scene);
     }
 
     // ===================================================================
@@ -732,6 +751,13 @@ public class Editor_PrefabMountPlacer : EditorWindow
             SetPlacementMode(PlacementMode.None);
             e.Use();
         }
+        else if (e.type == EventType.ScrollWheel)
+        {
+            bool scrolledUp = e.delta.y < 0f;
+            m_shipPartTwistDegrees = NormalizeAngle(
+                m_shipPartTwistDegrees + (scrolledUp ? RotationSnapIncrement() : -RotationSnapIncrement()));
+            e.Use();
+        }
 
         sceneView.Repaint();
         Repaint(); // keep the HelpBox status text in the tool window live
@@ -751,10 +777,7 @@ public class Editor_PrefabMountPlacer : EditorWindow
         m_shipPartGhost.hideFlags = HideFlags.HideAndDontSave;
         m_shipPartGhost.name = m_selectedShipPart.name + "_ShipPartGhost";
         m_shipPartGhostSourcePrefab = m_selectedShipPart;
-
-        // No gameplay components on the ghost - it's a preview only, and we don't
-        // want Awake() wiring up connectors/highlight state on something we're
-        // about to destroy.
+        m_shipPartTwistDegrees = 0f;
         StripToVisualOnly(m_shipPartGhost, keepMountPoints: false);
     }
 
@@ -789,7 +812,9 @@ public class Editor_PrefabMountPlacer : EditorWindow
         Vector3 resolvedUp = Vector3.Dot(toCamera, surfaceUp) < 0f ? -surfaceUp : surfaceUp;
         Vector3 resolvedForward = Vector3.Dot(toCamera, surfaceForward) < 0f ? -surfaceForward : surfaceForward;
 
-        m_shipPartGhost.transform.rotation = Quaternion.LookRotation(resolvedForward, resolvedUp);
+        m_shipPartGhost.transform.rotation =
+            Quaternion.LookRotation(resolvedForward, resolvedUp)
+            * Quaternion.AngleAxis(m_shipPartTwistDegrees, Vector3.up);
 
         ApplyGhostTint(m_shipPartGhost, SnappedTint);
     }
@@ -810,10 +835,13 @@ public class Editor_PrefabMountPlacer : EditorWindow
         {
             // Same downstream code path as a fully-completed runtime install - see
             // Component_ShipPart.PlaceAsInstalled().
+            Undo.SetTransformParent(shipPart.transform,  surface.transform, true, "Parent ShipPart to Surface");
             shipPart.PlaceAsInstalled(surface);
+            
         }
 
         Undo.RegisterCreatedObjectUndo(placed, "Place " + m_selectedShipPart.name);
         Selection.activeGameObject = placed;
+        EditorSceneManager.MarkSceneDirty(placed.scene);
     }
 }

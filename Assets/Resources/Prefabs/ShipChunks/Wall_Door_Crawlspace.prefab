@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7680311929697590843}
   m_Layer: 0
-  m_Name: Crawlspace_DoorWall
+  m_Name: Wall_Door_Crawlspace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

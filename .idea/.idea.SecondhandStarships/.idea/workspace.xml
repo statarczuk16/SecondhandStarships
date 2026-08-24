@@ -12,44 +12,47 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ELEC_Node_w_Relay_Short.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ELEC_Node_w_Relay_Short.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/Editor_PrefabMountPlacer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioSystem/Sounds/Generator.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioSystem/Sounds/Generator.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IToggleable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Code/Interfaces/IToggleable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNetwork.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_PowerNode.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_Relay.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Component_Relay.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Junction_4_Way.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Junction_4_Way.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Long.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Long.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Medium.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Medium.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Short.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Node_w_Relay_Short.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Long.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Long.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Medium.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Medium.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Short.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/ELEC_Relay_Straight_Short.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/IPowerGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/IPowerGenerator.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Utility_PowerTraversal.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electric_Junctions/Utility_PowerTraversal.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/Component_Generator.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/med_generator.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Generator/med_generator.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electrolyzer/Component_Electrolyzer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Electrolyzer/Component_Electrolyzer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/HullPart/Component_BuildableSurface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_Generator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Crawlspace_DoorWall.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Crawlspace_DoorWall.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Crawlspace_Portal.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Crawlspace_Portal.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/DoorWall.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/DoorWall.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/DoorWallShort.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/DoorWallShort.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Portal.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Portal.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Ship_Chunk_Room_Medium_Passthrough.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Ship_Chunk_Room_Medium_Passthrough.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/ShipPart/Component_ShipPart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Component_Ship.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Component_Ship.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_1.5m.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_1.5m.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_4m.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_4m.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_6m.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_6m.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Medium.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Medium.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Small.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Small.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Small_45.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Lattice_Small_45.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Chunk_Filled.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Demo_Class.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Demo_Class.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Demo_Class_Pyrramid_Cockpit.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Ships/Ship_Demo_Class_Pyrramid_Cockpit.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,8 +82,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Electrolyzer/Component_Electrolyzer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_Switch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_PowerNetworkInfoScreen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Component_ShipChunk.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/MiniGame_Item_Instance.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PowerNetworkTests.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
@@ -98,32 +103,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
-    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to": "Unity Editor",
-    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity Editor",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Unity Attach To.Attach to.executor": "Debug",
-    "XThreadsFramesViewSplitterKey": "0.6896552",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "develop",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.stickyLines",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to&quot;: &quot;Unity Editor&quot;,
+    &quot;DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider&quot;: &quot;Unity Editor&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Unity Attach To.Attach to.executor&quot;: &quot;Debug&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.6896552&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.stickyLines&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\Editor\6000.5.2f1\Editor\Unity.exe" />
@@ -145,15 +150,13 @@
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="25960">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="25960" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -178,7 +181,10 @@
       <workItem from="1786298845581" duration="18081000" />
       <workItem from="1786494070140" duration="5720000" />
       <workItem from="1786578842922" duration="3233000" />
-      <workItem from="1787151235930" duration="18889000" />
+      <workItem from="1787151235930" duration="20152000" />
+      <workItem from="1787362391151" duration="2000" />
+      <workItem from="1787416024131" duration="9407000" />
+      <workItem from="1787531149182" duration="5159000" />
     </task>
     <servers />
   </component>
@@ -300,94 +306,68 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
-          <line>106</line>
+          <line>126</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'OnInteract'">
             <startOffsets>
-              <option value="2788" />
+              <option value="-1" />
             </startOffsets>
             <endOffsets>
-              <option value="2788" />
+              <option value="-1" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
-          <line>87</line>
+          <line>107</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'CanInteract'">
             <startOffsets>
-              <option value="2438" />
+              <option value="2879" />
             </startOffsets>
             <endOffsets>
-              <option value="2450" />
+              <option value="2891" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
-          <line>168</line>
+          <line>188</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'TryGameStartNetworkConnect'">
             <startOffsets>
-              <option value="4434" />
+              <option value="4887" />
             </startOffsets>
             <endOffsets>
-              <option value="4488" />
+              <option value="4941" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs</url>
-          <line>165</line>
+          <line>191</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Component_Lightbulb.cs" containingFunctionPresentation="Method 'TryGameStartNetworkConnect'">
             <startOffsets>
-              <option value="4578" />
+              <option value="4858" />
             </startOffsets>
             <endOffsets>
-              <option value="4632" />
+              <option value="4912" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs</url>
-          <line>31</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Component_Lightbulb.cs" containingFunctionPresentation="Method 'RefreshLightVisual'">
-            <startOffsets>
-              <option value="1110" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1173" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs</url>
-          <line>144</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Component_Lightbulb.cs" containingFunctionPresentation="Method 'SetHasPower'">
-            <startOffsets>
-              <option value="4122" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4143" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNetwork.cs</url>
-          <line>43</line>
+          <line>53</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Electric_Junctions\Component_PowerNetwork.cs" containingFunctionPresentation="Method 'Update'">
             <startOffsets>
-              <option value="2027" />
+              <option value="2396" />
             </startOffsets>
             <endOffsets>
-              <option value="2075" />
+              <option value="2419" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="40" />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -44,8 +44,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.7467647, b: 0.37, a: 1}
-  m_Intensity: 3
-  m_Range: 5
+  m_Intensity: 10
+  m_Range: 25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -171,8 +171,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.7467647, b: 0.37, a: 1}
-  m_Intensity: 3
-  m_Range: 5
+  m_Intensity: 10
+  m_Range: 25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -304,6 +304,7 @@ MonoBehaviour:
   m_power_radius: 6
   m_power_usage_per_second: 0.1
   m_wants_to_be_on: 0
+  m_is_on: 0
   m_light_toggle: {fileID: 3420937224915656437}
 --- !u!1 &2421751479728901459
 GameObject:
