@@ -8,9 +8,11 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
     [SerializeField, Required] private List<DOTweenAnimation> doorAnimations;
     [SerializeField, Required] private Component_Inventory m_inventory;
     [SerializeField, Required] private GameObject m_power_slot;
+    [SerializeField, Required] private Component_Health m_health;
     [SerializeField] private Component_PowerNode m_connected_power_node;
     [SerializeField] private float m_power_radius = 4;
     [SerializeField] private float m_power_usage = 1;
+    [SerializeField] private List<GameObject> m_destroy_on_death;
     private bool m_is_on;
     private bool m_needs_startup_register = true;
 
@@ -27,9 +29,36 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
         }
     }
     
+    private void OnEnable()
+    {
+        if (m_health != null)
+            m_health.OnDestroyed += HandleDestruction;
+    }
+
+    private void OnDisable()
+    {
+        if (m_health != null)
+            m_health.OnDestroyed -= HandleDestruction;
+    }
+    
+    private void HandleDestruction()
+    {
+        foreach (GameObject obj in m_destroy_on_death)
+        {
+            obj.SetActive(false);
+        }
+
+        this.m_inventory.ClearAll();
+    }
+    
     public bool OnRequirementsMet(out string reason)
     {
         reason = "Whatever";
+        if (this.m_health.IsDestroyed)
+        {
+            reason = "//ERROR: DOOR IS DESTROYED";
+            return false;
+        }
         if (!this.GetInventory().HasAllRecipeItems())
         {
             reason = "//ERROR: DOOR MALFUNCTION > CHECK SERVICE HATCH";
@@ -129,7 +158,10 @@ public class Component_Door : MonoBehaviour, IInteractable, IToggleable, IInvent
 
     public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo)
     {
-        
+        if (equipmentController.TorchMode())
+        {
+            GetComponent<Component_Temperature>()?.AddHeat(equipmentController.GetHeatPerSecond() * Time.deltaTime);
+        }
     }
 
     public string GetInteractionLabel(Controller_Equipment controller)

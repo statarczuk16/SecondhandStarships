@@ -147,4 +147,9 @@ public class Component_Inventory : MonoBehaviour, IHighlightable, IInventoryOwne
         }
         
     }
+
+    public void ClearAll()
+    {
+        this.m_data_inventory.ClearAll();
+    }
 }

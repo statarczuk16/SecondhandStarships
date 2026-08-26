@@ -33,7 +33,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
-    private bool m_build_mode;
+    private bool m_tool_active;
     
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
@@ -53,6 +53,19 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         return "";
     }
 
+    public float GetHeatPerSecond()
+    {
+        if (TorchMode())
+        {
+            if (m_equipped_tool == EquipmentType.BUTANE_TORCH)
+            {
+                return 50;
+            }
+        }
+
+        return 0f;
+    }
+
     public string GetToolTip()
     {
         string base_tooltip = GetToolTipForEquipment(this.GetEquippedTool());
@@ -60,7 +73,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         {
             case EquipmentType.SHIP_BUILDER:
             {
-                if (this.m_build_mode)
+                if (this.m_tool_active)
                 {
                     base_tooltip += "\n//BUILD_MODE";
                 }
@@ -103,11 +116,10 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public void ActivateTool()
     {
+        this.m_tool_active = !this.m_tool_active;
         if(this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
         {
-            this.m_build_mode = !this.m_build_mode;
-
-            if (!this.m_build_mode)
+            if (!this.m_tool_active)
             {
                 (current_hover_interactable as IHighlightable)?.SetHighlight(InteractionHighlightState.NONE, this);
             }
@@ -115,7 +127,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     }
     public void ScrollDown()
     {
-        if (this.m_build_mode)
+        if (this.m_tool_active && this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
         {
             this.ScrollEquippedPartDown();
         }
@@ -127,7 +139,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     public void ScrollUp()
     {
-        if (this.m_build_mode)
+        if (this.m_tool_active && this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
         {
             this.ScrollEquippedPartUp();
         }
@@ -311,14 +323,19 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         return m_minigame_mediator.GetUIHub();
     }
 
-    internal void setCurrentHoverInteractable(IInteractable hit, RaycastHit hitInfo)
+    internal void setCurrentInteractable(IInteractable hit, RaycastHit hitInfo)
     {
         this.current_hover_interactable = hit;
     }
 
     public bool BuildMode()
     {
-        return m_build_mode;
+        return (this.m_tool_active && this.m_equipped_tool == EquipmentType.SHIP_BUILDER);
+    }
+    
+    public bool TorchMode()
+    {
+        return (this.m_tool_active && this.m_equipped_tool == EquipmentType.BUTANE_TORCH);
     }
 
     internal IInteractable GetCurrentHover()
@@ -342,5 +359,20 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     {
         this.m_inventory_controller.OpenUI(this, left_inventory, right_inventory);
         m_minigame_mediator.ChangeInputMode(InputMode.MenuMode);
+    }
+
+    public void OnHoverExit(IInteractable mCurrentInteractable)
+    {
+        mCurrentInteractable?.OnHoverExit(this);
+    }
+
+    public void OnHoverEnter(IInteractable mCurrentInteractable)
+    {
+        mCurrentInteractable?.OnHoverEnter(this);
+    }
+
+    public void OnHoverUpdate(IInteractable mCurrentInteractable, RaycastHit hitInfo)
+    {
+        mCurrentInteractable?.OnHoverUpdate(this, hitInfo);
     }
 }

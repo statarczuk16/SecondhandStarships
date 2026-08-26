@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 607346501182562731}
   - component: {fileID: 6352604502996043777}
   - component: {fileID: 3928835594885391531}
+  - component: {fileID: 3495123734554577705}
+  - component: {fileID: 6160236832065880105}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -54,9 +56,17 @@ MonoBehaviour:
   - {fileID: 2973162141657048343}
   m_inventory: {fileID: 3928835594885391531}
   m_power_slot: {fileID: 9048959708337620588}
+  m_health: {fileID: 6160236832065880105}
   m_connected_power_node: {fileID: 0}
   m_power_radius: 5
   m_power_usage: 1
+  m_destroy_on_death:
+  - {fileID: 2297629452625601420}
+  - {fileID: 182343379915853217}
+  - {fileID: 3571252977580124330}
+  - {fileID: 6626904608178831832}
+  - {fileID: 5085266737098141685}
+  - {fileID: 9048959708337620588}
 --- !u!114 &6352604502996043777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +182,39 @@ MonoBehaviour:
       tier: 0
   m_highlightable: {fileID: 0}
   startup_behavior: 0
+--- !u!114 &3495123734554577705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7527607323865291635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22404e41e88e843a823569c30f2b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Temperature
+  m_data:
+    m_current_temp_c: 20
+    m_melting_point_c: 900
+    m_freezing_point_c: 0
+    m_melt_damage_per_second: 5
+--- !u!114 &6160236832065880105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7527607323865291635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da587a771fba0564b8ee83c22726c594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Health
+  m_data:
+    m_current_hp: 100
+    m_max_hp: 100
+    m_is_destroyed: 0
 --- !u!1 &9212421495233523670
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +246,7 @@ Transform:
   m_Children:
   - {fileID: 1164916675586121168}
   - {fileID: 6070626873902251908}
+  - {fileID: 6742441743993216569}
   m_Father: {fileID: 9178447360371054932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &758414700455064225
@@ -220,6 +264,10 @@ PrefabInstance:
     - target: {fileID: 1290038306113058251, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
       propertyPath: m_Name
       value: Door_003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290038306113058251, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1922179068492754801, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
       propertyPath: m_LocalScale.x
@@ -283,9 +331,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1922179068492754801, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4234636018991002128}
-    - targetCorrespondingSourceObject: {fileID: 1922179068492754801, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6742441743993216569}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1541568038035755309, guid: 4fe4f98015dd1604e92c9bf4185c448f, type: 3}
       insertIndex: -1
@@ -625,6 +670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Component_OnOffButton
   m_controlledObjectSource: {fileID: 607346501182562731}
   m_highlight_renderer: {fileID: 779003121699784312}
+  m_animations: []
 --- !u!114 &779003121699784312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,7 +699,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1164916675586121168}
+    m_TransformParent: {fileID: 8876636809833778524}
     m_Modifications:
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -665,7 +711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.245
+      value: 0.25801
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -673,15 +719,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2268407288250709473, guid: 36209adae99a82f40839ce728222290a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1135,6 +1181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Component_OnOffButton
   m_controlledObjectSource: {fileID: 607346501182562731}
   m_highlight_renderer: {fileID: 7870310720885677055}
+  m_animations: []
 --- !u!114 &7870310720885677055
 MonoBehaviour:
   m_ObjectHideFlags: 0

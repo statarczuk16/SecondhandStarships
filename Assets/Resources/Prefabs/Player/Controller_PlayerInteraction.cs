@@ -20,7 +20,7 @@ public class Controller_PlayerInteraction : MonoBehaviour
     private GameObject ghostRoot;
     private Controller_Equipment equipmentController;
     private Controller_PlayerInput player_input_controller;
-    IInteractable current_interactable;
+    IInteractable m_current_interactable;
 
     void Awake()
     {
@@ -117,9 +117,6 @@ public class Controller_PlayerInteraction : MonoBehaviour
                     mb = interactable as MonoBehaviour;
                 }
             }
-
-            
-            
         }
 
         if (!mb)
@@ -139,16 +136,17 @@ public class Controller_PlayerInteraction : MonoBehaviour
             coyote_time_frame_count = 0;
         }
 
-        if (interactable == current_interactable)
+        if (interactable == m_current_interactable)
         {
-            current_interactable?.OnHoverUpdate(equipmentController, hitInfo);
+            equipmentController.OnHoverUpdate(m_current_interactable, hitInfo);
             return;
         }
 
-        equipmentController.setCurrentHoverInteractable(interactable, hitInfo);
-        current_interactable?.OnHoverExit(equipmentController);
-        current_interactable = interactable;
-        current_interactable?.OnHoverEnter(equipmentController);
+        equipmentController.OnHoverExit(m_current_interactable);
+        m_current_interactable = interactable;
+        equipmentController.setCurrentInteractable(m_current_interactable, hitInfo);
+        equipmentController.OnHoverEnter(m_current_interactable);
+        
     }
 
     void TryAltInteract()
@@ -159,10 +157,10 @@ public class Controller_PlayerInteraction : MonoBehaviour
     void TryInteract()
     {
         //Call the OnInteract function of whatever we are looking at (currentTarget)
-        if (current_interactable == null) return;
-        if (!current_interactable.CanInteract(equipmentController)) return;
+        if (m_current_interactable == null) return;
+        if (!m_current_interactable.CanInteract(equipmentController)) return;
 
-        current_interactable.OnInteract(equipmentController);
+        m_current_interactable.OnInteract(equipmentController);
     }
 
     
