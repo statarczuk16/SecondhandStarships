@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 8645216220101683724}
   - component: {fileID: 69267873105231124}
   - component: {fileID: 7153077014177280038}
+  - component: {fileID: 7868131984561610066}
+  - component: {fileID: 73208077388459476}
+  - component: {fileID: 1708960860795251797}
   m_Layer: 0
   m_Name: BigDoor
   m_TagString: Untagged
@@ -52,10 +55,9 @@ MonoBehaviour:
   doorAnimations:
   - {fileID: 1941964083941017841}
   m_inventory: {fileID: 7153077014177280038}
-  m_power_slot: {fileID: 6768680948443071349}
-  m_connected_power_node: {fileID: 0}
-  m_power_radius: 4
-  m_power_usage: 0
+  m_health: {fileID: 7868131984561610066}
+  m_power_consumer: {fileID: 1708960860795251797}
+  m_destroy_on_death: []
 --- !u!114 &7153077014177280038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +123,56 @@ MonoBehaviour:
       tier: 0
   m_highlightable: {fileID: 0}
   startup_behavior: 0
+--- !u!114 &7868131984561610066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203279195288965134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da587a771fba0564b8ee83c22726c594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Health
+  m_data:
+    m_current_hp: 500
+    m_max_hp: 500
+    m_is_destroyed: 0
+--- !u!114 &73208077388459476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203279195288965134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22404e41e88e843a823569c30f2b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Temperature
+  m_data:
+    m_current_temp_c: 20
+    m_melting_point_c: 2000
+    m_freezing_point_c: 0
+    m_melt_damage_per_second: 5
+--- !u!114 &1708960860795251797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203279195288965134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247b16fbb748d5346ac5757f0bd6120e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PowerConsumer
+  m_power_slot: {fileID: 6768680948443071349}
+  m_connected_power_node: {fileID: 0}
+  m_power_radius: 5
+  m_power_usage_per_second: 0
+  m_power_usage_per_activation: 5
 --- !u!1 &6768680948443071349
 GameObject:
   m_ObjectHideFlags: 0

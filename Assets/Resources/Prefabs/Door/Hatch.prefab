@@ -11,6 +11,12 @@ GameObject:
   - component: {fileID: 1572637639992085942}
   - component: {fileID: 8661080102279854754}
   - component: {fileID: 8058271436105906388}
+  - component: {fileID: 2415932521224959575}
+  - component: {fileID: 7114945542005891752}
+  - component: {fileID: 1620413803709470426}
+  - component: {fileID: 5125130111394268004}
+  - component: {fileID: 2457827399405832831}
+  - component: {fileID: 4921063361957744425}
   m_Layer: 0
   m_Name: Hatch
   m_TagString: Untagged
@@ -50,10 +56,10 @@ MonoBehaviour:
   doorAnimations:
   - {fileID: 3194720660405378296}
   m_inventory: {fileID: 8058271436105906388}
-  m_power_slot: {fileID: 2590030547111469012}
-  m_connected_power_node: {fileID: 0}
-  m_power_radius: 4
-  m_power_usage: 0
+  m_health: {fileID: 2415932521224959575}
+  m_power_consumer: {fileID: 4921063361957744425}
+  m_destroy_on_death:
+  - {fileID: 7972229545882612713}
 --- !u!114 &8058271436105906388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +119,100 @@ MonoBehaviour:
     recipe: []
   m_highlightable: {fileID: 0}
   startup_behavior: 2
+--- !u!114 &2415932521224959575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da587a771fba0564b8ee83c22726c594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Health
+  m_data:
+    m_current_hp: 100
+    m_max_hp: 100
+    m_is_destroyed: 0
+--- !u!114 &7114945542005891752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22404e41e88e843a823569c30f2b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_Temperature
+  m_data:
+    m_current_temp_c: 20
+    m_melting_point_c: 600
+    m_freezing_point_c: 0
+    m_melt_damage_per_second: 5
+--- !u!114 &1620413803709470426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389021ab340fcbb4a93dc75f39dc78d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_OnOffButton
+  m_controlledObjectSource: {fileID: 8661080102279854754}
+  m_highlight_renderer: {fileID: 5125130111394268004}
+  m_animations: []
+--- !u!114 &5125130111394268004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72037412a0e3fc44dbaa402ddb823ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightableRenderer
+  targetObject: {fileID: 0}
+  validColor: {r: 0, g: 1, b: 0, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
+  neutralColor: {r: 0, g: 0, b: 0, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &2457827399405832831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37db4b983d39d924eafe8ac0fc32d471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PrefabBoundary
+--- !u!114 &4921063361957744425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590030547111469012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247b16fbb748d5346ac5757f0bd6120e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PowerConsumer
+  m_power_slot: {fileID: 2590030547111469012}
+  m_connected_power_node: {fileID: 0}
+  m_power_radius: 5
+  m_power_usage_per_second: 0
+  m_power_usage_per_activation: 0
 --- !u!1001 &1183107443474173527
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -264,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6629838285919700897}
   - component: {fileID: 5461127121315687685}
+  - component: {fileID: 1267793363411156335}
   m_Layer: 0
   m_Name: Lightpanel
   m_TagString: Untagged
@@ -299,13 +300,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724e57a6d6da4974381835b71a07ee3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Component_Lightbulb
-  m_power_slot: {fileID: 6338873055160966820}
-  m_connected_power_node: {fileID: 0}
-  m_power_radius: 6
-  m_power_usage_per_second: 0.1
-  m_wants_to_be_on: 0
+  m_wants_to_be_on: 1
   m_is_on: 0
   m_light_toggle: {fileID: 3420937224915656437}
+  m_power_consumer: {fileID: 1267793363411156335}
+  m_has_power: 0
+--- !u!114 &1267793363411156335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669629774952216505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247b16fbb748d5346ac5757f0bd6120e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PowerConsumer
+  m_power_slot: {fileID: 1669629774952216505}
+  m_connected_power_node: {fileID: 0}
+  m_power_radius: 5
+  m_power_usage_per_second: 1
+  m_power_usage_per_activation: 0
 --- !u!1 &2421751479728901459
 GameObject:
   m_ObjectHideFlags: 0

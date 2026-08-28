@@ -12,11 +12,17 @@
   <component name="ChangeListManager">
     <list default="true" id="999605bb-7516-43eb-b35d-48d0134cdd32" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SecondhandStarships/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/BigDoor.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/BigDoor.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Door.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Hatch.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Hatch.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_PlayerInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNetwork.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNetwork.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/IPowerInterfaces.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/IPowerInterfaces.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_Generator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Lightpanel.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Lightpanel.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +53,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Component_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Inventory/Data_Inventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerConsumer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Generator/Component_PowerNetworkInfoScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/Prefabs/ShipChunks/Component_ShipChunk.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Resources/UI/Inventory UI/MiniGame_Item_Instance.cs" root0="FORCE_HIGHLIGHTING" />
@@ -66,32 +73,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to&quot;: &quot;Unity Editor&quot;,
-    &quot;DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider&quot;: &quot;Unity Editor&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Unity Attach To.Attach to.executor&quot;: &quot;Debug&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.6896552&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.stickyLines&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to": "Unity Editor",
+    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity Editor",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Unity Attach To.Attach to.executor": "Debug",
+    "XThreadsFramesViewSplitterKey": "0.92528737",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "develop",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.stickyLines",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="D:\Unity\Editor\6000.5.2f1\Editor\Unity.exe" />
@@ -149,7 +156,7 @@
       <workItem from="1787151235930" duration="20152000" />
       <workItem from="1787362391151" duration="2000" />
       <workItem from="1787416024131" duration="9407000" />
-      <workItem from="1787531149182" duration="17003000" />
+      <workItem from="1787531149182" duration="31129000" />
     </task>
     <servers />
   </component>
@@ -271,7 +278,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
-          <line>155</line>
+          <line>175</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'OnInteract'">
             <startOffsets>
               <option value="-1" />
@@ -283,56 +290,95 @@
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
-          <line>220</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'TryGameStartNetworkConnect'">
-            <startOffsets>
-              <option value="5786" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5840" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Component_Lightbulb.cs</url>
-          <line>191</line>
-          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Component_Lightbulb.cs" containingFunctionPresentation="Method 'TryGameStartNetworkConnect'">
-            <startOffsets>
-              <option value="4858" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4912" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerNetwork.cs</url>
-          <line>53</line>
+          <line>59</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Electric_Junctions\Component_PowerNetwork.cs" containingFunctionPresentation="Method 'Update'">
             <startOffsets>
-              <option value="2396" />
+              <option value="2533" />
             </startOffsets>
             <endOffsets>
-              <option value="2419" />
+              <option value="2561" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Player/Controller_Equipment.cs</url>
-          <line>153</line>
+          <line>199</line>
           <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Player\Controller_Equipment.cs" containingFunctionPresentation="Method 'EquipTool'">
             <startOffsets>
-              <option value="4279" />
+              <option value="5656" />
             </startOffsets>
             <endOffsets>
-              <option value="4316" />
+              <option value="5693" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/OnOffButton/Component_OnOffButton.cs</url>
+          <line>27</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\OnOffButton\Component_OnOffButton.cs" containingFunctionPresentation="Method 'CanInteract'">
+            <startOffsets>
+              <option value="997" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1053" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Code/Components/Component_Health.cs</url>
+          <line>39</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Code\Components\Component_Health.cs" containingFunctionPresentation="Method 'TakeDamage'">
+            <startOffsets>
+              <option value="872" />
+            </startOffsets>
+            <endOffsets>
+              <option value="904" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
+          <line>171</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'OnInteract'">
+            <startOffsets>
+              <option value="4549" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4582" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Door/Component_Door.cs</url>
+          <line>190</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Door\Component_Door.cs" containingFunctionPresentation="Method 'GetInteractionLabel'">
+            <startOffsets>
+              <option value="5103" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5129" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Resources/Prefabs/Power/Electric_Junctions/Component_PowerConsumer.cs</url>
+          <line>83</line>
+          <properties documentPath="D:\Unity\SecondhandStarships\Assets\Resources\Prefabs\Power\Electric_Junctions\Component_PowerConsumer.cs" containingFunctionPresentation="Method 'Update'">
+            <startOffsets>
+              <option value="2643" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2693" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -14,8 +14,11 @@ public class Component_PowerNetwork : MonoBehaviour
     [SerializeField] private float m_power_capacity = 0f;
     [SerializeField] private float m_stored_power = 0f;
     [SerializeField] private float m_power_generated_this_tic = 0f;
-    [SerializeField] private float m_power_consumption_per_tic = 0f;
-    private static float POWER_UPDATE_TIC_s = .25f;
+    [SerializeField] private float m_total_power_consumption = 0f;
+    [SerializeField] private float m_avg_power_consumption_per_s = 0f;
+
+    [SerializeField] private float m_total_runtime = 0f;
+    public static float POWER_UPDATE_TIC_s = .25f;
     private float update_tic_counter_s = 0f;
     void Start()
     {
@@ -33,53 +36,75 @@ public class Component_PowerNetwork : MonoBehaviour
         //At start of tick, stored power can't be more than stored power capacity (IE, we lost a battery last tick)
         m_stored_power = Mathf.Clamp(m_stored_power, 0f, m_power_capacity);
         m_power_generated_this_tic = 0f;
-        m_power_consumption_per_tic = 0f;
+        
         foreach (IPowerGenerator generator in m_generators)
         {
             m_power_generated_this_tic += generator.GetPowerGeneratedPerDT(update_tic_counter_s);
         }
 
-        //consume power for each power consumer. if any component cant get enough, we tell the consumer theres no power
-        float available_power = m_power_generated_this_tic + m_stored_power;
-        foreach (IPowerConsumer consumer in m_consumers)
-        {
-            float power_needed = consumer.PowerConsumedPerDT(update_tic_counter_s);
-            m_power_consumption_per_tic += power_needed;
-            if (available_power < power_needed)
-            {
-                consumer.SetPoweredStarved();
-            }
-            else
-            {
-                consumer.SetHasPower();
-            }
-            available_power -= power_needed;
-            if (available_power <= 0)
-            {
-                available_power = 0;
-            }
-            
-        }
+        /**
+       //consume power for each power consumer. if any component cant get enough, we tell the consumer theres no power
+        m_power_consumption_per_tic = 0f;
+       float available_power = m_power_generated_this_tic + m_stored_power;
+    
+       foreach (IPowerConsumer consumer in m_consumers)
+       {
+           float power_needed = consumer.PowerConsumedPerDT(update_tic_counter_s);
+           m_power_consumption_per_tic += power_needed;
+           if (available_power < power_needed)
+           {
+               consumer.PowerUpdate(true);
+           }
+           else
+           {
+               consumer.PowerUpdate(false);
+           }
+           available_power -= power_needed;
+           if (available_power <= 0)
+           {
+               available_power = 0;
+           }
+       }
+      
         //store whatever is left over in the batteries (or drain them)
-        m_stored_power = Mathf.Clamp(available_power, 0f, m_power_capacity);
-        update_tic_counter_s = 0f;
-    }
+        
+         **/
 
-    public void RegisterConsumer(IPowerConsumer consumer)
+        RebalancePower(m_stored_power + m_power_generated_this_tic);
+        m_total_runtime += update_tic_counter_s;
+        m_avg_power_consumption_per_s = m_total_power_consumption /  m_total_runtime;
+        update_tic_counter_s = 0f;
+        
+    }
+    
+    private void RebalancePower(float total_available_power)
     {
-        this.m_consumers.Add(consumer);
+        m_stored_power = Mathf.Clamp(
+            total_available_power,
+            0f,
+            m_power_capacity
+        );
+
+        m_power_generated_this_tic = Mathf.Max(
+            0f,
+            total_available_power - m_stored_power
+        );
     }
 
     public float RequestPower(float requested_power)
     {
-        float available_power = m_power_generated_this_tic + m_stored_power;
-        float power_given = 0;
-        if (available_power >= requested_power)
-        {
-            available_power -= requested_power;
-            power_given = requested_power;
-        }
-        m_stored_power = Mathf.Clamp(available_power, 0f, m_power_capacity);
+        float total_available_power = m_stored_power + m_power_generated_this_tic;
+
+        float power_given = Mathf.Min(
+            requested_power,
+            total_available_power
+        );
+
+        total_available_power -= power_given;
+        m_total_power_consumption += power_given;
+
+        RebalancePower(total_available_power);
+
         return power_given;
     }
 
@@ -174,9 +199,9 @@ public class Component_PowerNetwork : MonoBehaviour
         sb.AppendLine($"Power Capacity: {m_power_capacity:F2}");
         sb.AppendLine($"Stored Power: {m_stored_power:F2}");
         sb.AppendLine($"Power Generation/Tic: {m_power_generated_this_tic:F2}");
-        sb.AppendLine($"Power Consumed/Tic: {m_power_consumption_per_tic:F2}");
+        sb.AppendLine($"Power Consumed/Tic: {m_avg_power_consumption_per_s:F2}");
         sb.AppendLine($"Power Utilization: " +
-                      $"{(m_power_generated_this_tic > 0f ? (m_power_consumption_per_tic / m_power_generated_this_tic) * 100f : 0f):F1}%");
+                      $"{(m_avg_power_consumption_per_s > 0f ? (m_avg_power_consumption_per_s / m_power_generated_this_tic) * 100f : 0f):F1}%");
 
         sb.AppendLine();
         sb.AppendLine($"Connected Nodes {m_network_nodes.Count}");
@@ -213,18 +238,21 @@ public class Component_PowerNetwork : MonoBehaviour
                 continue;
             }
 
+            string temp_name = "Unknown";
+            string temp_on = "";
+            string temp_power_per_sec = "0 needed/second";
             if (consumer is Component component)
             {
-                sb.AppendLine(
-                    $"  {component.gameObject.name}: " +
-                    $"{consumer.PowerNeededPerUsage():F2} needed/usage");
+                temp_name = component.gameObject.name;
             }
-            else
+           
+            temp_power_per_sec = $"{consumer.PowerConsumedPerDT(1):F2} needed/second";
+            if (consumer is IToggleable toggleable)
             {
-                sb.AppendLine(
-                    $"  {consumer.GetType().Name}: " +
-                    $"{consumer.PowerNeededPerUsage():F2} needed/usage");
+                temp_on = $"SWITCHED: {(toggleable.WantsToBeOn() ? "ON" : "OFF")} " +
+                          $"IS_ON: {(toggleable.IsOn() ? "TRUE" : "FALSE")}";
             }
+            sb.AppendLine($"{temp_name} {temp_on} {temp_power_per_sec}");
         }
 
         sb.AppendLine();

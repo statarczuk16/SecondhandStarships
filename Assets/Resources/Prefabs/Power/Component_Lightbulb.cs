@@ -1,39 +1,57 @@
+using System;
 using UnityEngine;
 
-public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, IPowerNetworked
+public class Component_Lightbulb : MonoBehaviour, IToggleable
 {
-    [SerializeField, Required] private GameObject m_power_slot;
-    [SerializeField] private Component_PowerNode m_connected_power_node;
-    [SerializeField] private float m_power_radius;
-    [SerializeField] private float m_power_usage_per_second;
+
     [SerializeField] private bool m_wants_to_be_on;
     [SerializeField] private bool m_is_on;
     [SerializeField, Required] private GameObject m_light_toggle;
-    private bool m_needs_startup_register = true;
-
+    [SerializeField, Required] private Component_PowerConsumer m_power_consumer;
+    [SerializeField, Required] private bool m_has_power = false;
+    private Action m_onLostPower;
+    private Action m_onGainedPower;
+    
     private void Start()
     {
         RefreshActualOnState();
     }
     
-    private void RefreshActualOnState()
+  
+
+    private void OnEnable()
     {
-        bool should_be_on = m_wants_to_be_on && OnRequirementsMet(out _);
-        if (should_be_on == m_is_on)
-        {
+        if (m_power_consumer == null)
             return;
-        }
-        if (should_be_on) TurnOn();
-        else TurnOff();
+
+       
+        m_onLostPower = () =>
+        {
+            m_has_power = false;
+            RefreshActualOnState();
+        };
+
+        m_onGainedPower = () =>
+        {
+            m_has_power = true;
+            RefreshActualOnState();
+        };
+
+        m_power_consumer.OnLostPower += m_onLostPower;
+        m_power_consumer.OnGainedPower += m_onGainedPower;
+        m_power_consumer.SetPassiveConsumptionOn(m_wants_to_be_on);
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (m_needs_startup_register)
-        {
-            m_needs_startup_register = TryGameStartNetworkConnect();
-        }
+        if (m_power_consumer == null)
+            return;
+
+        m_power_consumer.OnLostPower -= m_onLostPower;
+        m_power_consumer.OnGainedPower -= m_onGainedPower;
     }
+    
+
     
     public bool CanToggle(out string reason)
     {
@@ -45,6 +63,7 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
     {
         AudioEvents.Fire(SoundID.Toggle, transform.position);
         m_wants_to_be_on = !m_wants_to_be_on;
+        m_power_consumer.SetPassiveConsumptionOn(m_wants_to_be_on);
         RefreshActualOnState();
     }
 
@@ -56,6 +75,13 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
     public bool WantsToBeOn()
     {
         return m_wants_to_be_on;
+    }
+    
+    private void RefreshActualOnState()
+    {
+        bool should_be_on = m_wants_to_be_on && OnRequirementsMet(out _);
+        if (should_be_on) TurnOn();
+        else TurnOff();
     }
 
     public void TurnOff()
@@ -74,138 +100,13 @@ public class Component_Lightbulb : MonoBehaviour, IPowerConsumer, IToggleable, I
     {
        reason = "Whatever";
 
-        if (!CheckHasPower())
+        if (!m_has_power)
         {
             reason = "//ERROR: NO POWER TO LIGHTS";
             return false;
         }
-
-        if (!this.m_connected_power_node.CanDrawPower(m_power_usage_per_second))
-        {
-            float available = this.m_connected_power_node.GetOwningNetwork().GetAvailablePower();
-            reason = $"//ERROR: POWER NETWORK INSUFFICIENT (NEED {m_power_usage_per_second} UNIT/S) BUT (NETWORK HAS: {available} UNITS)";
-            return false;
-        }
-
-        return true;
-    }
-    
-    public Component_PowerNode TryFindPowerNode()
-    {
-        var colliders = Physics.OverlapSphere(this.m_power_slot.transform.position, this.GetPowerRadius_M(), Physics.AllLayers, QueryTriggerInteraction.Ignore);
-        foreach (var collider in colliders)
-        {
-            if (collider.GetComponentInParent<Component_PowerNode>() != null)
-            {
-                Component_PowerNode component_PowerNode = collider.GetComponentInParent<Component_PowerNode>();
-                if (component_PowerNode.GetOwningNetwork() && component_PowerNode.GetOwningNetwork().CheckHasPower())
-                {
-                    return component_PowerNode;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void ConnectToNode(Component_PowerNode node)
-    {
-        if (m_connected_power_node != null)
-        {
-            DisconnectFromNode();
-        }
-        m_connected_power_node = node;
-        node.ConnectConsumer(this);
-    }
-
-    public void DisconnectFromNode()
-    {
-        m_connected_power_node.DisconnectConsumer(this);
-        m_connected_power_node = null;
-    }
-
-    public float PowerConsumedPerDT(float dt)
-    {
-        if (!IsOn())
-        {
-            return 0f;
-        }
-        return this.m_power_usage_per_second * dt;
-    }
-
-    public float PowerNeededPerUsage()
-    {
-        return 0;
-    }
-
-    public bool CheckHasPower()
-    {
-        if (this.m_connected_power_node == null)
-        {
-            var node = this.TryFindPowerNode();
-            if (node)
-            {
-                ConnectToNode(node);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        if (this.m_connected_power_node == null)
-        {
-            return false;
-        }
-
-        return this.m_connected_power_node.GetOwningNetwork().CheckHasPower();
-    }
-
-    //network telling us our power status may have changed - go check and refresh
-    public void SetPoweredStarved()
-    {
-        RefreshActualOnState();
-    }
-
-    public void SetHasPower()
-    {
-        RefreshActualOnState();
-    }
-
-    public float GetPowerRadius_M()
-    {
-        return m_power_radius;
-    }
-
-    public bool TryGameStartNetworkConnect()
-    {
-        if (m_connected_power_node == null)
-        {
-            m_connected_power_node = TryFindPowerNode();
-        }
-
-        if (m_connected_power_node == null)
-        {
-            return true;
-        }
-        if (m_connected_power_node.GetOwningNetwork() != null)
-        {
-            if (m_connected_power_node.GetOwningNetwork() != null)
-            {
-                ConnectToNode(m_connected_power_node);
-                TopicLogger.Log(LogTopic.PowerSystem, LogLevel.INFO, $"First time connect! {this.name}");
-                return false;
-            }
-        }
         return true;
     }
 
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        Color color = Color.yellow;
-        color.a = 0.05f;
-        Gizmos.color = color;
-        Gizmos.DrawSphere(transform.position, this.m_power_radius);
-    }
-#endif
+
 }

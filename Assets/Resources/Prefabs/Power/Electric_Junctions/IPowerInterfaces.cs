@@ -16,16 +16,15 @@ public interface IPowerConsumer
 
     public float PowerConsumedPerDT(float dt);
    
-    public bool CheckHasPower();
-
-    public void SetPoweredStarved();
-
-    public void SetHasPower();
+    public bool PassiveConsumptionOn();
+    
+    public void SetPassiveConsumptionOn(bool value);
+    
 }
 
 public interface IPowerNetworked
 {
-    public Component_PowerNode TryFindPowerNode();
+    public Component_PowerNode TryFindNodeWithPower();
 
     public bool TryGameStartNetworkConnect();
 

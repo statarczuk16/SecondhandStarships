@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3928835594885391531}
   - component: {fileID: 3495123734554577705}
   - component: {fileID: 6160236832065880105}
+  - component: {fileID: 5552145338256900427}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -55,11 +56,8 @@ MonoBehaviour:
   - {fileID: 8372217247271864666}
   - {fileID: 2973162141657048343}
   m_inventory: {fileID: 3928835594885391531}
-  m_power_slot: {fileID: 9048959708337620588}
   m_health: {fileID: 6160236832065880105}
-  m_connected_power_node: {fileID: 0}
-  m_power_radius: 5
-  m_power_usage: 1
+  m_power_consumer: {fileID: 5552145338256900427}
   m_destroy_on_death:
   - {fileID: 2297629452625601420}
   - {fileID: 182343379915853217}
@@ -215,6 +213,23 @@ MonoBehaviour:
     m_current_hp: 100
     m_max_hp: 100
     m_is_destroyed: 0
+--- !u!114 &5552145338256900427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7527607323865291635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247b16fbb748d5346ac5757f0bd6120e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Component_PowerConsumer
+  m_power_slot: {fileID: 7527607323865291635}
+  m_connected_power_node: {fileID: 0}
+  m_power_radius: 5
+  m_power_usage_per_second: 0
+  m_power_usage_per_activation: 2
 --- !u!1 &9212421495233523670
 GameObject:
   m_ObjectHideFlags: 0

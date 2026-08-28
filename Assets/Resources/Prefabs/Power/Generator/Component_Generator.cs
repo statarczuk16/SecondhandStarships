@@ -109,7 +109,7 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, 
         return true;
     }
     
-    public Component_PowerNode TryFindPowerNode()
+    public Component_PowerNode TryFindNodeWithPower()
     {
         return m_connected_power_node;
         //generators must have their own built in nodes
@@ -119,7 +119,7 @@ public class Component_Generator : MonoBehaviour, IToggleable, IInventoryOwner, 
     {
         if (m_connected_power_node == null)
         {
-            m_connected_power_node = TryFindPowerNode();
+            m_connected_power_node = TryFindNodeWithPower();
         }
 
         if (m_connected_power_node == null)

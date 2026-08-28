@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public enum EquipmentType
@@ -33,37 +34,82 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
-    private bool m_tool_active;
+    private bool m_tool_active = false;
     
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
     private Dictionary<EquipmentType, string> m_tooltips = new()
     {
         { EquipmentType.SOCKET_WRENCH, "LMB Bolt/Unbolt" },
-        { EquipmentType.SHIP_BUILDER , "LMB Install Part\nRMB Toggle Build Mode"}
+        { EquipmentType.SHIP_BUILDER , "LMB Install Part\nRMB Toggle Build Mode"},
+        { EquipmentType.BUTANE_TORCH , "RMB Toggle Torch"}
     };
+
+    [SerializeField] private float m_current_gas_liters;
+    [SerializeField] private float m_max_gas_liters;
+    [SerializeField] private float m_torch_gas_use_liters_per_second;
 
     public string GetToolTipForEquipment(EquipmentType type)
     {
         if (m_tooltips.ContainsKey(type))
         {
-            return  m_tooltips[type];
+            string temp = m_tooltips[type];
+            if (this.TorchMode())
+            {
+                temp += "(ON)";
+            }
+
+            return temp;
         }
 
         return "";
     }
 
-    public float GetHeatPerSecond()
+    private float GetHeatPerSecondC(EquipmentType  type)
     {
+        switch (type)
+        {
+            case EquipmentType.BUTANE_TORCH:
+                return 100;
+            case EquipmentType.PLASMA_TORCH:
+                return 200;
+            default:
+                return 0;
+        }
+    }
+    
+    private float GetFuelCostPerSecondLiters(EquipmentType  type)
+    {
+        switch (type)
+        {
+            case EquipmentType.BUTANE_TORCH:
+                return 0.1f;
+            case EquipmentType.PLASMA_TORCH:
+                return 0.3f;
+            default:
+                return 0;
+        }
+    }
+
+    public float GenerateHeat(float dt)
+    {
+        float generated_heat = 0f;
+        float spent_fuel = 0f;
         if (TorchMode())
         {
-            if (m_equipped_tool == EquipmentType.BUTANE_TORCH)
-            {
-                return 50;
-            }
+            generated_heat = GetHeatPerSecondC(this.m_equipped_tool);
+            spent_fuel = GetFuelCostPerSecondLiters(this.m_equipped_tool);
+        }
+
+        if (this.m_current_gas_liters >= spent_fuel)
+        {
+            this.m_current_gas_liters -= spent_fuel;
+            this.m_current_gas_liters = Mathf.Clamp(spent_fuel, 0f, this.m_max_gas_liters);
+            return generated_heat;
         }
 
         return 0f;
+
     }
 
     public string GetToolTip()
