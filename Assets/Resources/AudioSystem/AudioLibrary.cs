@@ -22,7 +22,8 @@ public enum SoundID
     
     Toggle,
     DoorOpen,
-    DoorClose
+    DoorClose,
+    Light_Butane_Torch
 }
 
 [CreateAssetMenu(menuName = "Audio/Audio Library")]

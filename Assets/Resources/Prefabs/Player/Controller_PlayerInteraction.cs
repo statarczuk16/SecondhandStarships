@@ -151,7 +151,7 @@ public class Controller_PlayerInteraction : MonoBehaviour
 
     void TryAltInteract()
     {
-        equipmentController.ActivateTool();
+        equipmentController.ToggleTool();
     }
     
     void TryInteract()

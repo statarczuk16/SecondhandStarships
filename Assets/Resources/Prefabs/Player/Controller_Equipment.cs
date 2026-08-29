@@ -34,7 +34,7 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
 
     private int m_selected_part_index;
     private IInteractable current_hover_interactable;
-    private bool m_tool_active = false;
+    [SerializeField] private bool m_tool_active = false;
     
     private GameObject currentGhost;
     private Data_ShipModule _currentGhostModuleData;
@@ -160,15 +160,44 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
         m_starting_part_prefabs.Clear();
     }
 
+    public void DeactivateTool()
+    {
+        this.m_tool_active = false;
+        if (this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
+        {
+           (current_hover_interactable as IHighlightable)?.SetHighlight(InteractionHighlightState.NONE, this); 
+        }
+        else if (this.m_equipped_tool == EquipmentType.BUTANE_TORCH)
+        {
+            
+           //TODO  
+           //AudioEvents.Fire(SoundID.Extinguish_Butane_Torch, this.transform.position);
+            
+        }
+    }
+
     public void ActivateTool()
     {
-        this.m_tool_active = !this.m_tool_active;
-        if(this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
+        this.m_tool_active = true;
+        if (this.m_equipped_tool == EquipmentType.SHIP_BUILDER)
         {
-            if (!this.m_tool_active)
-            {
-                (current_hover_interactable as IHighlightable)?.SetHighlight(InteractionHighlightState.NONE, this);
-            }
+            (current_hover_interactable as IHighlightable)?.SetHighlight(InteractionHighlightState.NONE, this);
+        }
+        else if (this.m_equipped_tool == EquipmentType.BUTANE_TORCH)
+        { 
+            AudioEvents.Fire(SoundID.Light_Butane_Torch, this.transform.position);   
+        }
+    }
+
+    internal void ToggleTool()
+    {
+        if(this.m_tool_active)
+        {
+            DeactivateTool();
+        }
+        else
+        {
+            ActivateTool();
         }
     }
     public void ScrollDown()
@@ -421,4 +450,6 @@ public class Controller_Equipment : MonoBehaviour, IInventoryOwner
     {
         mCurrentInteractable?.OnHoverUpdate(this, hitInfo);
     }
+
+
 }
