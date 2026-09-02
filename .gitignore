@@ -13,7 +13,10 @@ Builds/
 Assets/Samples*
 AssetPacks/*
 Assets/ithappy*
+Assets/Resources/ExternalAssets/ithappy/*
 .vs/*
+*.sln
+*.slnx
 Debug/
 UserSettings/
 # Ignore the following asset store tools

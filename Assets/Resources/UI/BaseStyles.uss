@@ -1,0 +1,234 @@
+/* ==============================================================
+   BASE STYLES (Structural & Layout Only)
+   ============================================================== */
+
+.screen-overlay-wrap {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.screen-overlay-wrap-centered-dim-background {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.visor-overlay-column {
+    width: 400px;
+    height: 60%;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-left: 20px;
+    padding-right: 0;
+    border-left-width: 1px;
+}
+
+.status-message-container {
+    width: 100%;
+}
+
+.status-message-label {
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+.main-deck-row {
+    flex-direction: row;
+    width: 100%;
+    height: 85%;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.calibration-track {
+    width: 65px;
+    height: 100%;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    position: relative;
+}
+
+.sweet-zone-element {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.frequency-indicator {
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    left: 0;
+    margin-top: -5px;
+    border-width: 2px;
+}
+
+.direction-labels {
+    height: 100%;
+    justify-content: space-between;
+    padding-left: 14px;
+    opacity: 0.55;
+}
+
+.direction-label {
+    font-size: 20px;
+}
+
+.direction-label-center {
+}
+
+/* ---------- Tool Inventory Carousel ---------- */
+.inventory-screen-root {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.tool-inventory-wrap {
+    width: 600px;
+    height: 420px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    flex-direction: row;
+}
+
+.tool-inventory-viewport {
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+
+.tool-box {
+    width: 250px;
+    height: 84px;
+    margin-bottom: 12px;
+    border-width: 1px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 15px;
+    transition-property: translate, opacity, border-color, background-color;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+}
+
+.tool-tooltip-box {
+    left: 280px;
+    height: 260px;
+    width: 160px;
+}
+
+.tool-box-label {
+    font-size: 18px;
+    -unity-text-align: middle-center;
+    letter-spacing: 2px;
+}
+
+.tool-box-selected {
+    border-width: 2px;
+}
+
+.tool-box-selected .tool-box-label {
+}
+
+.tool-box-dist-1 {
+    opacity: 0.55;
+}
+
+.tool-box-dist-2 {
+    opacity: 0.22;
+}
+
+.tool-inventory-empty-label {
+    font-size: 20px;
+    -unity-text-align: middle-center;
+}
+
+/* ---------- Center Reticle ---------- */
+.reticle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen-horizontal-center {
+    position: absolute;
+}
+
+.screen-vertical-top-fourth {
+    position: relative;
+    bottom: 400px;
+}
+
+.label-box {
+    width: 250px;
+    height: 84px;
+    border-width: 1px;
+    transition-property: translate, opacity, border-color, background-color;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+    justify-content: center;
+}
+
+.label-box.label-box-double-wide {
+    width: 500px;
+}
+
+.auto-size-box {
+    /* Remove explicit width/height so it fits content */
+    width: auto;
+    height: auto;
+
+    /* Optional: Use flex to center or organize the label inside */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* Padding so the box has breathing room around the text */
+    padding: 8px 12px;
+}
+
+.auto-size-label {
+    /* Allow the text to wrap if it reaches a maximum container limit */
+    white-space: normal;
+
+    /* Ensure the label doesn't force a fixed size */
+    width: auto;
+    height: auto;
+    font-size: 20px;
+}
+
+.reticle {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.85;
+}
+
+.reticle-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+}

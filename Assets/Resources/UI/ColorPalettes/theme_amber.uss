@@ -1,0 +1,42 @@
+/* ===========================================================
+   AMBER THEME (Variables & Utility Classes)
+   =========================================================== */
+
+:root {
+    --theme-bg-screen: rgba(20,14,7,.88);
+    --theme-bg-panel: rgba(48,34,18,.72);
+    --theme-bg-panel-alt: rgba(30,20,10,.48);
+    --theme-bg-raised: rgba(58,40,22,.90);
+    --theme-bg-hover: rgba(112,76,34,.60);
+    --theme-bg-selected: rgba(96,62,26,.88);
+
+    --theme-border: rgba(170,120,48,.45);
+    --theme-border-subtle: rgba(170,120,48,.18);
+    --theme-border-active: rgba(255,196,64,.90);
+    --theme-border-selected: rgba(255,220,120,.95);
+
+    --theme-text-primary: rgba(255,196,64,.95);
+    --theme-text-accent: rgba(255,240,190,.95);
+    --theme-text-muted: rgba(185,145,84,.82);
+    --theme-text-disabled: rgba(110,86,54,.60);
+}
+
+/* BACKGROUNDS */
+.theme-bg-screen      { background-color: var(--theme-bg-screen); }
+.theme-bg-panel       { background-color: var(--theme-bg-panel); }
+.theme-bg-panel-alt   { background-color: var(--theme-bg-panel-alt); }
+.theme-bg-raised      { background-color: var(--theme-bg-raised); }
+.theme-bg-hover       { background-color: var(--theme-bg-hover); }
+.theme-bg-selected    { background-color: var(--theme-bg-selected); }
+
+/* BORDERS */
+.theme-border          { border-color: var(--theme-border); }
+.theme-border-subtle   { border-color: var(--theme-border-subtle); }
+.theme-border-active   { border-color: var(--theme-border-active); }
+.theme-border-selected { border-color: var(--theme-border-selected); }
+
+/* TEXT */
+.theme-text-primary    { color: var(--theme-text-primary); }
+.theme-text-accent     { color: var(--theme-text-accent); }
+.theme-text-muted      { color: var(--theme-text-muted); }
+.theme-text-disabled   { color: var(--theme-text-disabled); }

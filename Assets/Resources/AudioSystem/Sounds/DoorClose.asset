@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d6cacefecbce945a2919b7d5770108, type: 3}
+  m_Name: DoorClose
+  m_EditorClassIdentifier: Assembly-CSharp::AudioEventSO
+  clips:
+  - {fileID: 8300000, guid: 90c2c2294c1bbe547a3d04a0d4cee6a3, type: 3}
+  volume: 1
+  volumeVariance: 0
+  pitch: 1
+  pitchVariance: 0.2
+  mixerGroup: {fileID: 990565233575997346, guid: fdeb5fca9eac20b4a903adb3ad9324d1, type: 2}
+  loop: 0
+  spatialBlend: 1

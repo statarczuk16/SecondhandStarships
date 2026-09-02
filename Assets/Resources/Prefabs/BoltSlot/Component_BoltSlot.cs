@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,7 @@ using UnityEngine;
 /// installation state/visuals. Spawns its bolt visual at runtime, destroys it when
 /// fully backed out, and notifies its owning part on state changes.
 /// </summary>
-public class Component_BoltSlot : MonoBehaviour, IPartConnector
+public class Component_BoltSlot : MonoBehaviour, IPartConnector, IInteractable, IHighlightable
 {
     [Header("Setup")]
     [SerializeField] private HighlightableRenderer highlightRenderer;
@@ -21,9 +22,20 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
     private GameObject m_spawnedBoltVisual;
     private float m_screwLength = 0f;
 
+
+
+    public string GetInteractionLabel(Controller_Equipment controller)
+    {
+        if (controller.GetEquippedTool() != requiredTool)
+        {
+            return $"//BOLT -> requires {requiredTool}";
+        }
+        return $"//BOLT install_progress = {m_installation_progress}";
+    }
+
     public Transform InteractionPoint => transform;
     public InstallationState GetInstallState() => m_installation_state;
-    public float GetInstallationProgress() => m_installation_progress;
+    public int GetInstallationProgress() => m_installation_progress;
 
     private void OnValidate()
     {
@@ -139,7 +151,8 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
         SetHighlight(InteractionHighlightState.NONE);
     }
 
-    public void OnHoverUpdate(Controller_Equipment equipmentController) { }
+    public void OnHoverUpdate(Controller_Equipment equipmentController, RaycastHit hitInfo) 
+    { }
 
     public void OnInteract(Controller_Equipment equipmentController)
     {
@@ -153,7 +166,14 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
             SpawnBoltVisual();
         }
 
-        equipmentController.startMiniGame(new MiniGame_Wrench(this, requiredTool));
+        var mini_game_goal = new HashSet<InstallationState>
+        {
+            InstallationState.INSTALLED,
+            InstallationState.UNINSTALLED
+        };
+        MiniGame_Wrench minigame = new MiniGame_Wrench(this, EquipmentType.SOCKET_WRENCH, mini_game_goal);
+        minigame.SetOutcomes(InputMode.MovingMode, null, null, null);
+        equipmentController.startMiniGame(minigame);
     }
 
     // --- IHighlightable ---
@@ -166,5 +186,13 @@ public class Component_BoltSlot : MonoBehaviour, IPartConnector
     public EquipmentType RequiredTool()
     {
         return requiredTool;
+    }
+
+    public void ForceInstall()
+    {
+        SpawnBoltVisual();
+        m_installation_progress = 100;
+        m_installation_state = InstallationState.INSTALLED;
+        PositionBoltVisual();
     }
 }

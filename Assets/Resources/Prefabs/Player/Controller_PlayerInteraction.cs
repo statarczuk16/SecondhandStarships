@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// Raycasts from the camera each frame to find IInteractable targets,
-/// handles hover enter/exit, and fires OnInteract on click (WalkingMode/Interact).
+/// handles hover enter/exit, and fires OnInteract on click (MovementMode/Interact).
 /// Reads input from the shared PlayerControls instance owned by PlayerInputHub.
 /// </summary>
 [RequireComponent(typeof(Controller_Equipment))]
@@ -20,19 +20,37 @@ public class Controller_PlayerInteraction : MonoBehaviour
     private GameObject ghostRoot;
     private Controller_Equipment equipmentController;
     private Controller_PlayerInput player_input_controller;
-    IInteractable currentTarget;
+    IInteractable m_current_interactable;
 
     void Awake()
     {
         equipmentController = GetComponent<Controller_Equipment>();
         player_input_controller = GetComponent<Controller_PlayerInput>();
+        int ghostLayer = LayerMask.NameToLayer("Ghost");
+        if (ghostLayer != -1)
+        {
+            interactableMask &= ~(1 << ghostLayer);
+        }
     }
 
     private void Start()
     {   
         //When this component is enabled, we add an event listener, so OnInteractPerformed is called whenever the player controls press/perform the interact button
-        player_input_controller.Controls.WalkingMode.Interact.performed += OnInteractPerformed;
-        player_input_controller.Controls.WalkingMode.Scroll.performed += OnScrollPerformed;
+        player_input_controller.Controls.MovementMode.Interact.performed += OnInteractPerformed;
+        player_input_controller.Controls.MovementMode.AltInteract.performed += OnAltInteractPerformed;
+        player_input_controller.Controls.MovementMode.Scroll.performed += OnScrollPerformed;
+        player_input_controller.Controls.MovementMode.OpenPlayerMenu.performed += OnOpenPlayerMenuPerformed;
+        player_input_controller.Controls.MenuMode.Cancel.performed += OnClosePlayerMenuPerformed;
+    }
+
+    private void OnOpenPlayerMenuPerformed(InputAction.CallbackContext obj)
+    {
+        equipmentController.OpenPlayerMenu();
+    }
+    
+    private void OnClosePlayerMenuPerformed(InputAction.CallbackContext obj)
+    {
+        equipmentController.ClosePlayerMenu();
     }
 
     private void OnScrollPerformed(InputAction.CallbackContext context)
@@ -49,66 +67,63 @@ public class Controller_PlayerInteraction : MonoBehaviour
         {
             equipmentController.ScrollUp();
         }
-
-        currentTarget?.OnHoverUpdate(equipmentController);
+        
     }
 
     void OnDisable()
     {
         //and remove that event listener when the component is disabled
-        //player_input_controller.Controls.WalkingMode.Interact.performed -= OnInteractPerformed;
+        //player_input_controller.Controls.MovementMode.Interact.performed -= OnInteractPerformed;
     }
 
     void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
         TryInteract();
     }
+    
+    void OnAltInteractPerformed(InputAction.CallbackContext ctx)
+    {
+        TryAltInteract();
+    }
 
     void Update()
     {
         // Don't hover-scan while a minigame owns input.
-        if (!player_input_controller.Controls.WalkingMode.enabled) return;
+        if (!player_input_controller.Controls.MovementMode.enabled) return;
 
         UpdateHoverTarget();
     }
 
     void UpdateHoverTarget()
     {
-        IInteractable hit = null;
+        MonoBehaviour mb = null;
+        IInteractable interactable = null;
+
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
                 out RaycastHit hitInfo, interactRange, interactableMask))
         {
-            Transform boundaryRoot = ShipPartUtilities.FindOwningPrefabBoundary(hitInfo.collider.transform);
-            
-            
-            if (boundaryRoot != null)
+            //check for interactable on thing we are looking at
+            if (hitInfo.collider.gameObject.TryGetComponent<IInteractable>(out interactable))
             {
-                //Debug.Log($"Top Level Prefab: {boundaryRoot.name}");
-                hit = ShipPartUtilities.FindInteractableWithinBoundary(boundaryRoot);
-                MonoBehaviour mb = hit as MonoBehaviour;
-                if(mb != null)
-                {
-                    //Debug.Log($"Interactable within: {mb.name}");
-                }
-                else
-                {
-                    //Debug.Log($"No interactable on {boundaryRoot.name}");
-                }
-                
+                mb = interactable as MonoBehaviour;
             }
+            //if nothing there, check if the owning prefab of this object has an interactable
             else
             {
-                //Debug.Log($"No prefab boundary on {hitInfo.collider.transform.name}");
-                
+                Transform boundaryRoot = ShipPartUtilities.FindOwningPrefabBoundary(hitInfo.collider.transform);
+                if (boundaryRoot)
+                {
+                    interactable = ShipPartUtilities.FindComponentWithinPrefab<IInteractable>(boundaryRoot);
+                    mb = interactable as MonoBehaviour;
+                }
             }
         }
-        //Debug.Log($"Hit {hit}");
-        if(hit == null)
+
+        if (!mb)
         {
             coyote_time_frame_count += 1;
-            if(coyote_time_frame_count >= COYOTE_TIME_FRAME_TARGET)
+            if (coyote_time_frame_count >= COYOTE_TIME_FRAME_TARGET)
             {
-                //Debug.Log($"Player looked at nothing for 5 frames, setting target to null");
                 coyote_time_frame_count = COYOTE_TIME_FRAME_TARGET;
             }
             else
@@ -120,21 +135,32 @@ public class Controller_PlayerInteraction : MonoBehaviour
         {
             coyote_time_frame_count = 0;
         }
-        if (hit == currentTarget) return;
-        //Debug.Log($"New hit! Old {currentTarget} New {hit}");
-        equipmentController.setCurrentHover(hit);
-        currentTarget?.OnHoverExit(equipmentController);
-        currentTarget = hit;
-        currentTarget?.OnHoverEnter(equipmentController);
+
+        if (interactable == m_current_interactable)
+        {
+            equipmentController.OnHoverUpdate(m_current_interactable, hitInfo);
+            return;
+        }
+
+        equipmentController.OnHoverExit(m_current_interactable);
+        m_current_interactable = interactable;
+        equipmentController.setCurrentInteractable(m_current_interactable, hitInfo);
+        equipmentController.OnHoverEnter(m_current_interactable);
+        
     }
 
+    void TryAltInteract()
+    {
+        equipmentController.ToggleTool();
+    }
+    
     void TryInteract()
     {
         //Call the OnInteract function of whatever we are looking at (currentTarget)
-        if (currentTarget == null) return;
-        if (!currentTarget.CanInteract(equipmentController)) return;
+        if (m_current_interactable == null) return;
+        if (!m_current_interactable.CanInteract(equipmentController)) return;
 
-        currentTarget.OnInteract(equipmentController);
+        m_current_interactable.OnInteract(equipmentController);
     }
 
     

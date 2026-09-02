@@ -15,13 +15,13 @@ public class Controller_PlayerInput : MonoBehaviour
 
     void OnEnable()
     {
-        Controls.WalkingMode.Enable();
+        Controls.MovementMode.Enable();
     }
 
     void OnDisable()
     {
-        Controls.WalkingMode.Disable();
-        Controls.WorkingMode.Disable();
+        Controls.MovementMode.Disable();
+        Controls.MenuMode.Disable();
     }
 
     void OnDestroy()
@@ -29,17 +29,17 @@ public class Controller_PlayerInput : MonoBehaviour
         Controls.Dispose();
     }
 
-    /// <summary>Call when a tool minigame begins. Swaps WalkingMode off, WorkingMode on.</summary>
+    /// <summary>Call when a tool minigame begins. Swaps MovementMode off, MenuMode on.</summary>
     public void EnterMiniGame()
     {
-        Controls.WalkingMode.Disable();
-        Controls.WorkingMode.Enable();
+        Controls.MovementMode.Disable();
+        Controls.MenuMode.Enable();
     }
 
-    /// <summary>Call when a tool minigame ends. Swaps WorkingMode off, WalkingMode back on.</summary>
+    /// <summary>Call when a tool minigame ends. Swaps MenuMode off, MovementMode back on.</summary>
     public void ExitMiniGame()
     {
-        Controls.WorkingMode.Disable();
-        Controls.WalkingMode.Enable();
+        Controls.MenuMode.Disable();
+        Controls.MovementMode.Enable();
     }
 }

@@ -1,0 +1,94 @@
+/* ===========================================================
+   RETRO FUTURE THEME
+   =========================================================== */
+
+:root {
+    /* RAW COLOR PALETTE */
+    --color-navy-dark:          rgba(12, 18, 42, .97);
+    --color-navy-base:          rgba(34, 48, 84, .72);
+    --color-navy-deep:          rgba(18, 28, 58, .50);
+    --color-navy-raised:        rgba(44, 60, 104, .90);
+    --color-steel-blue:         rgba(56, 122, 168, .60);
+    --color-cobalt-blue:        rgba(38, 94, 184, .90);
+    --color-overlay-black:      rgba(0, 0, 0, .65);
+
+    --color-sky-blue:           rgba(84, 180, 255, .45);
+    --color-sky-blue-subtle:    rgba(84, 180, 255, .18);
+    --color-cyan-bright:        rgba(64, 255, 255, .90);
+    --color-cyan-glow:          rgba(96, 255, 255, .95);
+    --color-mint-bright:        rgba(96, 255, 220, 1);
+
+    --color-neon-pink:          rgba(255, 96, 220, .95);
+    --color-soft-pink:          rgba(255, 120, 220, .95);
+
+    --color-amber-glow:         rgba(255, 180, 0, .90);
+    --color-amber-solid:        rgba(255, 180, 0, 1);
+
+    --color-coral-red:          rgba(255, 60, 120, .90);
+    --color-coral-red-bright:   rgba(255, 60, 120, .95);
+
+    --color-ice-blue:           rgba(150, 190, 220, .80);
+    --color-slate-blue:         rgba(88, 112, 148, .55);
+
+    /* SEMANTIC MAPPINGS: BACKGROUNDS */
+    --theme-bg-screen:          var(--color-navy-dark);
+    --theme-bg-panel:           var(--color-navy-base);
+    --theme-bg-panel-alt:       var(--color-navy-deep);
+    --theme-bg-raised:          var(--color-navy-raised);
+    --theme-bg-hover:           var(--color-steel-blue);
+    --theme-bg-selected:        var(--color-cobalt-blue);
+    --theme-bg-overlay:         var(--color-overlay-black);
+
+    /* SEMANTIC MAPPINGS: BORDERS */
+    --theme-border:             var(--color-neon-pink);
+    --theme-border-subtle:      var(--color-sky-blue-subtle);
+    --theme-border-active:      var(--color-cyan-bright);
+    --theme-border-selected:    var(--color-neon-pink);
+    --theme-border-warning:     var(--color-amber-glow);
+    --theme-border-danger:      var(--color-coral-red);
+
+    /* SEMANTIC MAPPINGS: TEXT */
+    --theme-text-primary:       var(--color-cyan-glow);
+    --theme-text-accent:        var(--color-soft-pink);
+    --theme-text-muted:         var(--color-ice-blue);
+    --theme-text-disabled:      var(--color-slate-blue);
+
+    --theme-text-success:       var(--color-mint-bright);
+    --theme-text-warning:       var(--color-amber-solid);
+    --theme-text-danger:        var(--color-coral-red-bright);
+}
+
+/* BACKGROUNDS */
+
+.theme-bg-screen      { background-color: var(--theme-bg-screen); }
+.theme-bg-panel       { background-color: var(--theme-bg-panel); }
+.theme-bg-panel-alt   { background-color: var(--theme-bg-panel-alt); }
+.theme-bg-raised      { background-color: var(--theme-bg-raised); }
+.theme-bg-hover       { background-color: var(--theme-bg-hover); }
+.theme-bg-selected    { background-color: var(--theme-bg-selected); }
+.theme-bg-overlay     { background-color: var(--theme-bg-overlay); }
+
+/* BORDERS */
+
+.theme-border          { border-color: var(--theme-border); }
+.theme-border-subtle   { border-color: var(--theme-border-subtle); }
+.theme-border-active   { border-color: var(--theme-border-active); }
+.theme-border-selected { border-color: var(--theme-border-selected); }
+.theme-border-warning  { border-color: var(--theme-border-warning); }
+.theme-border-danger   { border-color: var(--theme-border-danger); }
+
+/* TEXT */
+
+.theme-text-primary    { color: var(--theme-text-primary); }
+.theme-text-accent     { color: var(--theme-text-accent); }
+.theme-text-muted      { color: var(--theme-text-muted); }
+.theme-text-disabled   { color: var(--theme-text-disabled); }
+
+.theme-text-success    { color: var(--theme-text-success); }
+.theme-text-warning    { color: var(--theme-text-warning); }
+.theme-text-danger     { color: var(--theme-text-danger); }
+
+/* HOVER UTILITIES */
+
+.theme-hover-bg:hover     { background-color: var(--theme-bg-hover); }
+.theme-hover-border:hover { border-color: var(--theme-border-active); }

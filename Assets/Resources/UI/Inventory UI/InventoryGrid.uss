@@ -1,0 +1,107 @@
+/* ==============================================================
+   INVENTORY GRID STYLES (Structural & Layout Only)
+   ============================================================== */
+
+.inventory-grid-wrap {
+    flex-basis: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory-grid-spacer {
+    flex-basis: 2%
+}
+
+.inventory-grid-viewport {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.inventory-slot {
+    width: 128px;
+    height: 128px;
+    margin: 6px;
+    border-width: 1px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition-property: border-color, background-color;
+    transition-duration: 120ms;
+    transition-timing-function: ease-out;
+}
+
+.inventory-slot-empty {
+}
+
+.inventory-slot-filled {
+}
+
+.inventory-wrapper {
+    flex-direction: row;
+    width: 1600px;
+    height: 1000px;
+    padding: 12px;
+    border-width: 2px;
+}
+
+.inventory-slot-filled:hover {
+    background-color: var(--theme-bg-hover);
+    border-color: var(--theme-border-active);
+}
+
+.inventory-slot-held {
+    border-width: 2px;
+    border-style: dashed;
+}
+
+.inventory-slot-label {
+    font-size: 16px;
+    -unity-text-align: middle-center;
+    letter-spacing: 20px;
+    white-space: normal;
+    padding-left: 1px;
+    padding-right: 1px;
+    width: 100%;
+}
+
+.inventory-slot-module .inventory-slot-label {
+    font-size: 11px;
+}
+
+.inventory-slot-tier-badge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 9px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.inventory-slot-count-badge {
+    position: absolute;
+    bottom: 2px;
+    right: 3px;
+    font-size: 14px;
+    -unity-font-style: bold;
+}
+
+.inventory-slot-module-badge {
+    position: absolute;
+    bottom: 2px;
+    left: 3px;
+    font-size: 8px;
+    letter-spacing: 1px;
+}
+
+.inventory-grid-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.inventory-grid-capacity-label {
+    font-size: 14px;
+    letter-spacing: 1px;
+}

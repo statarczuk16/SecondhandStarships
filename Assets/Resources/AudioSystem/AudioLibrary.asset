@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0ed3315b71bf349ab9a5cf1008a27f, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::AudioLibrary
+  entries:
+  - id: 4
+    audioEvent: {fileID: 11400000, guid: 5f7a832b49f393146b25714a336711ca, type: 2}
+  - id: 1
+    audioEvent: {fileID: 11400000, guid: da8bafd59385d414297baf1d90e8e648, type: 2}
+  - id: 2
+    audioEvent: {fileID: 11400000, guid: ea136c9f5e983f64bb452d3275fc2c08, type: 2}
+  - id: 5
+    audioEvent: {fileID: 11400000, guid: 29594c68c09b5db4b9e0c1c51823b432, type: 2}
+  - id: 10
+    audioEvent: {fileID: 11400000, guid: f7627591d13650046a62caef20a9a5d6, type: 2}
+  - id: 11
+    audioEvent: {fileID: 11400000, guid: f9f66609243de9c42a9e66e00283ae71, type: 2}
+  - id: 12
+    audioEvent: {fileID: 11400000, guid: ae8f8fecf701c104f8ef3e0fc74e5ac9, type: 2}
+  - id: 13
+    audioEvent: {fileID: 11400000, guid: bf8821f37eadd7949b81a4cd9e4f92ca, type: 2}
+  - id: 14
+    audioEvent: {fileID: 11400000, guid: fcf57fa7e9aa9914e83d2dfdbb5eae32, type: 2}

@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="../BaseStyles.uss" />
+    <Style src="../ColorPalettes/theme_retro_future.uss" />
+    <Style src="./InventoryGrid.uss" />
+
+    <ui:VisualElement name="ScreenWrap" class="screen-overlay-wrap-centered-dim-background">
+        <ui:VisualElement name="InventoryWrapper" class="inventory-wrapper">
+            
+            <!-- Primary Inventory Grid -->
+            <ui:VisualElement name="InventoryGridWrapPlayer" class="inventory-grid-wrap theme-bg-screen theme-border">
+                <ui:VisualElement name="InventoryGridViewport" class="inventory-grid-viewport">
+                    <!-- Slots are instantiated at runtime by InventoryGridController, one per MaxSlots -->
+                </ui:VisualElement>
+                <ui:VisualElement name="InventoryGridFooter" class="inventory-grid-footer">
+                    <ui:Label name="InventoryCapacityLabel" text="0 / 0" class="inventory-grid-capacity-label theme-text-muted" />
+                </ui:VisualElement>
+                <ui:VisualElement name="RecipeFooter" class="inventory-grid-footer" />
+                <ui:VisualElement name="RecipeFooter2" class="inventory-grid-footer" />
+            </ui:VisualElement>
+            
+            <!-- spacer -->
+            <ui:VisualElement name="InventoryGridWrap" class="inventory-grid-spacer">
+            </ui:VisualElement>
+
+                <!-- Secondary Inventory Grid -->
+            <ui:VisualElement name="InventoryGridWrapContainer" class="inventory-grid-wrap theme-bg-screen theme-border">
+                <ui:VisualElement name="InventoryGridViewport" class="inventory-grid-viewport">
+                    <!-- Slots are instantiated at runtime by InventoryGridController, one per MaxSlots -->
+                </ui:VisualElement>
+                <ui:VisualElement name="InventoryGridFooter" class="inventory-grid-footer">
+                    <ui:Label name="InventoryCapacityLabel" text="0 / 0" class="inventory-grid-capacity-label theme-text-muted" />
+                </ui:VisualElement>
+                <ui:VisualElement name="RecipeFooter" class="inventory-grid-footer" />
+                <ui:VisualElement name="RecipeFooter2" class="inventory-grid-footer" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

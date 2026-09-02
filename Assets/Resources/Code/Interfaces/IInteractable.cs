@@ -14,7 +14,9 @@ public interface IInteractable
     void OnHoverEnter(Controller_Equipment controller);
     void OnHoverExit(Controller_Equipment controller);
     void OnInteract(Controller_Equipment controller); // called on click, triggers working mode
-    void OnHoverUpdate(Controller_Equipment equipmentController);
+    void OnHoverUpdate(Controller_Equipment equipmentController,  RaycastHit hitInfo);
+
+    string GetInteractionLabel(Controller_Equipment controller);
 
     Transform InteractionPoint { get; } // camera focus point for minigame framing
 }
